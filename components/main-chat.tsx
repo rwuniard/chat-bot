@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { SidebarControlIcon } from "@/components/sidebar-control-icon";
 import { chatApiClient } from "@/lib/chat-api";
 import type { ChatMessage } from "@/types/chat";
@@ -54,11 +54,21 @@ export function MainChat({
   onTogglePanel,
   shouldShowHeader,
 }: MainChatProps) {
+  const transcriptRef = useRef<HTMLElement | null>(null);
   const [conversationId, setConversationId] = useState<string>();
   const [messages, setMessages] = useState<ChatMessage[]>(INITIAL_MESSAGES);
   const [draft, setDraft] = useState("");
   const [isSending, setIsSending] = useState(false);
   const [error, setError] = useState<string>();
+
+  useEffect(() => {
+    const transcriptElement = transcriptRef.current;
+    if (!transcriptElement) {
+      return;
+    }
+
+    transcriptElement.scrollTop = transcriptElement.scrollHeight;
+  }, [messages, isSending]);
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -112,9 +122,9 @@ export function MainChat({
   }
 
   return (
-    <div className="flex min-h-full flex-1 flex-col bg-[#1f1f1f]">
+    <div className="flex h-full min-h-0 flex-1 flex-col overflow-hidden bg-[#1f1f1f]">
       {shouldShowHeader ? (
-        <div className="flex items-center gap-3 px-6 pb-5 pt-5 text-stone-300">
+        <div className="shrink-0 flex items-center gap-3 px-6 pb-5 pt-5 text-stone-300">
           <button
             aria-controls="chat-side-panel"
             aria-expanded={isSidebarVisible}
@@ -140,36 +150,38 @@ export function MainChat({
         </div>
       ) : null}
 
-      <div className="flex-1 space-y-4 overflow-y-auto px-5 py-6 sm:px-8">
-        {messages.map((message) => {
-          const isAssistant = message.role === "assistant";
+      <section ref={transcriptRef} className="min-h-0 flex-1 overflow-y-auto">
+        <div className="flex min-h-full flex-col justify-end space-y-4 px-5 py-6 sm:px-8">
+          {messages.map((message) => {
+            const isAssistant = message.role === "assistant";
 
-          return (
-            <article
-              key={message.id}
-              className={`max-w-3xl rounded-[1.6rem] px-5 py-4 shadow-sm ${
-                isAssistant
-                  ? "mr-auto bg-[#2c2c2c] text-stone-100 ring-1 ring-white/8"
-                  : "ml-auto bg-[#303030] text-stone-50"
-              }`}
-            >
-              <div className="mb-2 flex items-center justify-between gap-3 text-xs uppercase tracking-[0.18em]">
-                <span className={isAssistant ? "text-stone-500" : "text-stone-300"}>{message.role}</span>
-                <span className="text-stone-400">{formatTimestamp(message.createdAt)}</span>
-              </div>
-              <p className="whitespace-pre-wrap text-sm leading-7 sm:text-[15px]">{message.content}</p>
+            return (
+              <article
+                key={message.id}
+                className={`max-w-3xl rounded-[1.6rem] px-5 py-4 shadow-sm ${
+                  isAssistant
+                    ? "mr-auto bg-[#2c2c2c] text-stone-100 ring-1 ring-white/8"
+                    : "ml-auto bg-[#303030] text-stone-50"
+                }`}
+              >
+                <div className="mb-2 flex items-center justify-between gap-3 text-xs uppercase tracking-[0.18em]">
+                  <span className={isAssistant ? "text-stone-500" : "text-stone-300"}>{message.role}</span>
+                  <span className="text-stone-400">{formatTimestamp(message.createdAt)}</span>
+                </div>
+                <p className="whitespace-pre-wrap text-sm leading-7 sm:text-[15px]">{message.content}</p>
+              </article>
+            );
+          })}
+
+          {isSending ? (
+            <article className="max-w-sm rounded-[1.6rem] bg-stone-200 px-5 py-4 text-sm text-stone-600 ring-1 ring-stone-900/8">
+              Waiting for mock backend response...
             </article>
-          );
-        })}
+          ) : null}
+        </div>
+      </section>
 
-        {isSending ? (
-          <article className="max-w-sm rounded-[1.6rem] bg-stone-200 px-5 py-4 text-sm text-stone-600 ring-1 ring-stone-900/8">
-            Waiting for mock backend response...
-          </article>
-        ) : null}
-      </div>
-
-      <div className="border-t border-white/6 bg-[#1f1f1f] px-5 py-5 sm:px-8">
+      <section className="shrink-0 border-t border-white/6 bg-[#1f1f1f] px-5 py-5 sm:px-8">
         <form className="space-y-3" onSubmit={handleSubmit}>
           <label className="block">
             <span className="mb-2 block text-xs font-semibold uppercase tracking-[0.22em] text-stone-500">
@@ -198,7 +210,7 @@ export function MainChat({
             </button>
           </div>
         </form>
-      </div>
+      </section>
     </div>
   );
 }

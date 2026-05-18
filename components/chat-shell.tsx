@@ -39,10 +39,10 @@ export function ChatShell() {
   const shouldShowMainHeader = !isSidebarVisible;
 
   return (
-    <main className="min-h-screen bg-[#1f1f1f] text-stone-100">
-      <div className="flex min-h-screen w-full overflow-hidden bg-[#1f1f1f]">
+    <main className="h-screen overflow-hidden bg-[#1f1f1f] text-stone-100">
+      <div className="flex h-full min-h-0 w-full overflow-hidden bg-[#1f1f1f]">
         <section
-          className={`flex flex-1 overflow-hidden ${
+          className={`flex min-h-0 flex-1 overflow-hidden ${
             isDesktopViewport
               ? isDesktopPanelVisible
                 ? "lg:grid lg:grid-cols-[320px_minmax(0,1fr)]"
@@ -57,7 +57,7 @@ export function ChatShell() {
             onTogglePanel={handlePanelToggle}
           />
 
-          <div className={`${isDesktopViewport ? "flex" : mobilePane === "chat" ? "flex" : "hidden"} min-h-full flex-1`}>
+          <div className={`${isDesktopViewport ? "flex" : mobilePane === "chat" ? "flex" : "hidden"} min-h-0 flex-1`}>
             <MainChat
               isSidebarVisible={isSidebarVisible}
               onSessionChange={({ conversationId: nextConversationId, sessionTitle: nextSessionTitle }) => {
