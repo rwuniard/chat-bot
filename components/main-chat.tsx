@@ -22,6 +22,24 @@ interface MainChatProps {
   shouldShowHeader: boolean;
 }
 
+function handleComposerKeyDown(
+  event: React.KeyboardEvent<HTMLTextAreaElement>,
+  draft: string,
+  isSending: boolean,
+) {
+  if (event.key !== "Enter" || event.shiftKey) {
+    return;
+  }
+
+  event.preventDefault();
+
+  if (!draft.trim() || isSending) {
+    return;
+  }
+
+  event.currentTarget.form?.requestSubmit();
+}
+
 export function MainChat({
   draft,
   error,
@@ -103,6 +121,7 @@ export function MainChat({
               placeholder="Ask the assistant something. This currently posts to a mock client."
               value={draft}
               onChange={(event) => onChangeDraft(event.target.value)}
+              onKeyDown={(event) => handleComposerKeyDown(event, draft, isSending)}
             />
           </label>
 
