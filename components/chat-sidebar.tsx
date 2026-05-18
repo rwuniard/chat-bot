@@ -36,12 +36,14 @@ function SidebarIcon({ kind }: { kind: (typeof SIDEBAR_ITEMS)[number]["icon"] })
 
 interface ChatSidebarProps {
   conversationId?: string;
+  sessionTitle?: string;
   isVisible: boolean;
   onTogglePanel: () => void;
 }
 
 export function ChatSidebar({
   conversationId,
+  sessionTitle,
   isVisible,
   onTogglePanel,
 }: ChatSidebarProps) {
@@ -117,8 +119,11 @@ export function ChatSidebar({
         <div className="rounded-2xl border border-white/5 bg-white/[0.04] px-4 py-4">
           <p className="text-sm font-semibold uppercase tracking-[0.18em] text-stone-500">Current session</p>
           <p className="mt-3 text-sm leading-6 text-stone-200">
-            {conversationId ? `Conversation: ${conversationId}` : "No conversation created yet."}
+            {sessionTitle ?? "No conversation created yet."}
           </p>
+          {conversationId ? (
+            <p className="mt-2 text-xs uppercase tracking-[0.16em] text-stone-500">ID: {conversationId}</p>
+          ) : null}
         </div>
 
         <div className="rounded-2xl border border-white/5 bg-white/[0.04] px-4 py-4">

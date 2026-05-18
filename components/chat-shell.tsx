@@ -3,26 +3,10 @@
 import { useEffect, useState } from "react";
 import { ChatSidebar } from "@/components/chat-sidebar";
 import { MainChat } from "@/components/main-chat";
-import { chatApiClient } from "@/lib/chat-api";
-import type { ChatMessage } from "@/types/chat";
-
-const INITIAL_MESSAGES: ChatMessage[] = [
-  {
-    id: "welcome-message",
-    role: "assistant",
-    content:
-      "This is the initial chatbot UI shell. The backend is not connected yet, so responses currently come from a mock REST client.",
-    createdAt: "2026-05-18T18:00:00.000Z",
-    status: "complete",
-  },
-];
 
 export function ChatShell() {
   const [conversationId, setConversationId] = useState<string>();
-  const [messages, setMessages] = useState<ChatMessage[]>(INITIAL_MESSAGES);
-  const [draft, setDraft] = useState("");
-  const [isSending, setIsSending] = useState(false);
-  const [error, setError] = useState<string>();
+  const [sessionTitle, setSessionTitle] = useState<string>();
   const [isDesktopViewport, setIsDesktopViewport] = useState(false);
   const [isDesktopPanelVisible, setIsDesktopPanelVisible] = useState(true);
   const [mobilePane, setMobilePane] = useState<"chat" | "panel">("chat");
@@ -51,42 +35,6 @@ export function ChatShell() {
     setMobilePane((currentValue) => (currentValue === "chat" ? "panel" : "chat"));
   }
 
-  async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-
-    const trimmedDraft = draft.trim();
-    if (!trimmedDraft || isSending) {
-      return;
-    }
-
-    const userMessage: ChatMessage = {
-      id: crypto.randomUUID(),
-      role: "user",
-      content: trimmedDraft,
-      createdAt: new Date().toISOString(),
-      status: "complete",
-    };
-
-    setDraft("");
-    setError(undefined);
-    setIsSending(true);
-    setMessages((currentMessages) => [...currentMessages, userMessage]);
-
-    try {
-      const response = await chatApiClient.sendMessage({
-        conversationId,
-        message: trimmedDraft,
-      });
-
-      setConversationId(response.conversationId);
-      setMessages((currentMessages) => [...currentMessages, response.reply]);
-    } catch {
-      setError("The message could not be sent. Retry once the backend is available.");
-    } finally {
-      setIsSending(false);
-    }
-  }
-
   const isSidebarVisible = isDesktopViewport ? isDesktopPanelVisible : mobilePane === "panel";
   const shouldShowMainHeader = !isSidebarVisible;
 
@@ -104,19 +52,20 @@ export function ChatShell() {
         >
           <ChatSidebar
             conversationId={conversationId}
+            sessionTitle={sessionTitle}
             isVisible={isSidebarVisible}
             onTogglePanel={handlePanelToggle}
           />
 
           <div className={`${isDesktopViewport ? "flex" : mobilePane === "chat" ? "flex" : "hidden"} min-h-full flex-1`}>
             <MainChat
-              draft={draft}
-              error={error}
-              isSending={isSending}
               isSidebarVisible={isSidebarVisible}
-              messages={messages}
-              onChangeDraft={setDraft}
-              onSubmit={handleSubmit}
+              onSessionChange={({ conversationId: nextConversationId, sessionTitle: nextSessionTitle }) => {
+                setConversationId(nextConversationId);
+                if (nextSessionTitle) {
+                  setSessionTitle(nextSessionTitle);
+                }
+              }}
               onTogglePanel={handlePanelToggle}
               shouldShowHeader={shouldShowMainHeader}
             />

@@ -1,7 +1,20 @@
 "use client";
 
+import { useState } from "react";
 import { SidebarControlIcon } from "@/components/sidebar-control-icon";
+import { chatApiClient } from "@/lib/chat-api";
 import type { ChatMessage } from "@/types/chat";
+
+const INITIAL_MESSAGES: ChatMessage[] = [
+  {
+    id: "welcome-message",
+    role: "assistant",
+    content:
+      "This is the initial chatbot UI shell. The backend is not connected yet, so responses currently come from a mock REST client.",
+    createdAt: "2026-05-18T18:00:00.000Z",
+    status: "complete",
+  },
+];
 
 function formatTimestamp(value: string): string {
   return new Intl.DateTimeFormat("en-US", {
@@ -11,13 +24,8 @@ function formatTimestamp(value: string): string {
 }
 
 interface MainChatProps {
-  draft: string;
-  error?: string;
-  isSending: boolean;
   isSidebarVisible: boolean;
-  messages: ChatMessage[];
-  onChangeDraft: (value: string) => void;
-  onSubmit: (event: React.FormEvent<HTMLFormElement>) => void;
+  onSessionChange: (session: { conversationId?: string; sessionTitle?: string }) => void;
   onTogglePanel: () => void;
   shouldShowHeader: boolean;
 }
@@ -41,16 +49,68 @@ function handleComposerKeyDown(
 }
 
 export function MainChat({
-  draft,
-  error,
-  isSending,
   isSidebarVisible,
-  messages,
-  onChangeDraft,
-  onSubmit,
+  onSessionChange,
   onTogglePanel,
   shouldShowHeader,
 }: MainChatProps) {
+  const [conversationId, setConversationId] = useState<string>();
+  const [messages, setMessages] = useState<ChatMessage[]>(INITIAL_MESSAGES);
+  const [draft, setDraft] = useState("");
+  const [isSending, setIsSending] = useState(false);
+  const [error, setError] = useState<string>();
+
+  async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+
+    const trimmedDraft = draft.trim();
+    if (!trimmedDraft || isSending) {
+      return;
+    }
+
+    const userMessage: ChatMessage = {
+      id: crypto.randomUUID(),
+      role: "user",
+      content: trimmedDraft,
+      createdAt: new Date().toISOString(),
+      status: "complete",
+    };
+
+    const nextSessionTitle = messages.some((message) => message.role === "user")
+      ? undefined
+      : trimmedDraft;
+
+    setDraft("");
+    setError(undefined);
+    setIsSending(true);
+    setMessages((currentMessages) => [...currentMessages, userMessage]);
+
+    if (nextSessionTitle) {
+      onSessionChange({
+        conversationId,
+        sessionTitle: nextSessionTitle,
+      });
+    }
+
+    try {
+      const response = await chatApiClient.sendMessage({
+        conversationId,
+        message: trimmedDraft,
+      });
+
+      setConversationId(response.conversationId);
+      setMessages((currentMessages) => [...currentMessages, response.reply]);
+      onSessionChange({
+        conversationId: response.conversationId,
+        sessionTitle: nextSessionTitle,
+      });
+    } catch {
+      setError("The message could not be sent. Retry once the backend is available.");
+    } finally {
+      setIsSending(false);
+    }
+  }
+
   return (
     <div className="flex min-h-full flex-1 flex-col bg-[#1f1f1f]">
       {shouldShowHeader ? (
@@ -110,7 +170,7 @@ export function MainChat({
       </div>
 
       <div className="border-t border-white/6 bg-[#1f1f1f] px-5 py-5 sm:px-8">
-        <form className="space-y-3" onSubmit={onSubmit}>
+        <form className="space-y-3" onSubmit={handleSubmit}>
           <label className="block">
             <span className="mb-2 block text-xs font-semibold uppercase tracking-[0.22em] text-stone-500">
               Message
@@ -120,7 +180,7 @@ export function MainChat({
               name="message"
               placeholder="Ask the assistant something. This currently posts to a mock client."
               value={draft}
-              onChange={(event) => onChangeDraft(event.target.value)}
+              onChange={(event) => setDraft(event.target.value)}
               onKeyDown={(event) => handleComposerKeyDown(event, draft, isSending)}
             />
           </label>
