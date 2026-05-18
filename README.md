@@ -9,10 +9,11 @@ The current implementation intentionally has:
 
 ## Local development
 
-Run the development server:
+Install dependencies and run the development server:
 
 ```bash
-npm run dev
+pnpm install
+pnpm dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000).
