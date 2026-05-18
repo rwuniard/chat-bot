@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { chatApiClient } from "@/lib/chat-api";
 import type { ChatMessage } from "@/types/chat";
 
@@ -28,6 +28,33 @@ export function ChatShell() {
   const [draft, setDraft] = useState("");
   const [isSending, setIsSending] = useState(false);
   const [error, setError] = useState<string>();
+  const [isDesktopViewport, setIsDesktopViewport] = useState(false);
+  const [isDesktopPanelVisible, setIsDesktopPanelVisible] = useState(true);
+  const [mobilePane, setMobilePane] = useState<"chat" | "panel">("chat");
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia("(min-width: 1024px)");
+
+    function updateViewportMode() {
+      setIsDesktopViewport(mediaQuery.matches);
+    }
+
+    updateViewportMode();
+    mediaQuery.addEventListener("change", updateViewportMode);
+
+    return () => {
+      mediaQuery.removeEventListener("change", updateViewportMode);
+    };
+  }, []);
+
+  function handlePanelToggle() {
+    if (isDesktopViewport) {
+      setIsDesktopPanelVisible((currentValue) => !currentValue);
+      return;
+    }
+
+    setMobilePane((currentValue) => (currentValue === "chat" ? "panel" : "chat"));
+  }
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -66,30 +93,63 @@ export function ChatShell() {
   }
 
   return (
-    <main className="min-h-screen bg-[radial-gradient(circle_at_top,#f5f0e8_0%,#eadfce_42%,#d8ccb7_100%)] px-4 py-6 text-stone-900 sm:px-6 lg:px-8">
-      <div className="mx-auto flex min-h-[calc(100vh-3rem)] w-full max-w-6xl flex-col overflow-hidden rounded-[2rem] border border-stone-900/10 bg-[#fdfaf3]/95 shadow-[0_24px_100px_rgba(78,52,28,0.18)] backdrop-blur">
-        <section className="border-b border-stone-900/10 px-6 py-5 sm:px-8">
+    <main className="min-h-screen bg-[radial-gradient(circle_at_top,#f5f0e8_0%,#eadfce_42%,#d8ccb7_100%)] text-stone-900">
+      <div className="flex min-h-screen w-full flex-col overflow-hidden bg-[#fdfaf3]/95 shadow-[0_24px_100px_rgba(78,52,28,0.18)] backdrop-blur">
+        <section className="border-b border-stone-900/10 px-5 py-5 sm:px-8">
           <div className="flex items-start justify-between gap-4">
-            <div className="space-y-2">
-              <p className="text-xs font-semibold uppercase tracking-[0.28em] text-stone-500">
-                Agentic UI Prototype
-              </p>
-              <h1 className="text-3xl font-semibold tracking-tight text-stone-950 sm:text-4xl">
-                Chat interface for a future REST-backed AI agent
-              </h1>
-              <p className="max-w-3xl text-sm leading-6 text-stone-600 sm:text-base">
-                This frontend is being prepared independently from the backend. The current flow uses a typed mock
-                adapter so the UI can be built and refined before API integration begins.
-              </p>
+            <div className="flex items-start gap-4">
+              <button
+                aria-controls="chat-side-panel"
+                aria-expanded={isDesktopViewport ? isDesktopPanelVisible : mobilePane === "panel"}
+                aria-label={
+                  isDesktopViewport
+                    ? isDesktopPanelVisible
+                      ? "Hide side panel"
+                      : "Show side panel"
+                    : mobilePane === "panel"
+                      ? "Show chat window"
+                      : "Show side panel"
+                }
+                className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-stone-900/10 bg-white text-stone-900 shadow-sm transition hover:border-stone-900/25 hover:bg-stone-50"
+                type="button"
+                onClick={handlePanelToggle}
+              >
+                <span className="text-lg leading-none">
+                  {isDesktopViewport ? (isDesktopPanelVisible ? "×" : "☰") : mobilePane === "panel" ? "←" : "☰"}
+                </span>
+              </button>
+
+              <div className="space-y-2">
+                <p className="text-xs font-semibold uppercase tracking-[0.28em] text-stone-500">
+                  Agentic UI Prototype
+                </p>
+                <h1 className="text-3xl font-semibold tracking-tight text-stone-950 sm:text-4xl">
+                  Chat interface for a future REST-backed AI agent
+                </h1>
+                <p className="max-w-3xl text-sm leading-6 text-stone-600 sm:text-base">
+                  This frontend is being prepared independently from the backend. The current flow uses a typed mock
+                  adapter so the UI can be built and refined before API integration begins.
+                </p>
+              </div>
             </div>
+
             <div className="hidden rounded-full border border-emerald-800/15 bg-emerald-700/10 px-4 py-2 text-sm font-medium text-emerald-900 sm:block">
               No auth
             </div>
           </div>
         </section>
 
-        <section className="grid flex-1 gap-0 lg:grid-cols-[280px_minmax(0,1fr)]">
-          <aside className="border-b border-stone-900/10 bg-stone-950 px-6 py-6 text-stone-100 lg:border-b-0 lg:border-r">
+        <section
+          className={`flex flex-1 overflow-hidden ${
+            isDesktopPanelVisible ? "lg:grid lg:grid-cols-[320px_minmax(0,1fr)]" : "lg:block"
+          }`}
+        >
+          <aside
+            id="chat-side-panel"
+            className={`${
+              isDesktopViewport ? (isDesktopPanelVisible ? "lg:flex" : "hidden") : mobilePane === "panel" ? "flex" : "hidden"
+            } min-h-0 flex-col border-stone-900/10 bg-stone-950 px-6 py-6 text-stone-100 lg:border-r`}
+          >
             <div className="space-y-6">
               <div>
                 <p className="text-xs font-semibold uppercase tracking-[0.24em] text-stone-400">Session</p>
@@ -116,8 +176,12 @@ export function ChatShell() {
             </div>
           </aside>
 
-          <div className="flex min-h-[32rem] flex-col bg-[#fffdf8]">
-            <div className="flex-1 space-y-4 overflow-y-auto px-6 py-6 sm:px-8">
+          <div
+            className={`${
+              isDesktopViewport ? "flex" : mobilePane === "chat" ? "flex" : "hidden"
+            } min-h-0 flex-1 flex-col bg-[#fffdf8]`}
+          >
+            <div className="flex-1 space-y-4 overflow-y-auto px-5 py-6 sm:px-8">
               {messages.map((message) => {
                 const isAssistant = message.role === "assistant";
 
@@ -148,7 +212,7 @@ export function ChatShell() {
               ) : null}
             </div>
 
-            <div className="border-t border-stone-900/10 bg-[#fffaf1] px-6 py-5 sm:px-8">
+            <div className="border-t border-stone-900/10 bg-[#fffaf1] px-5 py-5 sm:px-8">
               <form className="space-y-3" onSubmit={handleSubmit}>
                 <label className="block">
                   <span className="mb-2 block text-xs font-semibold uppercase tracking-[0.22em] text-stone-500">
