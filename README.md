@@ -1,11 +1,38 @@
 ## Chat Bot UI
 
-This project is a standalone Next.js frontend for a chatbot experience that will eventually connect to an agentic AI backend through a REST API.
+This project is a Next.js chatbot UI that connects to an agentic AI backend through a REST API.
 
 The current implementation intentionally has:
 - no authentication
-- a mock API adapter instead of the real backend
-- a typed client boundary so the backend can be integrated later with minimal UI churn
+- a typed client boundary in `lib/chat-api.ts` so the UI stays stable as the backend evolves
+- a Next.js API route proxy so the browser does not call AWS directly
+
+## Architecture
+
+End-to-end request flow:
+
+```
+Browser → Next.js (/api/chat) → API Gateway → Lambda → AgentCore (simple_langchain_agent)
+```
+
+1. **Browser** — the chat UI in `components/` sends messages to the same-origin Next.js API route (`/api/chat`).
+2. **Next.js** — `app/api/chat/route.ts` forwards the request server-side to API Gateway. This avoids browser CORS issues when calling AWS from `localhost` or a separate frontend domain.
+3. **API Gateway** — exposes the REST endpoint configured in `NEXT_PUBLIC_API_BASE_URL`.
+4. **Lambda** — handles the HTTP request and invokes the agent.
+5. **AgentCore (`simple_langchain_agent`)** — runs the LangChain agent and returns the assistant reply.
+
+The API Gateway response is wrapped in a Lambda proxy shape (`statusCode`, `headers`, `body`). The route parses the stringified `body`, extracts `result` for the chat UI, and returns `session_id` as the conversation id.
+
+### Why `app/api/chat/route.ts` exists
+
+Calling API Gateway directly from the browser would require correct CORS headers on every HTTP response. In practice, the Lambda may include CORS metadata inside the JSON payload without API Gateway mapping those values onto the actual response headers.
+
+The Next.js route acts as a **backend-for-frontend (BFF) proxy**:
+
+- **Browser → Next.js**: same origin, so CORS does not apply.
+- **Next.js → API Gateway**: server-to-server `fetch`, so CORS does not apply.
+
+Later, when this app runs on EKS and talks to AgentCore via the AWS SDK (for example boto3), that path is also server-to-server and CORS remains irrelevant for the agent call. CORS would only matter at the edge if the browser and Next.js API are served from different origins.
 
 ## Local development
 
@@ -18,31 +45,49 @@ pnpm dev
 
 Open [http://localhost:3000](http://localhost:3000).
 
+For a production-style run:
+
+```bash
+pnpm build
+pnpm start
+```
+
 ## Environment
 
-Create a local env file when you are ready to point the UI at a real backend.
+Copy the example env file and set your API Gateway endpoint:
 
 ```bash
 cp .env.local.example .env.local
 ```
 
-Current setting:
+Required setting:
 
 ```bash
-NEXT_PUBLIC_API_BASE_URL=http://localhost:8080/api
+NEXT_PUBLIC_API_BASE_URL=https://your-api-id.execute-api.region.amazonaws.com/prod/simple_langchain_agent
 ```
+
+Restart the dev server after changing environment variables.
 
 ## Current structure
 
-- `app/`: app router entrypoints and global styles
+- `app/`: App Router entrypoints, global styles, and API routes
+- `app/api/chat/route.ts`: server-side proxy to API Gateway
 - `components/`: client-side chatbot UI
-- `lib/`: backend client boundary and adapters
+- `lib/chat-api.ts`: browser client that calls `/api/chat`
 - `types/`: shared UI and API contract types
 
-## Backend integration plan
+## Request and response contract
 
-When the backend is available, replace the mock client in `lib/chat-api.ts` with a real REST implementation. The UI should continue to use the same client interface unless the API contract changes.
+The proxy sends this JSON body to API Gateway:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```json
+{
+  "message": "who am I?",
+  "session_id": "0a7233bc-bc2c-479a-92a8-6436c984a6fd",
+  "actor_id": "user-one-495"
+}
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+`session_id` maps to the frontend conversation id. `actor_id` is hardcoded for now.
+
+The route expects an API Gateway-style response and reads the assistant text from the parsed `body.result` field.
