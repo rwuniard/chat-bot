@@ -160,11 +160,11 @@ export function MainChat({
                 className={`max-w-3xl rounded-[1.6rem] px-5 py-4 shadow-sm ${
                   isAssistant
                     ? "mr-auto bg-[#2c2c2c] text-stone-100 ring-1 ring-white/8"
-                    : "ml-auto bg-[#303030] text-stone-50"
+                    : "mr-auto bg-[#1e3348] text-sky-50 ring-1 ring-sky-500/25"
                 }`}
               >
                 <div className="mb-2 flex items-center justify-between gap-3 text-xs uppercase tracking-[0.18em]">
-                  <span className={isAssistant ? "text-stone-500" : "text-stone-300"}>{message.role}</span>
+                  <span className={isAssistant ? "text-stone-500" : "text-sky-400"}>{message.role}</span>
                   <span className="text-stone-400">{formatTimestamp(message.createdAt)}</span>
                 </div>
                 <p className="whitespace-pre-wrap text-sm leading-7 sm:text-[15px]">{message.content}</p>
@@ -173,7 +173,7 @@ export function MainChat({
           })}
 
           {isSending ? (
-            <article className="max-w-sm rounded-[1.6rem] bg-stone-200 px-5 py-4 text-sm text-stone-600 ring-1 ring-stone-900/8">
+            <article className="mr-auto max-w-sm rounded-[1.6rem] bg-[#2c2c2c] px-5 py-4 text-sm text-stone-400 ring-1 ring-white/8">
               Waiting for assistant response...
             </article>
           ) : null}
