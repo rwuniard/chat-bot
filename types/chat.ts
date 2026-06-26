@@ -1,19 +1,19 @@
 export type ChatRole = "user" | "assistant" | "system";
 
 export interface ChatMessage {
-  id: string;
-  role: ChatRole;
-  content: string;
-  createdAt: string;
-  status?: "pending" | "complete" | "error";
+  readonly id: string;
+  readonly role: ChatRole;
+  readonly content: string;
+  readonly createdAt: string;
+  readonly status?: "pending" | "complete" | "error";
 }
 
 export interface SendMessageRequest {
-  conversationId?: string;
-  message: string;
+  readonly conversationId?: string;
+  readonly message: string;
 }
 
 export interface SendMessageResponse {
-  conversationId: string;
-  reply: ChatMessage;
+  readonly conversationId: string;
+  readonly reply: ChatMessage;
 }

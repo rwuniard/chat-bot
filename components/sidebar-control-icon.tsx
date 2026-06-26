@@ -1,10 +1,10 @@
 "use client";
 
 interface SidebarControlIconProps {
-  kind: "sidebar" | "compose";
+  readonly kind: "sidebar" | "compose";
 }
 
-export function SidebarControlIcon({ kind }: SidebarControlIconProps) {
+export function SidebarControlIcon({ kind }: Readonly<SidebarControlIconProps>) {
   if (kind === "sidebar") {
     return (
       <svg

@@ -1,63 +1,40 @@
 import { NextResponse } from "next/server";
-import type { ChatMessage, SendMessageResponse } from "@/types/chat";
+import { parseBackendResponse } from "@/lib/backend-response";
+import { createChatMessage } from "@/lib/chat-message";
+import type { SendMessageResponse } from "@/types/chat";
 
 const API_BASE_URL =
   process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://localhost:8080/api";
 
-const ACTOR_ID = "user-one-495";
+const ACTOR_ID = process.env.CHAT_ACTOR_ID ?? "user-one-495";
 
-interface ApiGatewayResponse {
-  statusCode: number;
-  headers: Record<string, string>;
-  body: string;
+const BACKEND_TIMEOUT_MS = 30_000;
+
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return typeof value === "object" && value !== null;
 }
 
-interface BackendChatBody {
-  result: string;
-  session_id: string;
-}
-
-function buildMessage(role: ChatMessage["role"], content: string): ChatMessage {
-  return {
-    id: crypto.randomUUID(),
-    role,
-    content,
-    createdAt: new Date().toISOString(),
-    status: "complete",
-  };
-}
-
-function parseBackendResponse(payload: unknown): BackendChatBody {
-  if (typeof payload !== "object" || payload === null) {
-    throw new TypeError("Chat API returned an unexpected response shape");
+function parseChatRequest(payload: unknown): { conversationId?: string; message: string } {
+  if (!isRecord(payload)) {
+    throw new TypeError("Request body must be a JSON object");
   }
 
-  const gateway = payload as ApiGatewayResponse;
+  const { conversationId, message } = payload;
 
-  if (typeof gateway.body !== "string") {
-    throw new TypeError("Chat API response is missing body");
+  if (conversationId !== undefined && typeof conversationId !== "string") {
+    throw new TypeError("conversationId must be a string");
   }
 
-  const parsed = JSON.parse(gateway.body) as BackendChatBody;
-
-  if (typeof parsed.result !== "string") {
-    throw new TypeError("Chat API response body is missing result");
+  if (typeof message !== "string" || !message.trim()) {
+    throw new TypeError("Message is required");
   }
 
-  return parsed;
+  return { conversationId, message };
 }
 
 export async function POST(request: Request) {
   try {
-    const { conversationId, message } = (await request.json()) as {
-      conversationId?: string;
-      message: string;
-    };
-
-    if (typeof message !== "string" || !message.trim()) {
-      return NextResponse.json({ error: "Message is required" }, { status: 400 });
-    }
-
+    const { conversationId, message } = parseChatRequest(await request.json());
     const sessionId = conversationId ?? crypto.randomUUID();
 
     const response = await fetch(API_BASE_URL, {
@@ -70,6 +47,7 @@ export async function POST(request: Request) {
         session_id: sessionId,
         actor_id: ACTOR_ID,
       }),
+      signal: AbortSignal.timeout(BACKEND_TIMEOUT_MS),
     });
 
     if (!response.ok) {
@@ -82,12 +60,16 @@ export async function POST(request: Request) {
     const payload = parseBackendResponse(await response.json());
 
     const result: SendMessageResponse = {
-      conversationId: payload.session_id ?? sessionId,
-      reply: buildMessage("assistant", payload.result),
+      conversationId: payload.session_id,
+      reply: createChatMessage("assistant", payload.result),
     };
 
     return NextResponse.json(result);
   } catch (error) {
+    if (error instanceof TypeError) {
+      return NextResponse.json({ error: error.message }, { status: 400 });
+    }
+
     const message = error instanceof Error ? error.message : "Unknown error";
     return NextResponse.json({ error: message }, { status: 500 });
   }

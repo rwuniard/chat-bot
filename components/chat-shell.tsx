@@ -3,6 +3,11 @@
 import { useEffect, useState } from "react";
 import { ChatSidebar } from "@/components/chat-sidebar";
 import { MainChat } from "@/components/main-chat";
+import {
+  getChatPaneVisibilityClass,
+  getShellLayoutClass,
+  getSidebarVisible,
+} from "@/lib/chat-layout";
 
 export function ChatShell() {
   const [conversationId, setConversationId] = useState<string>();
@@ -12,7 +17,7 @@ export function ChatShell() {
   const [mobilePane, setMobilePane] = useState<"chat" | "panel">("chat");
 
   useEffect(() => {
-    const mediaQuery = window.matchMedia("(min-width: 1024px)");
+    const mediaQuery = globalThis.matchMedia("(min-width: 1024px)");
 
     function updateViewportMode() {
       setIsDesktopViewport(mediaQuery.matches);
@@ -35,21 +40,15 @@ export function ChatShell() {
     setMobilePane((currentValue) => (currentValue === "chat" ? "panel" : "chat"));
   }
 
-  const isSidebarVisible = isDesktopViewport ? isDesktopPanelVisible : mobilePane === "panel";
+  const isSidebarVisible = getSidebarVisible(isDesktopViewport, isDesktopPanelVisible, mobilePane);
   const shouldShowMainHeader = !isSidebarVisible;
+  const shellLayoutClass = getShellLayoutClass(isDesktopViewport, isDesktopPanelVisible);
+  const chatPaneVisibilityClass = getChatPaneVisibilityClass(isDesktopViewport, mobilePane);
 
   return (
     <main className="h-screen overflow-hidden bg-[#1f1f1f] text-stone-100">
       <div className="flex h-full min-h-0 w-full overflow-hidden bg-[#1f1f1f]">
-        <section
-          className={`flex min-h-0 flex-1 overflow-hidden ${
-            isDesktopViewport
-              ? isDesktopPanelVisible
-                ? "lg:grid lg:grid-cols-[320px_minmax(0,1fr)]"
-                : "lg:block"
-              : "block"
-          }`}
-        >
+        <section className={`flex min-h-0 flex-1 overflow-hidden ${shellLayoutClass}`}>
           <ChatSidebar
             conversationId={conversationId}
             sessionTitle={sessionTitle}
@@ -57,7 +56,7 @@ export function ChatShell() {
             onTogglePanel={handlePanelToggle}
           />
 
-          <div className={`${isDesktopViewport ? "flex" : mobilePane === "chat" ? "flex" : "hidden"} min-h-0 flex-1`}>
+          <div className={`${chatPaneVisibilityClass} min-h-0 flex-1`}>
             <MainChat
               isSidebarVisible={isSidebarVisible}
               onSessionChange={({ conversationId: nextConversationId, sessionTitle: nextSessionTitle }) => {

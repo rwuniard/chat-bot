@@ -1,8 +1,10 @@
 "use client";
 
+import type { ComponentProps, KeyboardEvent } from "react";
 import { useEffect, useRef, useState } from "react";
-import { SidebarControlIcon } from "@/components/sidebar-control-icon";
+import { ChatHeaderControls } from "@/components/chat-header-controls";
 import { chatApiClient } from "@/lib/chat-api";
+import { createChatMessage } from "@/lib/chat-message";
 import type { ChatMessage } from "@/types/chat";
 
 const INITIAL_MESSAGES: ChatMessage[] = [
@@ -15,6 +17,9 @@ const INITIAL_MESSAGES: ChatMessage[] = [
   },
 ];
 
+const ASSISTANT_BUBBLE_CLASS = "bg-[#2c2c2c] text-stone-100 ring-1 ring-white/8";
+const USER_BUBBLE_CLASS = "bg-[#1e3348] text-sky-50 ring-1 ring-sky-500/25";
+
 function formatTimestamp(value: string): string {
   return new Intl.DateTimeFormat("en-US", {
     hour: "numeric",
@@ -22,15 +27,21 @@ function formatTimestamp(value: string): string {
   }).format(new Date(value));
 }
 
+function getMessageBubbleClass(isAssistant: boolean): string {
+  return `mr-auto max-w-3xl rounded-[1.6rem] px-5 py-4 shadow-sm ${
+    isAssistant ? ASSISTANT_BUBBLE_CLASS : USER_BUBBLE_CLASS
+  }`;
+}
+
 interface MainChatProps {
-  isSidebarVisible: boolean;
-  onSessionChange: (session: { conversationId?: string; sessionTitle?: string }) => void;
-  onTogglePanel: () => void;
-  shouldShowHeader: boolean;
+  readonly isSidebarVisible: boolean;
+  readonly onSessionChange: (session: { conversationId?: string; sessionTitle?: string }) => void;
+  readonly onTogglePanel: () => void;
+  readonly shouldShowHeader: boolean;
 }
 
 function handleComposerKeyDown(
-  event: React.KeyboardEvent<HTMLTextAreaElement>,
+  event: KeyboardEvent<HTMLTextAreaElement>,
   draft: string,
   isSending: boolean,
 ) {
@@ -47,12 +58,18 @@ function handleComposerKeyDown(
   event.currentTarget.form?.requestSubmit();
 }
 
+type ChatFormSubmitEvent = Parameters<NonNullable<ComponentProps<"form">["onSubmit"]>>[0];
+
+function getSessionTitle(messages: ChatMessage[], trimmedDraft: string): string | undefined {
+  return messages.some((message) => message.role === "user") ? undefined : trimmedDraft;
+}
+
 export function MainChat({
   isSidebarVisible,
   onSessionChange,
   onTogglePanel,
   shouldShowHeader,
-}: MainChatProps) {
+}: Readonly<MainChatProps>) {
   const transcriptRef = useRef<HTMLElement | null>(null);
   const [conversationId, setConversationId] = useState<string>();
   const [messages, setMessages] = useState<ChatMessage[]>(INITIAL_MESSAGES);
@@ -69,7 +86,7 @@ export function MainChat({
     transcriptElement.scrollTop = transcriptElement.scrollHeight;
   }, [messages, isSending]);
 
-  async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+  async function handleSubmit(event: ChatFormSubmitEvent) {
     event.preventDefault();
 
     const trimmedDraft = draft.trim();
@@ -77,17 +94,8 @@ export function MainChat({
       return;
     }
 
-    const userMessage: ChatMessage = {
-      id: crypto.randomUUID(),
-      role: "user",
-      content: trimmedDraft,
-      createdAt: new Date().toISOString(),
-      status: "complete",
-    };
-
-    const nextSessionTitle = messages.some((message) => message.role === "user")
-      ? undefined
-      : trimmedDraft;
+    const userMessage = createChatMessage("user", trimmedDraft);
+    const nextSessionTitle = getSessionTitle(messages, trimmedDraft);
 
     setDraft("");
     setError(undefined);
@@ -113,8 +121,13 @@ export function MainChat({
         conversationId: response.conversationId,
         sessionTitle: nextSessionTitle,
       });
-    } catch {
-      setError("The message could not be sent. Retry once the backend is available.");
+    } catch (submitError) {
+      console.error("Failed to send chat message", submitError);
+      const message =
+        submitError instanceof Error
+          ? submitError.message
+          : "The message could not be sent. Retry once the backend is available.";
+      setError(message);
     } finally {
       setIsSending(false);
     }
@@ -124,26 +137,9 @@ export function MainChat({
     <div className="flex h-full min-h-0 flex-1 flex-col overflow-hidden bg-[#1f1f1f]">
       {shouldShowHeader ? (
         <div className="shrink-0 flex items-center gap-3 px-6 pb-5 pt-5 text-stone-300">
-          <button
-            aria-controls="chat-side-panel"
-            aria-expanded={isSidebarVisible}
-            aria-label={isSidebarVisible ? "Hide side panel" : "Show side panel"}
-            className="inline-flex h-12 w-12 items-center justify-center rounded-2xl border border-white/10 bg-white/[0.04] text-stone-300 transition hover:bg-white/[0.08] hover:text-white"
-            type="button"
-            onClick={onTogglePanel}
-          >
-            <SidebarControlIcon kind="sidebar" />
-          </button>
+          <ChatHeaderControls isSidebarVisible={isSidebarVisible} onTogglePanel={onTogglePanel} />
 
-          <button
-            aria-label="Compose new chat"
-            className="inline-flex h-12 w-12 items-center justify-center rounded-2xl border border-white/10 bg-white/[0.04] text-stone-300 transition hover:bg-white/[0.08] hover:text-white"
-            type="button"
-          >
-            <SidebarControlIcon kind="compose" />
-          </button>
-
-          <div className="rounded-full border border-white/8 bg-white/[0.04] px-5 py-3 text-[1.05rem] font-semibold text-white">
+          <div className="rounded-full border border-white/8 bg-white/4 px-5 py-3 text-[1.05rem] font-semibold text-white">
             Chat Bot UI <span className="text-stone-500">›</span>
           </div>
         </div>
@@ -155,14 +151,7 @@ export function MainChat({
             const isAssistant = message.role === "assistant";
 
             return (
-              <article
-                key={message.id}
-                className={`max-w-3xl rounded-[1.6rem] px-5 py-4 shadow-sm ${
-                  isAssistant
-                    ? "mr-auto bg-[#2c2c2c] text-stone-100 ring-1 ring-white/8"
-                    : "mr-auto bg-[#1e3348] text-sky-50 ring-1 ring-sky-500/25"
-                }`}
-              >
+              <article key={message.id} className={getMessageBubbleClass(isAssistant)}>
                 <div className="mb-2 flex items-center justify-between gap-3 text-xs uppercase tracking-[0.18em]">
                   <span className={isAssistant ? "text-stone-500" : "text-sky-400"}>{message.role}</span>
                   <span className="text-stone-400">{formatTimestamp(message.createdAt)}</span>
@@ -187,7 +176,7 @@ export function MainChat({
               Message
             </span>
             <textarea
-              className="min-h-28 w-full resize-none rounded-[1.5rem] border border-white/8 bg-[#2a2a2a] px-4 py-3 text-sm leading-6 text-stone-100 outline-none transition placeholder:text-stone-500 focus:border-white/18 focus:ring-4 focus:ring-white/5"
+              className="min-h-28 w-full resize-none rounded-3xl border border-white/8 bg-[#2a2a2a] px-4 py-3 text-sm leading-6 text-stone-100 outline-none transition placeholder:text-stone-500 focus:border-white/18 focus:ring-4 focus:ring-white/5"
               name="message"
               placeholder="Ask the assistant something."
               value={draft}

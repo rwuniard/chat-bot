@@ -1,11 +1,26 @@
 import type { SendMessageRequest, SendMessageResponse } from "@/types/chat";
 
 export interface ChatApiClient {
-  sendMessage(request: SendMessageRequest): Promise<SendMessageResponse>;
+  sendMessage(request: Readonly<SendMessageRequest>): Promise<SendMessageResponse>;
+}
+
+function isSendMessageResponse(payload: unknown): payload is SendMessageResponse {
+  if (typeof payload !== "object" || payload === null) {
+    return false;
+  }
+
+  const { conversationId, reply } = payload as SendMessageResponse;
+
+  return (
+    typeof conversationId === "string" &&
+    typeof reply === "object" &&
+    reply !== null &&
+    typeof reply.content === "string"
+  );
 }
 
 class RestChatApiClient implements ChatApiClient {
-  async sendMessage(request: SendMessageRequest): Promise<SendMessageResponse> {
+  async sendMessage(request: Readonly<SendMessageRequest>): Promise<SendMessageResponse> {
     const response = await fetch("/api/chat", {
       method: "POST",
       headers: {
@@ -17,12 +32,30 @@ class RestChatApiClient implements ChatApiClient {
       }),
     });
 
-    if (!response.ok) {
-      const payload = (await response.json().catch(() => null)) as { error?: string } | null;
-      throw new Error(payload?.error ?? `Chat API request failed with status ${response.status}`);
+    let payload: unknown;
+    try {
+      payload = await response.json();
+    } catch (error) {
+      const message = error instanceof Error ? error.message : "Invalid JSON";
+      throw new Error(`Chat API returned invalid JSON: ${message}`);
     }
 
-    return response.json() as Promise<SendMessageResponse>;
+    if (!response.ok) {
+      const errorMessage =
+        typeof payload === "object" &&
+        payload !== null &&
+        "error" in payload &&
+        typeof payload.error === "string"
+          ? payload.error
+          : `Chat API request failed with status ${response.status}`;
+      throw new Error(errorMessage);
+    }
+
+    if (!isSendMessageResponse(payload)) {
+      throw new Error("Chat API returned an unexpected response shape");
+    }
+
+    return payload;
   }
 }
 
