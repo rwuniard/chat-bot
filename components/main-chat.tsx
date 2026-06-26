@@ -9,8 +9,7 @@ const INITIAL_MESSAGES: ChatMessage[] = [
   {
     id: "welcome-message",
     role: "assistant",
-    content:
-      "This is the initial chatbot UI shell. The backend is not connected yet, so responses currently come from a mock REST client.",
+    content: "Hi! Ask me anything to start a conversation.",
     createdAt: "2026-05-18T18:00:00.000Z",
     status: "complete",
   },
@@ -175,7 +174,7 @@ export function MainChat({
 
           {isSending ? (
             <article className="max-w-sm rounded-[1.6rem] bg-stone-200 px-5 py-4 text-sm text-stone-600 ring-1 ring-stone-900/8">
-              Waiting for mock backend response...
+              Waiting for assistant response...
             </article>
           ) : null}
         </div>
@@ -190,7 +189,7 @@ export function MainChat({
             <textarea
               className="min-h-28 w-full resize-none rounded-[1.5rem] border border-white/8 bg-[#2a2a2a] px-4 py-3 text-sm leading-6 text-stone-100 outline-none transition placeholder:text-stone-500 focus:border-white/18 focus:ring-4 focus:ring-white/5"
               name="message"
-              placeholder="Ask the assistant something. This currently posts to a mock client."
+              placeholder="Ask the assistant something."
               value={draft}
               onChange={(event) => setDraft(event.target.value)}
               onKeyDown={(event) => handleComposerKeyDown(event, draft, isSending)}

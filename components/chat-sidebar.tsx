@@ -129,7 +129,7 @@ export function ChatSidebar({
         <div className="rounded-2xl border border-white/5 bg-white/[0.04] px-4 py-4">
           <p className="text-sm font-semibold uppercase tracking-[0.18em] text-stone-500">Integration</p>
           <p className="mt-3 text-sm leading-6 text-stone-200">
-            The composer currently talks to a mock API client. Replace it later with the real REST service.
+            Messages are sent to the configured backend REST API.
           </p>
         </div>
 

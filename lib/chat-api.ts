@@ -1,36 +1,29 @@
-import type { ChatMessage, SendMessageRequest, SendMessageResponse } from "@/types/chat";
-
-const API_BASE_URL =
-  process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://localhost:8080/api";
-
-const MOCK_NETWORK_DELAY_MS = 900;
-
-function buildMessage(role: ChatMessage["role"], content: string): ChatMessage {
-  return {
-    id: crypto.randomUUID(),
-    role,
-    content,
-    createdAt: new Date().toISOString(),
-    status: "complete",
-  };
-}
+import type { SendMessageRequest, SendMessageResponse } from "@/types/chat";
 
 export interface ChatApiClient {
   sendMessage(request: SendMessageRequest): Promise<SendMessageResponse>;
 }
 
-class MockChatApiClient implements ChatApiClient {
+class RestChatApiClient implements ChatApiClient {
   async sendMessage(request: SendMessageRequest): Promise<SendMessageResponse> {
-    await new Promise((resolve) => setTimeout(resolve, MOCK_NETWORK_DELAY_MS));
+    const response = await fetch("/api/chat", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        conversationId: request.conversationId,
+        message: request.message,
+      }),
+    });
 
-    return {
-      conversationId: request.conversationId ?? crypto.randomUUID(),
-      reply: buildMessage(
-        "assistant",
-        `Mock response from ${API_BASE_URL}: "${request.message}" was received. Replace this adapter when the backend is ready.`,
-      ),
-    };
+    if (!response.ok) {
+      const payload = (await response.json().catch(() => null)) as { error?: string } | null;
+      throw new Error(payload?.error ?? `Chat API request failed with status ${response.status}`);
+    }
+
+    return response.json() as Promise<SendMessageResponse>;
   }
 }
 
-export const chatApiClient: ChatApiClient = new MockChatApiClient();
+export const chatApiClient: ChatApiClient = new RestChatApiClient();
