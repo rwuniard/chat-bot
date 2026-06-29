@@ -1,14 +1,20 @@
 import { NextResponse } from "next/server";
-import { parseBackendResponse } from "@/lib/backend-response";
+import {
+  BedrockAgentCoreClient,
+  InvokeAgentRuntimeCommand,
+} from "@aws-sdk/client-bedrock-agentcore";
 import { createChatMessage } from "@/lib/chat-message";
 import type { SendMessageResponse } from "@/types/chat";
 
-const API_BASE_URL =
-  process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://localhost:8080/api";
+const AGENT_RUNTIME_ARN =
+  process.env.AGENT_RUNTIME_ARN ??
+  "arn:aws:bedrock-agentcore:us-east-1:850652371396:runtime/simple_langchain_agent-Qgc53c8gbf";
+
+const AWS_REGION = process.env.AWS_REGION ?? "us-east-1";
 
 const ACTOR_ID = process.env.CHAT_ACTOR_ID ?? "user-one-495";
 
-const BACKEND_TIMEOUT_MS = 30_000;
+const client = new BedrockAgentCoreClient({ region: AWS_REGION });
 
 function isRecord(value: unknown): value is Record<string, unknown> {
   return typeof value === "object" && value !== null;
@@ -37,31 +43,24 @@ export async function POST(request: Request) {
     const { conversationId, message } = parseChatRequest(await request.json());
     const sessionId = conversationId ?? crypto.randomUUID();
 
-    const response = await fetch(API_BASE_URL, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        message,
-        session_id: sessionId,
-        actor_id: ACTOR_ID,
-      }),
-      signal: AbortSignal.timeout(BACKEND_TIMEOUT_MS),
+    const command = new InvokeAgentRuntimeCommand({
+      agentRuntimeArn: AGENT_RUNTIME_ARN,
+      runtimeSessionId: sessionId,
+      payload: new TextEncoder().encode(
+        JSON.stringify({ message, session_id: sessionId, actor_id: ACTOR_ID }),
+      ),
     });
 
-    if (!response.ok) {
-      return NextResponse.json(
-        { error: `Backend request failed with status ${response.status}` },
-        { status: response.status },
-      );
+    const agentResponse = await client.send(command);
+    const text = await agentResponse.response?.transformToString();
+
+    if (!text) {
+      throw new Error("AgentCore returned an empty response");
     }
 
-    const payload = parseBackendResponse(await response.json());
-
     const result: SendMessageResponse = {
-      conversationId: payload.session_id,
-      reply: createChatMessage("assistant", payload.result),
+      conversationId: sessionId,
+      reply: createChatMessage("assistant", text),
     };
 
     return NextResponse.json(result);
