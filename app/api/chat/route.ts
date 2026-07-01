@@ -52,15 +52,25 @@ export async function POST(request: Request) {
     });
 
     const agentResponse = await client.send(command);
-    const text = await agentResponse.response?.transformToString();
+    const raw = await agentResponse.response?.transformToString();
 
-    if (!text) {
+    if (!raw) {
       throw new Error("AgentCore returned an empty response");
+    }
+
+    let content = raw;
+    try {
+      const parsed = JSON.parse(raw);
+      if (typeof parsed === "string") {
+        content = parsed;
+      }
+    } catch {
+      // response is plain text, use as-is
     }
 
     const result: SendMessageResponse = {
       conversationId: sessionId,
-      reply: createChatMessage("assistant", text),
+      reply: createChatMessage("assistant", content),
     };
 
     return NextResponse.json(result);

@@ -2,6 +2,7 @@
 
 import type { ComponentProps, KeyboardEvent } from "react";
 import { useEffect, useRef, useState } from "react";
+import ReactMarkdown from "react-markdown";
 import { ChatHeaderControls } from "@/components/chat-header-controls";
 import { chatApiClient } from "@/lib/chat-api";
 import { createChatMessage } from "@/lib/chat-message";
@@ -156,7 +157,9 @@ export function MainChat({
                   <span className={isAssistant ? "text-stone-500" : "text-sky-400"}>{message.role}</span>
                   <span className="text-stone-400">{formatTimestamp(message.createdAt)}</span>
                 </div>
-                <p className="whitespace-pre-wrap text-sm leading-7 sm:text-[15px]">{message.content}</p>
+                <div className="prose prose-invert prose-sm max-w-none text-sm leading-7 sm:text-[15px]">
+                  <ReactMarkdown>{message.content}</ReactMarkdown>
+                </div>
               </article>
             );
           })}
