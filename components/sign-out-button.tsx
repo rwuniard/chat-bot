@@ -1,15 +1,12 @@
 "use client";
 
-import { signOut } from "next-auth/react";
-
 interface SignOutButtonProps {
   readonly cognitoLogoutUrl: string;
 }
 
 export function SignOutButton({ cognitoLogoutUrl }: SignOutButtonProps) {
   async function handleSignOut() {
-    // Clear NextAuth session first, then redirect to Cognito logout
-    await signOut({ redirect: false });
+    await fetch("/api/auth/logout", { method: "POST" });
     window.location.href = cognitoLogoutUrl;
   }
 

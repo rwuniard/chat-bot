@@ -1,15 +1,12 @@
-import { decode } from "next-auth/jwt";
 import { cookies } from "next/headers";
+import { verifySessionToken, SESSION_COOKIE_NAME } from "@/lib/session-token";
+
+export type { SessionPayload } from "@/lib/session-token";
+export { verifySessionToken, createSessionToken, SESSION_COOKIE_NAME } from "@/lib/session-token";
 
 export async function getSession() {
   const cookieStore = await cookies();
-
-  // Next.js uses __Secure- prefix in production (HTTPS), plain name in dev (HTTP)
-  const token =
-    cookieStore.get("__Secure-next-auth.session-token")?.value ??
-    cookieStore.get("next-auth.session-token")?.value;
-
+  const token = cookieStore.get(SESSION_COOKIE_NAME)?.value;
   if (!token) return null;
-
-  return decode({ token, secret: process.env.NEXTAUTH_SECRET! });
+  return verifySessionToken(token);
 }

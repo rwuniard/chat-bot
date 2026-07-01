@@ -1,17 +1,12 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
-import { getToken } from "next-auth/jwt";
+import { verifySessionToken, SESSION_COOKIE_NAME } from "@/lib/session-token";
 
 export async function proxy(request: NextRequest) {
-  const token = await getToken({
-    req: request,
-    secret: process.env.NEXTAUTH_SECRET,
-  });
-
-  if (!token) {
+  const token = request.cookies.get(SESSION_COOKIE_NAME)?.value;
+  if (!token || !verifySessionToken(token)) {
     return NextResponse.redirect(new URL("/login", request.url));
   }
-
   return NextResponse.next();
 }
 

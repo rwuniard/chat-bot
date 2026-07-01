@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import type { FormEvent } from "react";
 
@@ -27,8 +26,12 @@ export function LoginForm() {
   const [loading, setLoading] = useState(false);
 
   async function completeSignIn(token: string) {
-    const result = await signIn("credentials", { token, redirect: false });
-    if (result?.error) {
+    const res = await fetch("/api/auth/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ token }),
+    });
+    if (!res.ok) {
       setError("Sign-in failed. Please try again.");
       return;
     }

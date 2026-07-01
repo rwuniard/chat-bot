@@ -24,12 +24,7 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "Authentication failed" }, { status: 401 });
   } catch (error) {
     const name = (error as { name?: string }).name ?? "";
-    const message = (error as { message?: string }).message ?? "";
-    console.error("[cognito/initiate] error:", name, message);
-    const isInvalidCredentials = name === "NotAuthorizedException" || name === "UserNotFoundException";
-    return NextResponse.json(
-      { error: isInvalidCredentials ? "Invalid username or password" : `${name}: ${message}` },
-      { status: 401 }
-    );
+    console.error("[cognito/initiate] error:", name, (error as { message?: string }).message ?? "");
+    return NextResponse.json({ error: "Invalid username or password" }, { status: 401 });
   }
 }
