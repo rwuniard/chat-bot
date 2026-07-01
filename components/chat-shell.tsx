@@ -9,7 +9,11 @@ import {
   getSidebarVisible,
 } from "@/lib/chat-layout";
 
-export function ChatShell() {
+interface ChatShellProps {
+  readonly cognitoLogoutUrl: string;
+}
+
+export function ChatShell({ cognitoLogoutUrl }: ChatShellProps) {
   const [conversationId, setConversationId] = useState<string>();
   const [sessionTitle, setSessionTitle] = useState<string>();
   const [isDesktopViewport, setIsDesktopViewport] = useState(false);
@@ -53,6 +57,7 @@ export function ChatShell() {
             conversationId={conversationId}
             sessionTitle={sessionTitle}
             isVisible={isSidebarVisible}
+            cognitoLogoutUrl={cognitoLogoutUrl}
             onTogglePanel={handlePanelToggle}
           />
 

@@ -2,6 +2,7 @@
 
 import type { ReactNode } from "react";
 import { ChatHeaderControls } from "@/components/chat-header-controls";
+import { SignOutButton } from "@/components/sign-out-button";
 
 const SIDEBAR_ITEMS = [{ label: "Chat Bot", icon: "spark" }] as const;
 
@@ -41,6 +42,7 @@ interface ChatSidebarProps {
   readonly conversationId?: string;
   readonly sessionTitle?: string;
   readonly isVisible: boolean;
+  readonly cognitoLogoutUrl: string;
   readonly onTogglePanel: () => void;
 }
 
@@ -48,6 +50,7 @@ export function ChatSidebar({
   conversationId,
   sessionTitle,
   isVisible,
+  cognitoLogoutUrl,
   onTogglePanel,
 }: Readonly<ChatSidebarProps>) {
   return (
@@ -117,6 +120,10 @@ export function ChatSidebar({
             <li>Add streaming or polling if the agent requires it.</li>
           </ul>
         </SidebarInfoCard>
+      </div>
+
+      <div className="mt-auto pt-4 border-t border-white/6">
+        <SignOutButton cognitoLogoutUrl={cognitoLogoutUrl} />
       </div>
     </aside>
   );
