@@ -6,7 +6,7 @@ import {
 import { createHmac, timingSafeEqual } from "crypto";
 
 const cognitoClient = new CognitoIdentityProviderClient({
-  region: process.env.AWS_REGION ?? "us-east-1",
+  region: process.env.COGNITO_REGION ?? "us-east-1",
 });
 
 function computeSecretHash(username: string): string {

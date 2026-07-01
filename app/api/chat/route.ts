@@ -1,10 +1,9 @@
 import { NextResponse } from "next/server";
-import { getServerSession } from "next-auth";
 import {
   BedrockAgentCoreClient,
   InvokeAgentRuntimeCommand,
 } from "@aws-sdk/client-bedrock-agentcore";
-import { authOptions } from "@/lib/auth";
+import { getSession } from "@/lib/session";
 import { createChatMessage } from "@/lib/chat-message";
 import type { SendMessageResponse } from "@/types/chat";
 
@@ -41,7 +40,7 @@ function parseChatRequest(payload: unknown): { conversationId?: string; message:
 }
 
 export async function POST(request: Request) {
-  const session = await getServerSession(authOptions);
+  const session = await getSession();
   if (!session) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
