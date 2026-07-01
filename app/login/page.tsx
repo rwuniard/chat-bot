@@ -1,7 +1,7 @@
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
 import { authOptions } from "@/lib/auth";
-import { SignInButton } from "@/components/sign-in-button";
+import { LoginForm } from "@/components/login-form";
 
 export default async function LoginPage() {
   const session = await getServerSession(authOptions);
@@ -17,7 +17,7 @@ export default async function LoginPage() {
           <h1 className="text-xl font-semibold text-stone-100">Welcome back</h1>
           <p className="text-sm text-stone-400">Sign in to access the chat bot</p>
         </div>
-        <SignInButton />
+        <LoginForm />
       </div>
     </main>
   );

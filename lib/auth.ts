@@ -1,12 +1,20 @@
 import type { NextAuthOptions } from "next-auth";
-import CognitoProvider from "next-auth/providers/cognito";
+import CredentialsProvider from "next-auth/providers/credentials";
+import { verifyAuthToken } from "@/lib/cognito-auth";
 
 export const authOptions: NextAuthOptions = {
   providers: [
-    CognitoProvider({
-      clientId: process.env.COGNITO_CLIENT_ID!,
-      clientSecret: process.env.COGNITO_CLIENT_SECRET!,
-      issuer: process.env.COGNITO_ISSUER,
+    CredentialsProvider({
+      name: "Cognito",
+      credentials: {
+        token: { type: "text" },
+      },
+      async authorize(credentials) {
+        if (!credentials?.token) return null;
+        const user = verifyAuthToken(credentials.token);
+        if (!user) return null;
+        return { id: user.userId, email: user.email, name: user.email };
+      },
     }),
   ],
   pages: {
@@ -14,17 +22,5 @@ export const authOptions: NextAuthOptions = {
   },
   session: {
     strategy: "jwt",
-  },
-  callbacks: {
-    async jwt({ token, account }) {
-      if (account) {
-        token.accessToken = account.access_token;
-      }
-      return token;
-    },
-    async session({ session, token }) {
-      session.accessToken = token.accessToken as string | undefined;
-      return session;
-    },
   },
 };
