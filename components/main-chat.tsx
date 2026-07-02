@@ -189,9 +189,7 @@ export function MainChat({
           </label>
 
           <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-            <p className="text-sm text-stone-500">
-              {error ?? "Backend auth is intentionally omitted in this first version."}
-            </p>
+            <p className="text-sm text-stone-500">{error}</p>
             <button
               className="inline-flex items-center justify-center rounded-full bg-stone-200 px-5 py-3 text-sm font-semibold text-stone-950 transition hover:bg-white disabled:cursor-not-allowed disabled:bg-stone-600 disabled:text-stone-400"
               type="submit"
