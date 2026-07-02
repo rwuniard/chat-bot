@@ -8,12 +8,12 @@ import { createChatMessage } from "@/lib/chat-message";
 import type { SendMessageResponse } from "@/types/chat";
 
 const AGENT_RUNTIME_ARN =
-  process.env.AGENT_RUNTIME_ARN ??
+  process.env.AGENT_RUNTIME_ARN ||
   "arn:aws:bedrock-agentcore:us-east-1:850652371396:runtime/simple_langchain_agent-Qgc53c8gbf";
 
-const AWS_REGION = process.env.AWS_REGION ?? "us-east-1";
+const AWS_REGION = process.env.COGNITO_REGION || "us-east-1";
 
-const ACTOR_ID = process.env.CHAT_ACTOR_ID ?? "user-one-495";
+const ACTOR_ID = process.env.CHAT_ACTOR_ID || "user-one-495";
 
 const client = new BedrockAgentCoreClient({ region: AWS_REGION });
 
