@@ -1,3 +1,4 @@
+import "server-only";
 import { createHmac, timingSafeEqual } from "crypto";
 
 export const SESSION_COOKIE_NAME = "chat-session";
