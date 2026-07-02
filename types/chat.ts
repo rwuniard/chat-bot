@@ -12,8 +12,3 @@ export interface SendMessageRequest {
   readonly conversationId?: string;
   readonly message: string;
 }
-
-export interface SendMessageResponse {
-  readonly conversationId: string;
-  readonly reply: ChatMessage;
-}

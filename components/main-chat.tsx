@@ -97,11 +97,24 @@ export function MainChat({
 
     const userMessage = createChatMessage("user", trimmedDraft);
     const nextSessionTitle = getSessionTitle(messages, trimmedDraft);
+    // The assistant bubble is added to the transcript *before* any reply text
+    // exists, with an id we hold onto so later chunks know which message to
+    // update. This is what lets the same bubble morph from "waiting..." to
+    // streamed content in place, instead of appending a new message once the
+    // full reply comes back.
+    const assistantMessageId = crypto.randomUUID();
+    const assistantMessage: ChatMessage = {
+      id: assistantMessageId,
+      role: "assistant",
+      content: "",
+      createdAt: new Date().toISOString(),
+      status: "pending",
+    };
 
     setDraft("");
     setError(undefined);
     setIsSending(true);
-    setMessages((currentMessages) => [...currentMessages, userMessage]);
+    setMessages((currentMessages) => [...currentMessages, userMessage, assistantMessage]);
 
     if (nextSessionTitle) {
       onSessionChange({
@@ -110,16 +123,38 @@ export function MainChat({
       });
     }
 
-    try {
-      const response = await chatApiClient.sendMessage({
-        conversationId,
-        message: trimmedDraft,
-      });
+    // Accumulated outside React state because chunks can arrive faster than
+    // re-renders settle; state always gets the up-to-date full string built
+    // from this, rather than each update depending on the previous render's
+    // `message.content` (which could be stale mid-stream).
+    let assistantContent = "";
 
-      setConversationId(response.conversationId);
-      setMessages((currentMessages) => [...currentMessages, response.reply]);
+    function appendChunk(chunk: string) {
+      assistantContent += chunk;
+      setMessages((currentMessages) =>
+        currentMessages.map((message) =>
+          message.id === assistantMessageId ? { ...message, content: assistantContent } : message,
+        ),
+      );
+    }
+
+    try {
+      // sendMessage doesn't resolve until the stream ends - appendChunk is
+      // what drives the visible, incremental typing effect while this is in
+      // flight.
+      const result = await chatApiClient.sendMessage(
+        { conversationId, message: trimmedDraft },
+        { onChunk: appendChunk },
+      );
+
+      setConversationId(result.conversationId);
+      setMessages((currentMessages) =>
+        currentMessages.map((message) =>
+          message.id === assistantMessageId ? { ...message, status: "complete" } : message,
+        ),
+      );
       onSessionChange({
-        conversationId: response.conversationId,
+        conversationId: result.conversationId,
         sessionTitle: nextSessionTitle,
       });
     } catch (submitError) {
@@ -129,6 +164,12 @@ export function MainChat({
           ? submitError.message
           : "The message could not be sent. Retry once the backend is available.";
       setError(message);
+      // Drop the placeholder/partial bubble on failure rather than leaving a
+      // truncated reply in the transcript - the error banner is the record
+      // of what happened, matching how a fully-failed send behaved before.
+      setMessages((currentMessages) =>
+        currentMessages.filter((message) => message.id !== assistantMessageId),
+      );
     } finally {
       setIsSending(false);
     }
@@ -150,6 +191,11 @@ export function MainChat({
         <div className="flex min-h-full flex-col justify-end space-y-4 px-5 py-6 sm:px-8">
           {messages.map((message) => {
             const isAssistant = message.role === "assistant";
+            // "pending" covers the whole reply, but the placeholder text
+            // should only show before the *first* chunk lands - once content
+            // starts arriving, render it immediately even though the message
+            // is still technically pending until the stream finishes.
+            const isAwaitingFirstChunk = message.status === "pending" && !message.content;
 
             return (
               <article key={message.id} className={getMessageBubbleClass(isAssistant)}>
@@ -158,17 +204,15 @@ export function MainChat({
                   <span className="text-stone-400">{formatTimestamp(message.createdAt)}</span>
                 </div>
                 <div className="prose prose-invert prose-sm max-w-none text-sm leading-7 sm:text-[15px]">
-                  <ReactMarkdown>{message.content}</ReactMarkdown>
+                  {isAwaitingFirstChunk ? (
+                    <span className="text-stone-400">Waiting for assistant response...</span>
+                  ) : (
+                    <ReactMarkdown>{message.content}</ReactMarkdown>
+                  )}
                 </div>
               </article>
             );
           })}
-
-          {isSending ? (
-            <article className="mr-auto max-w-sm rounded-[1.6rem] bg-[#2c2c2c] px-5 py-4 text-sm text-stone-400 ring-1 ring-white/8">
-              Waiting for assistant response...
-            </article>
-          ) : null}
         </div>
       </section>
 
