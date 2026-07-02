@@ -5,19 +5,19 @@
     "semantic_hash": "5ab2df2383f2b24f53b919d33539e194"
   },
   "app/api/chat/route.ts": {
-    "mtime": 1782934882.1128712,
-    "ast_hash": "2f11a10100522dc607476e12165c05ae",
-    "semantic_hash": "2f11a10100522dc607476e12165c05ae"
+    "mtime": 1783023793.2144442,
+    "ast_hash": "908366dc8e3bf2653142f0b2bb10d160",
+    "semantic_hash": "908366dc8e3bf2653142f0b2bb10d160"
   },
   "app/layout.tsx": {
-    "mtime": 1779140930.8175776,
-    "ast_hash": "73badd0793b95beb136884e7d6769281",
-    "semantic_hash": "73badd0793b95beb136884e7d6769281"
+    "mtime": 1782948241.6744921,
+    "ast_hash": "c590f91aaea65b6bcdb55efa9c152aa4",
+    "semantic_hash": "c590f91aaea65b6bcdb55efa9c152aa4"
   },
   "app/page.tsx": {
-    "mtime": 1779127074.4515424,
-    "ast_hash": "007c1f10efb063b631cd063315c70eea",
-    "semantic_hash": "007c1f10efb063b631cd063315c70eea"
+    "mtime": 1782953850.1240726,
+    "ast_hash": "e2f248ec6097d28931e341422dcbb440",
+    "semantic_hash": "e2f248ec6097d28931e341422dcbb440"
   },
   "components/chat-header-controls.tsx": {
     "mtime": 1782501832.8618846,
@@ -25,19 +25,19 @@
     "semantic_hash": "95eba697e09a05caccf24bc4acf2a041"
   },
   "components/chat-shell.tsx": {
-    "mtime": 1782501863.3635924,
-    "ast_hash": "c4c72d5e3c4b28f0481c9ae18ebb7354",
-    "semantic_hash": "c4c72d5e3c4b28f0481c9ae18ebb7354"
+    "mtime": 1782942928.6900063,
+    "ast_hash": "7086b53902281333d9967807cf1d98b4",
+    "semantic_hash": "7086b53902281333d9967807cf1d98b4"
   },
   "components/chat-sidebar.tsx": {
-    "mtime": 1782501856.2058396,
-    "ast_hash": "9d04d1a31bcdc917b3e121b9118c5df8",
-    "semantic_hash": "9d04d1a31bcdc917b3e121b9118c5df8"
+    "mtime": 1782942946.35936,
+    "ast_hash": "488423e9efa8605b0e69672e530c0a7d",
+    "semantic_hash": "488423e9efa8605b0e69672e530c0a7d"
   },
   "components/main-chat.tsx": {
-    "mtime": 1782934656.658572,
-    "ast_hash": "84abf0822fa5f5d2f129a3819854232e",
-    "semantic_hash": "84abf0822fa5f5d2f129a3819854232e"
+    "mtime": 1783023829.9577808,
+    "ast_hash": "34c88a4e9834571fa78c72d8de84f317",
+    "semantic_hash": "34c88a4e9834571fa78c72d8de84f317"
   },
   "components/sidebar-control-icon.tsx": {
     "mtime": 1782501854.1060553,
@@ -55,9 +55,9 @@
     "semantic_hash": "cd3a9358e072a74af026a9de7a01ff49"
   },
   "lib/chat-api.ts": {
-    "mtime": 1782501838.7580988,
-    "ast_hash": "be84da280db4599af9159a453cb3e294",
-    "semantic_hash": "be84da280db4599af9159a453cb3e294"
+    "mtime": 1783023807.5584216,
+    "ast_hash": "72817e7166a64fd70d0b0176b1ff5ca9",
+    "semantic_hash": "72817e7166a64fd70d0b0176b1ff5ca9"
   },
   "lib/chat-layout.ts": {
     "mtime": 1782501833.4849434,
@@ -70,14 +70,14 @@
     "semantic_hash": "373d6930ffe0b5356aacb37327a3c937"
   },
   "next.config.ts": {
-    "mtime": 1779126719.2909627,
-    "ast_hash": "9b77af189a21a7a64e4bd7a426f64176",
-    "semantic_hash": "9b77af189a21a7a64e4bd7a426f64176"
+    "mtime": 1782955958.3387303,
+    "ast_hash": "2cd434702dd08781d0bc86a0bf45fd44",
+    "semantic_hash": "2cd434702dd08781d0bc86a0bf45fd44"
   },
   "package.json": {
-    "mtime": 1782934667.676091,
-    "ast_hash": "525ec2d9fe4573d5ba10d60e0fef6bfe",
-    "semantic_hash": "525ec2d9fe4573d5ba10d60e0fef6bfe"
+    "mtime": 1782950774.7665303,
+    "ast_hash": "5be86969a595dcbd44ad8d12b6643db4",
+    "semantic_hash": "5be86969a595dcbd44ad8d12b6643db4"
   },
   "postcss.config.mjs": {
     "mtime": 1779126719.29098,
@@ -90,9 +90,9 @@
     "semantic_hash": "02fc19ad21338c2ab820a70136310db4"
   },
   "types/chat.ts": {
-    "mtime": 1782501839.0843325,
-    "ast_hash": "eb299650d758da994c6d15d5a7116e65",
-    "semantic_hash": "eb299650d758da994c6d15d5a7116e65"
+    "mtime": 1783019926.8466237,
+    "ast_hash": "20fa7ab5108ec6121449942602ae5b23",
+    "semantic_hash": "20fa7ab5108ec6121449942602ae5b23"
   },
   ".codex/skills/graphify/SKILL.md": {
     "mtime": 1782841071.2623715,
@@ -185,8 +185,63 @@
     "semantic_hash": "a2760511c65806022ad20adf74370ff3"
   },
   "amplify.yml": {
-    "mtime": 1782930690.6550143,
-    "ast_hash": "73d6f0a18975e49526474b7d419a258d",
-    "semantic_hash": "73d6f0a18975e49526474b7d419a258d"
+    "mtime": 1782955939.8527288,
+    "ast_hash": "90cd8334b35f28ed208f7a78d8055bea",
+    "semantic_hash": "90cd8334b35f28ed208f7a78d8055bea"
+  },
+  ".claude/settings.local.json": {
+    "mtime": 1783018265.2404234,
+    "ast_hash": "cd42fd0c3fedb8edfb7a719d653fce39",
+    "semantic_hash": "cd42fd0c3fedb8edfb7a719d653fce39"
+  },
+  "app/api/auth/login/route.ts": {
+    "mtime": 1782948203.7062163,
+    "ast_hash": "b0344286af36b19f758bdd71bd48ef7a",
+    "semantic_hash": "b0344286af36b19f758bdd71bd48ef7a"
+  },
+  "app/api/auth/logout/route.ts": {
+    "mtime": 1782948206.073331,
+    "ast_hash": "b92fdd731f2e03e0f07bae4adad1307d",
+    "semantic_hash": "b92fdd731f2e03e0f07bae4adad1307d"
+  },
+  "app/api/cognito/initiate/route.ts": {
+    "mtime": 1782949603.729833,
+    "ast_hash": "6f643ac7b224a51319cac87e717c0474",
+    "semantic_hash": "6f643ac7b224a51319cac87e717c0474"
+  },
+  "app/api/cognito/respond/route.ts": {
+    "mtime": 1782945408.0243418,
+    "ast_hash": "6de197aa87310f4b89a681d5f1ab8838",
+    "semantic_hash": "6de197aa87310f4b89a681d5f1ab8838"
+  },
+  "app/login/page.tsx": {
+    "mtime": 1782946966.5872211,
+    "ast_hash": "e6ae1e12d1e961b4622d50010176e2d5",
+    "semantic_hash": "e6ae1e12d1e961b4622d50010176e2d5"
+  },
+  "components/login-form.tsx": {
+    "mtime": 1782948231.1620622,
+    "ast_hash": "76c4c180156b47b27eff3c61f3225a14",
+    "semantic_hash": "76c4c180156b47b27eff3c61f3225a14"
+  },
+  "components/sign-out-button.tsx": {
+    "mtime": 1782948235.1996937,
+    "ast_hash": "f96f7ae9a2c1037e153b54610f394246",
+    "semantic_hash": "f96f7ae9a2c1037e153b54610f394246"
+  },
+  "lib/cognito-auth.ts": {
+    "mtime": 1782950779.4999812,
+    "ast_hash": "a0891d06ba49e8b6446f8d62798830f1",
+    "semantic_hash": "a0891d06ba49e8b6446f8d62798830f1"
+  },
+  "lib/session.ts": {
+    "mtime": 1782948197.9015505,
+    "ast_hash": "a36c517ebe34919628aeb86d8d135230",
+    "semantic_hash": "a36c517ebe34919628aeb86d8d135230"
+  },
+  "proxy.ts": {
+    "mtime": 1782948222.873986,
+    "ast_hash": "d062318fe3d44e670ee7707a078b63d5",
+    "semantic_hash": "d062318fe3d44e670ee7707a078b63d5"
   }
 }

@@ -1,95 +1,35 @@
 {
   "directed": false,
   "multigraph": false,
-  "graph": {},
+  "graph": {
+    "hyperedges": [
+      {
+        "id": "amplify_ci_cd_pipeline",
+        "label": "Amplify Frontend CI/CD Pipeline (preBuild -> build -> artifacts, cached)",
+        "nodes": [
+          "amplify_prebuild_phase",
+          "amplify_build_phase",
+          "amplify_artifacts_config",
+          "amplify_cache_config"
+        ],
+        "relation": "form",
+        "confidence": "EXTRACTED",
+        "confidence_score": 1.0,
+        "source_file": "amplify.yml"
+      }
+    ]
+  },
   "nodes": [
-    {
-      "label": "layout.tsx",
-      "file_type": "code",
-      "source_file": "app/layout.tsx",
-      "source_location": "L1",
-      "_origin": "ast",
-      "community": 11,
-      "norm_label": "layout.tsx",
-      "id": "app_layout",
-      "community_name": "Root Layout & Fonts"
-    },
-    {
-      "label": "geistSans",
-      "file_type": "code",
-      "source_file": "app/layout.tsx",
-      "source_location": "L5",
-      "_origin": "ast",
-      "community": 11,
-      "norm_label": "geistsans",
-      "id": "app_layout_geistsans",
-      "community_name": "Root Layout & Fonts"
-    },
-    {
-      "label": "geistMono",
-      "file_type": "code",
-      "source_file": "app/layout.tsx",
-      "source_location": "L10",
-      "_origin": "ast",
-      "community": 11,
-      "norm_label": "geistmono",
-      "id": "app_layout_geistmono",
-      "community_name": "Root Layout & Fonts"
-    },
-    {
-      "label": "metadata",
-      "file_type": "code",
-      "source_file": "app/layout.tsx",
-      "source_location": "L15",
-      "_origin": "ast",
-      "community": 11,
-      "norm_label": "metadata",
-      "id": "app_layout_metadata",
-      "community_name": "Root Layout & Fonts"
-    },
-    {
-      "label": "RootLayout()",
-      "file_type": "code",
-      "source_file": "app/layout.tsx",
-      "source_location": "L20",
-      "_origin": "ast",
-      "community": 11,
-      "norm_label": "rootlayout()",
-      "id": "app_layout_rootlayout",
-      "community_name": "Root Layout & Fonts"
-    },
-    {
-      "label": "page.tsx",
-      "file_type": "code",
-      "source_file": "app/page.tsx",
-      "source_location": "L1",
-      "_origin": "ast",
-      "community": 9,
-      "norm_label": "page.tsx",
-      "id": "app_page",
-      "community_name": "Chat Shell & Page Layout"
-    },
-    {
-      "label": "Home()",
-      "file_type": "code",
-      "source_file": "app/page.tsx",
-      "source_location": "L3",
-      "_origin": "ast",
-      "community": 9,
-      "norm_label": "home()",
-      "id": "app_page_home",
-      "community_name": "Chat Shell & Page Layout"
-    },
     {
       "label": "chat-header-controls.tsx",
       "file_type": "code",
       "source_file": "components/chat-header-controls.tsx",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 6,
+      "community": 11,
       "norm_label": "chat-header-controls.tsx",
-      "id": "components_chat_header_controls",
-      "community_name": "Chat Sidebar & Header UI"
+      "community_name": "Chat Sidebar & Header UI",
+      "id": "components_chat_header_controls"
     },
     {
       "label": "ChatHeaderControlsProps",
@@ -97,10 +37,10 @@
       "source_file": "components/chat-header-controls.tsx",
       "source_location": "L8",
       "_origin": "ast",
-      "community": 6,
+      "community": 11,
       "norm_label": "chatheadercontrolsprops",
-      "id": "components_chat_header_controls_chatheadercontrolsprops",
-      "community_name": "Chat Sidebar & Header UI"
+      "community_name": "Chat Sidebar & Header UI",
+      "id": "components_chat_header_controls_chatheadercontrolsprops"
     },
     {
       "label": "ChatHeaderControls()",
@@ -108,109 +48,10 @@
       "source_file": "components/chat-header-controls.tsx",
       "source_location": "L13",
       "_origin": "ast",
-      "community": 6,
+      "community": 11,
       "norm_label": "chatheadercontrols()",
-      "id": "components_chat_header_controls_chatheadercontrols",
-      "community_name": "Chat Sidebar & Header UI"
-    },
-    {
-      "label": "chat-shell.tsx",
-      "file_type": "code",
-      "source_file": "components/chat-shell.tsx",
-      "source_location": "L1",
-      "_origin": "ast",
-      "community": 9,
-      "norm_label": "chat-shell.tsx",
-      "id": "components_chat_shell",
-      "community_name": "Chat Shell & Page Layout"
-    },
-    {
-      "label": "ChatShell()",
-      "file_type": "code",
-      "source_file": "components/chat-shell.tsx",
-      "source_location": "L12",
-      "_origin": "ast",
-      "community": 9,
-      "norm_label": "chatshell()",
-      "id": "components_chat_shell_chatshell",
-      "community_name": "Chat Shell & Page Layout"
-    },
-    {
-      "label": "chat-sidebar.tsx",
-      "file_type": "code",
-      "source_file": "components/chat-sidebar.tsx",
-      "source_location": "L1",
-      "_origin": "ast",
-      "community": 6,
-      "norm_label": "chat-sidebar.tsx",
-      "id": "components_chat_sidebar",
-      "community_name": "Chat Sidebar & Header UI"
-    },
-    {
-      "label": "SIDEBAR_ITEMS",
-      "file_type": "code",
-      "source_file": "components/chat-sidebar.tsx",
-      "source_location": "L6",
-      "_origin": "ast",
-      "community": 6,
-      "norm_label": "sidebar_items",
-      "id": "components_chat_sidebar_sidebar_items",
-      "community_name": "Chat Sidebar & Header UI"
-    },
-    {
-      "label": "SparkIcon()",
-      "file_type": "code",
-      "source_file": "components/chat-sidebar.tsx",
-      "source_location": "L8",
-      "_origin": "ast",
-      "community": 6,
-      "norm_label": "sparkicon()",
-      "id": "components_chat_sidebar_sparkicon",
-      "community_name": "Chat Sidebar & Header UI"
-    },
-    {
-      "label": "SidebarInfoCardProps",
-      "file_type": "code",
-      "source_file": "components/chat-sidebar.tsx",
-      "source_location": "L26",
-      "_origin": "ast",
-      "community": 6,
-      "norm_label": "sidebarinfocardprops",
-      "id": "components_chat_sidebar_sidebarinfocardprops",
-      "community_name": "Chat Sidebar & Header UI"
-    },
-    {
-      "label": "SidebarInfoCard()",
-      "file_type": "code",
-      "source_file": "components/chat-sidebar.tsx",
-      "source_location": "L31",
-      "_origin": "ast",
-      "community": 6,
-      "norm_label": "sidebarinfocard()",
-      "id": "components_chat_sidebar_sidebarinfocard",
-      "community_name": "Chat Sidebar & Header UI"
-    },
-    {
-      "label": "ChatSidebarProps",
-      "file_type": "code",
-      "source_file": "components/chat-sidebar.tsx",
-      "source_location": "L40",
-      "_origin": "ast",
-      "community": 6,
-      "norm_label": "chatsidebarprops",
-      "id": "components_chat_sidebar_chatsidebarprops",
-      "community_name": "Chat Sidebar & Header UI"
-    },
-    {
-      "label": "ChatSidebar()",
-      "file_type": "code",
-      "source_file": "components/chat-sidebar.tsx",
-      "source_location": "L47",
-      "_origin": "ast",
-      "community": 6,
-      "norm_label": "chatsidebar()",
-      "id": "components_chat_sidebar_chatsidebar",
-      "community_name": "Chat Sidebar & Header UI"
+      "community_name": "Chat Sidebar & Header UI",
+      "id": "components_chat_header_controls_chatheadercontrols"
     },
     {
       "label": "sidebar-control-icon.tsx",
@@ -218,10 +59,10 @@
       "source_file": "components/sidebar-control-icon.tsx",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 6,
+      "community": 11,
       "norm_label": "sidebar-control-icon.tsx",
-      "id": "components_sidebar_control_icon",
-      "community_name": "Chat Sidebar & Header UI"
+      "community_name": "Chat Sidebar & Header UI",
+      "id": "components_sidebar_control_icon"
     },
     {
       "label": "SidebarControlIconProps",
@@ -229,10 +70,10 @@
       "source_file": "components/sidebar-control-icon.tsx",
       "source_location": "L3",
       "_origin": "ast",
-      "community": 6,
+      "community": 11,
       "norm_label": "sidebarcontroliconprops",
-      "id": "components_sidebar_control_icon_sidebarcontroliconprops",
-      "community_name": "Chat Sidebar & Header UI"
+      "community_name": "Chat Sidebar & Header UI",
+      "id": "components_sidebar_control_icon_sidebarcontroliconprops"
     },
     {
       "label": "SidebarControlIcon()",
@@ -240,10 +81,10 @@
       "source_file": "components/sidebar-control-icon.tsx",
       "source_location": "L7",
       "_origin": "ast",
-      "community": 6,
+      "community": 11,
       "norm_label": "sidebarcontrolicon()",
-      "id": "components_sidebar_control_icon_sidebarcontrolicon",
-      "community_name": "Chat Sidebar & Header UI"
+      "community_name": "Chat Sidebar & Header UI",
+      "id": "components_sidebar_control_icon_sidebarcontrolicon"
     },
     {
       "label": "eslint.config.mjs",
@@ -251,10 +92,10 @@
       "source_file": "eslint.config.mjs",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 13,
+      "community": 17,
       "norm_label": "eslint.config.mjs",
-      "id": "eslint_config",
-      "community_name": "ESLint Configuration"
+      "community_name": "ESLint Configuration",
+      "id": "eslint_config"
     },
     {
       "label": "eslintConfig",
@@ -262,10 +103,10 @@
       "source_file": "eslint.config.mjs",
       "source_location": "L5",
       "_origin": "ast",
-      "community": 13,
+      "community": 17,
       "norm_label": "eslintconfig",
-      "id": "eslint_config_eslintconfig",
-      "community_name": "ESLint Configuration"
+      "community_name": "ESLint Configuration",
+      "id": "eslint_config_eslintconfig"
     },
     {
       "label": "backend-response.ts",
@@ -273,10 +114,10 @@
       "source_file": "lib/backend-response.ts",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 12,
+      "community": 13,
       "norm_label": "backend-response.ts",
-      "id": "lib_backend_response",
-      "community_name": "Backend Response Parsing"
+      "community_name": "Backend Response Parsing",
+      "id": "lib_backend_response"
     },
     {
       "label": "BackendChatBody",
@@ -284,10 +125,10 @@
       "source_file": "lib/backend-response.ts",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 12,
+      "community": 13,
       "norm_label": "backendchatbody",
-      "id": "lib_backend_response_backendchatbody",
-      "community_name": "Backend Response Parsing"
+      "community_name": "Backend Response Parsing",
+      "id": "lib_backend_response_backendchatbody"
     },
     {
       "label": "isRecord()",
@@ -295,10 +136,10 @@
       "source_file": "lib/backend-response.ts",
       "source_location": "L6",
       "_origin": "ast",
-      "community": 12,
+      "community": 13,
       "norm_label": "isrecord()",
-      "id": "lib_backend_response_isrecord",
-      "community_name": "Backend Response Parsing"
+      "community_name": "Backend Response Parsing",
+      "id": "lib_backend_response_isrecord"
     },
     {
       "label": "parseBackendResponse()",
@@ -306,65 +147,10 @@
       "source_file": "lib/backend-response.ts",
       "source_location": "L10",
       "_origin": "ast",
-      "community": 12,
+      "community": 13,
       "norm_label": "parsebackendresponse()",
-      "id": "lib_backend_response_parsebackendresponse",
-      "community_name": "Backend Response Parsing"
-    },
-    {
-      "label": "chat-api.ts",
-      "file_type": "code",
-      "source_file": "lib/chat-api.ts",
-      "source_location": "L1",
-      "_origin": "ast",
-      "community": 1,
-      "norm_label": "chat-api.ts",
-      "id": "lib_chat_api",
-      "community_name": "Chat API & Message Handling"
-    },
-    {
-      "label": "ChatApiClient",
-      "file_type": "code",
-      "source_file": "lib/chat-api.ts",
-      "source_location": "L3",
-      "_origin": "ast",
-      "community": 1,
-      "norm_label": "chatapiclient",
-      "id": "lib_chat_api_chatapiclient",
-      "community_name": "Chat API & Message Handling"
-    },
-    {
-      "label": "isSendMessageResponse()",
-      "file_type": "code",
-      "source_file": "lib/chat-api.ts",
-      "source_location": "L7",
-      "_origin": "ast",
-      "community": 1,
-      "norm_label": "issendmessageresponse()",
-      "id": "lib_chat_api_issendmessageresponse",
-      "community_name": "Chat API & Message Handling"
-    },
-    {
-      "label": "RestChatApiClient",
-      "file_type": "code",
-      "source_file": "lib/chat-api.ts",
-      "source_location": "L22",
-      "_origin": "ast",
-      "community": 1,
-      "norm_label": "restchatapiclient",
-      "id": "lib_chat_api_restchatapiclient",
-      "community_name": "Chat API & Message Handling"
-    },
-    {
-      "label": ".sendMessage()",
-      "file_type": "code",
-      "source_file": "lib/chat-api.ts",
-      "source_location": "L23",
-      "_origin": "ast",
-      "community": 1,
-      "norm_label": ".sendmessage()",
-      "id": "lib_chat_api_restchatapiclient_sendmessage",
-      "community_name": "Chat API & Message Handling"
+      "community_name": "Backend Response Parsing",
+      "id": "lib_backend_response_parsebackendresponse"
     },
     {
       "label": "chat-layout.ts",
@@ -372,10 +158,10 @@
       "source_file": "lib/chat-layout.ts",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 9,
+      "community": 14,
       "norm_label": "chat-layout.ts",
-      "id": "lib_chat_layout",
-      "community_name": "Chat Shell & Page Layout"
+      "community_name": "Chat Shell & Page Layout",
+      "id": "lib_chat_layout"
     },
     {
       "label": "getShellLayoutClass()",
@@ -383,10 +169,10 @@
       "source_file": "lib/chat-layout.ts",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 9,
+      "community": 14,
       "norm_label": "getshelllayoutclass()",
-      "id": "lib_chat_layout_getshelllayoutclass",
-      "community_name": "Chat Shell & Page Layout"
+      "community_name": "Chat Shell & Page Layout",
+      "id": "lib_chat_layout_getshelllayoutclass"
     },
     {
       "label": "getChatPaneVisibilityClass()",
@@ -394,10 +180,10 @@
       "source_file": "lib/chat-layout.ts",
       "source_location": "L13",
       "_origin": "ast",
-      "community": 9,
+      "community": 14,
       "norm_label": "getchatpanevisibilityclass()",
-      "id": "lib_chat_layout_getchatpanevisibilityclass",
-      "community_name": "Chat Shell & Page Layout"
+      "community_name": "Chat Shell & Page Layout",
+      "id": "lib_chat_layout_getchatpanevisibilityclass"
     },
     {
       "label": "getSidebarVisible()",
@@ -405,10 +191,10 @@
       "source_file": "lib/chat-layout.ts",
       "source_location": "L21",
       "_origin": "ast",
-      "community": 9,
+      "community": 14,
       "norm_label": "getsidebarvisible()",
-      "id": "lib_chat_layout_getsidebarvisible",
-      "community_name": "Chat Shell & Page Layout"
+      "community_name": "Chat Shell & Page Layout",
+      "id": "lib_chat_layout_getsidebarvisible"
     },
     {
       "label": "chat-message.ts",
@@ -416,10 +202,10 @@
       "source_file": "lib/chat-message.ts",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 1,
+      "community": 3,
       "norm_label": "chat-message.ts",
-      "id": "lib_chat_message",
-      "community_name": "Chat API & Message Handling"
+      "community_name": "Chat API & Message Handling",
+      "id": "lib_chat_message"
     },
     {
       "label": "createChatMessage()",
@@ -427,32 +213,10 @@
       "source_file": "lib/chat-message.ts",
       "source_location": "L3",
       "_origin": "ast",
-      "community": 1,
+      "community": 3,
       "norm_label": "createchatmessage()",
-      "id": "lib_chat_message_createchatmessage",
-      "community_name": "Chat API & Message Handling"
-    },
-    {
-      "label": "next.config.ts",
-      "file_type": "code",
-      "source_file": "next.config.ts",
-      "source_location": "L1",
-      "_origin": "ast",
-      "community": 14,
-      "norm_label": "next.config.ts",
-      "id": "next_config",
-      "community_name": "Next.js Configuration"
-    },
-    {
-      "label": "nextConfig",
-      "file_type": "code",
-      "source_file": "next.config.ts",
-      "source_location": "L3",
-      "_origin": "ast",
-      "community": 14,
-      "norm_label": "nextconfig",
-      "id": "next_config_nextconfig",
-      "community_name": "Next.js Configuration"
+      "community_name": "Chat API & Message Handling",
+      "id": "lib_chat_message_createchatmessage"
     },
     {
       "label": "postcss.config.mjs",
@@ -460,10 +224,10 @@
       "source_file": "postcss.config.mjs",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 15,
+      "community": 19,
       "norm_label": "postcss.config.mjs",
-      "id": "postcss_config",
-      "community_name": "PostCSS Configuration"
+      "community_name": "PostCSS Configuration",
+      "id": "postcss_config"
     },
     {
       "label": "config",
@@ -471,10 +235,10 @@
       "source_file": "postcss.config.mjs",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 15,
+      "community": 19,
       "norm_label": "config",
-      "id": "postcss_config_config",
-      "community_name": "PostCSS Configuration"
+      "community_name": "PostCSS Configuration",
+      "id": "postcss_config_config"
     },
     {
       "label": "tsconfig.json",
@@ -482,10 +246,10 @@
       "source_file": "tsconfig.json",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 3,
+      "community": 4,
       "norm_label": "tsconfig.json",
-      "id": "tsconfig",
-      "community_name": "TypeScript Configuration"
+      "community_name": "TypeScript Configuration",
+      "id": "tsconfig"
     },
     {
       "label": "compilerOptions",
@@ -493,10 +257,10 @@
       "source_file": "tsconfig.json",
       "source_location": "L2",
       "_origin": "ast",
-      "community": 3,
+      "community": 4,
       "norm_label": "compileroptions",
-      "id": "tsconfig_compileroptions",
-      "community_name": "TypeScript Configuration"
+      "community_name": "TypeScript Configuration",
+      "id": "tsconfig_compileroptions"
     },
     {
       "label": "target",
@@ -504,10 +268,10 @@
       "source_file": "tsconfig.json",
       "source_location": "L3",
       "_origin": "ast",
-      "community": 3,
+      "community": 4,
       "norm_label": "target",
-      "id": "tsconfig_compileroptions_target",
-      "community_name": "TypeScript Configuration"
+      "community_name": "TypeScript Configuration",
+      "id": "tsconfig_compileroptions_target"
     },
     {
       "label": "lib",
@@ -515,10 +279,10 @@
       "source_file": "tsconfig.json",
       "source_location": "L4",
       "_origin": "ast",
-      "community": 3,
+      "community": 4,
       "norm_label": "lib",
-      "id": "tsconfig_compileroptions_lib",
-      "community_name": "TypeScript Configuration"
+      "community_name": "TypeScript Configuration",
+      "id": "tsconfig_compileroptions_lib"
     },
     {
       "label": "allowJs",
@@ -526,10 +290,10 @@
       "source_file": "tsconfig.json",
       "source_location": "L5",
       "_origin": "ast",
-      "community": 3,
+      "community": 4,
       "norm_label": "allowjs",
-      "id": "tsconfig_compileroptions_allowjs",
-      "community_name": "TypeScript Configuration"
+      "community_name": "TypeScript Configuration",
+      "id": "tsconfig_compileroptions_allowjs"
     },
     {
       "label": "skipLibCheck",
@@ -537,10 +301,10 @@
       "source_file": "tsconfig.json",
       "source_location": "L6",
       "_origin": "ast",
-      "community": 3,
+      "community": 4,
       "norm_label": "skiplibcheck",
-      "id": "tsconfig_compileroptions_skiplibcheck",
-      "community_name": "TypeScript Configuration"
+      "community_name": "TypeScript Configuration",
+      "id": "tsconfig_compileroptions_skiplibcheck"
     },
     {
       "label": "strict",
@@ -548,10 +312,10 @@
       "source_file": "tsconfig.json",
       "source_location": "L7",
       "_origin": "ast",
-      "community": 3,
+      "community": 4,
       "norm_label": "strict",
-      "id": "tsconfig_compileroptions_strict",
-      "community_name": "TypeScript Configuration"
+      "community_name": "TypeScript Configuration",
+      "id": "tsconfig_compileroptions_strict"
     },
     {
       "label": "noEmit",
@@ -559,10 +323,10 @@
       "source_file": "tsconfig.json",
       "source_location": "L8",
       "_origin": "ast",
-      "community": 3,
+      "community": 4,
       "norm_label": "noemit",
-      "id": "tsconfig_compileroptions_noemit",
-      "community_name": "TypeScript Configuration"
+      "community_name": "TypeScript Configuration",
+      "id": "tsconfig_compileroptions_noemit"
     },
     {
       "label": "esModuleInterop",
@@ -570,10 +334,10 @@
       "source_file": "tsconfig.json",
       "source_location": "L9",
       "_origin": "ast",
-      "community": 3,
+      "community": 4,
       "norm_label": "esmoduleinterop",
-      "id": "tsconfig_compileroptions_esmoduleinterop",
-      "community_name": "TypeScript Configuration"
+      "community_name": "TypeScript Configuration",
+      "id": "tsconfig_compileroptions_esmoduleinterop"
     },
     {
       "label": "module",
@@ -581,10 +345,10 @@
       "source_file": "tsconfig.json",
       "source_location": "L10",
       "_origin": "ast",
-      "community": 3,
+      "community": 4,
       "norm_label": "module",
-      "id": "tsconfig_compileroptions_module",
-      "community_name": "TypeScript Configuration"
+      "community_name": "TypeScript Configuration",
+      "id": "tsconfig_compileroptions_module"
     },
     {
       "label": "moduleResolution",
@@ -592,10 +356,10 @@
       "source_file": "tsconfig.json",
       "source_location": "L11",
       "_origin": "ast",
-      "community": 3,
+      "community": 4,
       "norm_label": "moduleresolution",
-      "id": "tsconfig_compileroptions_moduleresolution",
-      "community_name": "TypeScript Configuration"
+      "community_name": "TypeScript Configuration",
+      "id": "tsconfig_compileroptions_moduleresolution"
     },
     {
       "label": "resolveJsonModule",
@@ -603,10 +367,10 @@
       "source_file": "tsconfig.json",
       "source_location": "L12",
       "_origin": "ast",
-      "community": 3,
+      "community": 4,
       "norm_label": "resolvejsonmodule",
-      "id": "tsconfig_compileroptions_resolvejsonmodule",
-      "community_name": "TypeScript Configuration"
+      "community_name": "TypeScript Configuration",
+      "id": "tsconfig_compileroptions_resolvejsonmodule"
     },
     {
       "label": "isolatedModules",
@@ -614,10 +378,10 @@
       "source_file": "tsconfig.json",
       "source_location": "L13",
       "_origin": "ast",
-      "community": 3,
+      "community": 4,
       "norm_label": "isolatedmodules",
-      "id": "tsconfig_compileroptions_isolatedmodules",
-      "community_name": "TypeScript Configuration"
+      "community_name": "TypeScript Configuration",
+      "id": "tsconfig_compileroptions_isolatedmodules"
     },
     {
       "label": "jsx",
@@ -625,10 +389,10 @@
       "source_file": "tsconfig.json",
       "source_location": "L14",
       "_origin": "ast",
-      "community": 3,
+      "community": 4,
       "norm_label": "jsx",
-      "id": "tsconfig_compileroptions_jsx",
-      "community_name": "TypeScript Configuration"
+      "community_name": "TypeScript Configuration",
+      "id": "tsconfig_compileroptions_jsx"
     },
     {
       "label": "incremental",
@@ -636,10 +400,10 @@
       "source_file": "tsconfig.json",
       "source_location": "L15",
       "_origin": "ast",
-      "community": 3,
+      "community": 4,
       "norm_label": "incremental",
-      "id": "tsconfig_compileroptions_incremental",
-      "community_name": "TypeScript Configuration"
+      "community_name": "TypeScript Configuration",
+      "id": "tsconfig_compileroptions_incremental"
     },
     {
       "label": "plugins",
@@ -647,10 +411,10 @@
       "source_file": "tsconfig.json",
       "source_location": "L16",
       "_origin": "ast",
-      "community": 3,
+      "community": 4,
       "norm_label": "plugins",
-      "id": "tsconfig_compileroptions_plugins",
-      "community_name": "TypeScript Configuration"
+      "community_name": "TypeScript Configuration",
+      "id": "tsconfig_compileroptions_plugins"
     },
     {
       "label": "paths",
@@ -658,10 +422,10 @@
       "source_file": "tsconfig.json",
       "source_location": "L21",
       "_origin": "ast",
-      "community": 3,
+      "community": 4,
       "norm_label": "paths",
-      "id": "tsconfig_compileroptions_paths",
-      "community_name": "TypeScript Configuration"
+      "community_name": "TypeScript Configuration",
+      "id": "tsconfig_compileroptions_paths"
     },
     {
       "label": "@/*",
@@ -669,10 +433,10 @@
       "source_file": "tsconfig.json",
       "source_location": "L22",
       "_origin": "ast",
-      "community": 3,
+      "community": 4,
       "norm_label": "@/*",
-      "id": "tsconfig_paths",
-      "community_name": "TypeScript Configuration"
+      "community_name": "TypeScript Configuration",
+      "id": "tsconfig_paths"
     },
     {
       "label": "include",
@@ -680,10 +444,10 @@
       "source_file": "tsconfig.json",
       "source_location": "L25",
       "_origin": "ast",
-      "community": 3,
+      "community": 4,
       "norm_label": "include",
-      "id": "tsconfig_include",
-      "community_name": "TypeScript Configuration"
+      "community_name": "TypeScript Configuration",
+      "id": "tsconfig_include"
     },
     {
       "label": "exclude",
@@ -691,65 +455,10 @@
       "source_file": "tsconfig.json",
       "source_location": "L33",
       "_origin": "ast",
-      "community": 3,
+      "community": 4,
       "norm_label": "exclude",
-      "id": "tsconfig_exclude",
-      "community_name": "TypeScript Configuration"
-    },
-    {
-      "label": "chat.ts",
-      "file_type": "code",
-      "source_file": "types/chat.ts",
-      "source_location": "L1",
-      "_origin": "ast",
-      "community": 1,
-      "norm_label": "chat.ts",
-      "id": "types_chat",
-      "community_name": "Chat API & Message Handling"
-    },
-    {
-      "label": "ChatRole",
-      "file_type": "code",
-      "source_file": "types/chat.ts",
-      "source_location": "L1",
-      "_origin": "ast",
-      "community": 1,
-      "norm_label": "chatrole",
-      "id": "types_chat_chatrole",
-      "community_name": "Chat API & Message Handling"
-    },
-    {
-      "label": "ChatMessage",
-      "file_type": "code",
-      "source_file": "types/chat.ts",
-      "source_location": "L3",
-      "_origin": "ast",
-      "community": 1,
-      "norm_label": "chatmessage",
-      "id": "types_chat_chatmessage",
-      "community_name": "Chat API & Message Handling"
-    },
-    {
-      "label": "SendMessageRequest",
-      "file_type": "code",
-      "source_file": "types/chat.ts",
-      "source_location": "L11",
-      "_origin": "ast",
-      "community": 1,
-      "norm_label": "sendmessagerequest",
-      "id": "types_chat_sendmessagerequest",
-      "community_name": "Chat API & Message Handling"
-    },
-    {
-      "label": "SendMessageResponse",
-      "file_type": "code",
-      "source_file": "types/chat.ts",
-      "source_location": "L16",
-      "_origin": "ast",
-      "community": 1,
-      "norm_label": "sendmessageresponse",
-      "id": "types_chat_sendmessageresponse",
-      "community_name": "Chat API & Message Handling"
+      "community_name": "TypeScript Configuration",
+      "id": "tsconfig_exclude"
     },
     {
       "label": "graphify Skill",
@@ -760,10 +469,10 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 2,
+      "community": 0,
       "norm_label": "graphify skill",
-      "id": "codex_skills_graphify_skill_graphify_skill",
-      "community_name": "Graphify CLI & Query Docs"
+      "community_name": "Graphify CLI & Query Docs",
+      "id": "codex_skills_graphify_skill_graphify_skill"
     },
     {
       "label": "graphify full pipeline",
@@ -774,10 +483,10 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 10,
+      "community": 7,
       "norm_label": "graphify full pipeline",
-      "id": "codex_skills_graphify_skill_full_pipeline",
-      "community_name": "Graphify Repo Ingestion"
+      "community_name": "Graphify Repo Ingestion",
+      "id": "codex_skills_graphify_skill_full_pipeline"
     },
     {
       "label": "/graphify query command",
@@ -788,10 +497,10 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 2,
+      "community": 0,
       "norm_label": "/graphify query command",
-      "id": "codex_skills_graphify_skill_query_command",
-      "community_name": "Graphify CLI & Query Docs"
+      "community_name": "Graphify CLI & Query Docs",
+      "id": "codex_skills_graphify_skill_query_command"
     },
     {
       "label": "/graphify path command",
@@ -802,10 +511,10 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 2,
+      "community": 0,
       "norm_label": "/graphify path command",
-      "id": "codex_skills_graphify_skill_path_command",
-      "community_name": "Graphify CLI & Query Docs"
+      "community_name": "Graphify CLI & Query Docs",
+      "id": "codex_skills_graphify_skill_path_command"
     },
     {
       "label": "/graphify explain command",
@@ -816,10 +525,10 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 2,
+      "community": 0,
       "norm_label": "/graphify explain command",
-      "id": "codex_skills_graphify_skill_explain_command",
-      "community_name": "Graphify CLI & Query Docs"
+      "community_name": "Graphify CLI & Query Docs",
+      "id": "codex_skills_graphify_skill_explain_command"
     },
     {
       "label": "/graphify add command",
@@ -830,10 +539,10 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 2,
+      "community": 0,
       "norm_label": "/graphify add command",
-      "id": "codex_skills_graphify_skill_add_command",
-      "community_name": "Graphify CLI & Query Docs"
+      "community_name": "Graphify CLI & Query Docs",
+      "id": "codex_skills_graphify_skill_add_command"
     },
     {
       "label": "--watch flag",
@@ -844,10 +553,10 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 2,
+      "community": 0,
       "norm_label": "--watch flag",
-      "id": "codex_skills_graphify_skill_watch_flag",
-      "community_name": "Graphify CLI & Query Docs"
+      "community_name": "Graphify CLI & Query Docs",
+      "id": "codex_skills_graphify_skill_watch_flag"
     },
     {
       "label": "--update flag",
@@ -858,10 +567,10 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 8,
+      "community": 0,
       "norm_label": "--update flag",
-      "id": "codex_skills_graphify_skill_update_flag",
-      "community_name": "Graphify Incremental Update"
+      "community_name": "Graphify Incremental Update",
+      "id": "codex_skills_graphify_skill_update_flag"
     },
     {
       "label": "--cluster-only flag",
@@ -872,10 +581,10 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 8,
+      "community": 0,
       "norm_label": "--cluster-only flag",
-      "id": "codex_skills_graphify_skill_cluster_only_flag",
-      "community_name": "Graphify Incremental Update"
+      "community_name": "Graphify Incremental Update",
+      "id": "codex_skills_graphify_skill_cluster_only_flag"
     },
     {
       "label": "Step 0 - GitHub repos and multi-path merge",
@@ -886,10 +595,10 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 10,
+      "community": 7,
       "norm_label": "step 0 - github repos and multi-path merge",
-      "id": "codex_skills_graphify_skill_step0_github_merge",
-      "community_name": "Graphify Repo Ingestion"
+      "community_name": "Graphify Repo Ingestion",
+      "id": "codex_skills_graphify_skill_step0_github_merge"
     },
     {
       "label": "Step 1 - Ensure graphify is installed",
@@ -900,10 +609,10 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 10,
+      "community": 7,
       "norm_label": "step 1 - ensure graphify is installed",
-      "id": "codex_skills_graphify_skill_step1_ensure_installed",
-      "community_name": "Graphify Repo Ingestion"
+      "community_name": "Graphify Repo Ingestion",
+      "id": "codex_skills_graphify_skill_step1_ensure_installed"
     },
     {
       "label": "Step 2 - Detect files",
@@ -914,10 +623,10 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 10,
+      "community": 7,
       "norm_label": "step 2 - detect files",
-      "id": "codex_skills_graphify_skill_step2_detect_files",
-      "community_name": "Graphify Repo Ingestion"
+      "community_name": "Graphify Repo Ingestion",
+      "id": "codex_skills_graphify_skill_step2_detect_files"
     },
     {
       "label": "Step 2.5 - Video and audio",
@@ -928,10 +637,10 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 10,
+      "community": 7,
       "norm_label": "step 2.5 - video and audio",
-      "id": "codex_skills_graphify_skill_step2_5_video_audio",
-      "community_name": "Graphify Repo Ingestion"
+      "community_name": "Graphify Repo Ingestion",
+      "id": "codex_skills_graphify_skill_step2_5_video_audio"
     },
     {
       "label": "Step 3 - Extract entities and relationships",
@@ -942,10 +651,10 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 10,
+      "community": 7,
       "norm_label": "step 3 - extract entities and relationships",
-      "id": "codex_skills_graphify_skill_step3_extract",
-      "community_name": "Graphify Repo Ingestion"
+      "community_name": "Graphify Repo Ingestion",
+      "id": "codex_skills_graphify_skill_step3_extract"
     },
     {
       "label": "Part A - Structural extraction (AST)",
@@ -956,10 +665,10 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 10,
+      "community": 7,
       "norm_label": "part a - structural extraction (ast)",
-      "id": "codex_skills_graphify_skill_part_a_structural_extraction",
-      "community_name": "Graphify Repo Ingestion"
+      "community_name": "Graphify Repo Ingestion",
+      "id": "codex_skills_graphify_skill_part_a_structural_extraction"
     },
     {
       "label": "Part B - Semantic extraction (parallel subagents)",
@@ -970,10 +679,10 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 10,
+      "community": 7,
       "norm_label": "part b - semantic extraction (parallel subagents)",
-      "id": "codex_skills_graphify_skill_part_b_semantic_extraction",
-      "community_name": "Graphify Repo Ingestion"
+      "community_name": "Graphify Repo Ingestion",
+      "id": "codex_skills_graphify_skill_part_b_semantic_extraction"
     },
     {
       "label": "Step B0 - Check extraction cache first",
@@ -984,10 +693,10 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 4,
+      "community": 2,
       "norm_label": "step b0 - check extraction cache first",
-      "id": "codex_skills_graphify_skill_step_b0_check_cache",
-      "community_name": "Graphify Extraction Spec"
+      "community_name": "Graphify Extraction Spec",
+      "id": "codex_skills_graphify_skill_step_b0_check_cache"
     },
     {
       "label": "Step B1 - Split into chunks",
@@ -998,10 +707,10 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 4,
+      "community": 2,
       "norm_label": "step b1 - split into chunks",
-      "id": "codex_skills_graphify_skill_step_b1_split_chunks",
-      "community_name": "Graphify Extraction Spec"
+      "community_name": "Graphify Extraction Spec",
+      "id": "codex_skills_graphify_skill_step_b1_split_chunks"
     },
     {
       "label": "Step B2 - Dispatch subagents (Codex spawn_agent)",
@@ -1012,10 +721,10 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 4,
+      "community": 2,
       "norm_label": "step b2 - dispatch subagents (codex spawn_agent)",
-      "id": "codex_skills_graphify_skill_step_b2_dispatch_subagents",
-      "community_name": "Graphify Extraction Spec"
+      "community_name": "Graphify Extraction Spec",
+      "id": "codex_skills_graphify_skill_step_b2_dispatch_subagents"
     },
     {
       "label": "Step B3 - Collect, cache, and merge",
@@ -1026,10 +735,10 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 4,
+      "community": 2,
       "norm_label": "step b3 - collect, cache, and merge",
-      "id": "codex_skills_graphify_skill_step_b3_collect_cache_merge",
-      "community_name": "Graphify Extraction Spec"
+      "community_name": "Graphify Extraction Spec",
+      "id": "codex_skills_graphify_skill_step_b3_collect_cache_merge"
     },
     {
       "label": "Part C - Merge AST + semantic into final extraction",
@@ -1040,10 +749,10 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 4,
+      "community": 2,
       "norm_label": "part c - merge ast + semantic into final extraction",
-      "id": "codex_skills_graphify_skill_part_c_merge_ast_semantic",
-      "community_name": "Graphify Extraction Spec"
+      "community_name": "Graphify Extraction Spec",
+      "id": "codex_skills_graphify_skill_part_c_merge_ast_semantic"
     },
     {
       "label": "Step 4 - Build graph, cluster, analyze, generate outputs",
@@ -1054,10 +763,10 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 4,
+      "community": 2,
       "norm_label": "step 4 - build graph, cluster, analyze, generate outputs",
-      "id": "codex_skills_graphify_skill_step4_build_graph",
-      "community_name": "Graphify Extraction Spec"
+      "community_name": "Graphify Extraction Spec",
+      "id": "codex_skills_graphify_skill_step4_build_graph"
     },
     {
       "label": "Step 4.5 - Graph health check",
@@ -1068,10 +777,10 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 5,
+      "community": 2,
       "norm_label": "step 4.5 - graph health check",
-      "id": "codex_skills_graphify_skill_step4_5_health_check",
-      "community_name": "Graphify Exports & Analysis"
+      "community_name": "Graphify Exports & Analysis",
+      "id": "codex_skills_graphify_skill_step4_5_health_check"
     },
     {
       "label": "Step 5 - Label communities",
@@ -1082,10 +791,10 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 5,
+      "community": 2,
       "norm_label": "step 5 - label communities",
-      "id": "codex_skills_graphify_skill_step5_label_communities",
-      "community_name": "Graphify Exports & Analysis"
+      "community_name": "Graphify Exports & Analysis",
+      "id": "codex_skills_graphify_skill_step5_label_communities"
     },
     {
       "label": "Step 6 - Generate Obsidian vault + HTML",
@@ -1096,10 +805,10 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 5,
+      "community": 2,
       "norm_label": "step 6 - generate obsidian vault + html",
-      "id": "codex_skills_graphify_skill_step6_obsidian_html",
-      "community_name": "Graphify Exports & Analysis"
+      "community_name": "Graphify Exports & Analysis",
+      "id": "codex_skills_graphify_skill_step6_obsidian_html"
     },
     {
       "label": "Step 9 - Save manifest, update cost tracker, clean up, report",
@@ -1110,10 +819,10 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 5,
+      "community": 2,
       "norm_label": "step 9 - save manifest, update cost tracker, clean up, report",
-      "id": "codex_skills_graphify_skill_step9_manifest_cost_cleanup",
-      "community_name": "Graphify Exports & Analysis"
+      "community_name": "Graphify Exports & Analysis",
+      "id": "codex_skills_graphify_skill_step9_manifest_cost_cleanup"
     },
     {
       "label": "Interpreter guard for subcommands",
@@ -1124,10 +833,10 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 8,
+      "community": 0,
       "norm_label": "interpreter guard for subcommands",
-      "id": "codex_skills_graphify_skill_interpreter_guard",
-      "community_name": "Graphify Incremental Update"
+      "community_name": "Graphify Incremental Update",
+      "id": "codex_skills_graphify_skill_interpreter_guard"
     },
     {
       "label": "Honesty Rules",
@@ -1138,10 +847,10 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 4,
+      "community": 2,
       "norm_label": "honesty rules",
-      "id": "codex_skills_graphify_skill_honesty_rules",
-      "community_name": "Graphify Extraction Spec"
+      "community_name": "Graphify Extraction Spec",
+      "id": "codex_skills_graphify_skill_honesty_rules"
     },
     {
       "label": "God Nodes",
@@ -1152,10 +861,10 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 5,
+      "community": 2,
       "norm_label": "god nodes",
-      "id": "codex_skills_graphify_skill_god_nodes_concept",
-      "community_name": "Graphify Exports & Analysis"
+      "community_name": "Graphify Exports & Analysis",
+      "id": "codex_skills_graphify_skill_god_nodes_concept"
     },
     {
       "label": "Community Detection",
@@ -1166,10 +875,10 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 5,
+      "community": 2,
       "norm_label": "community detection",
-      "id": "codex_skills_graphify_skill_communities_concept",
-      "community_name": "Graphify Exports & Analysis"
+      "community_name": "Graphify Exports & Analysis",
+      "id": "codex_skills_graphify_skill_communities_concept"
     },
     {
       "label": "add-watch.md reference",
@@ -1180,10 +889,10 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 2,
+      "community": 0,
       "norm_label": "add-watch.md reference",
-      "id": "codex_skills_graphify_references_add_watch_doc",
-      "community_name": "Graphify CLI & Query Docs"
+      "community_name": "Graphify CLI & Query Docs",
+      "id": "codex_skills_graphify_references_add_watch_doc"
     },
     {
       "label": "graphify.ingest.ingest function",
@@ -1194,10 +903,10 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 2,
+      "community": 0,
       "norm_label": "graphify.ingest.ingest function",
-      "id": "codex_skills_graphify_references_add_watch_ingest",
-      "community_name": "Graphify CLI & Query Docs"
+      "community_name": "Graphify CLI & Query Docs",
+      "id": "codex_skills_graphify_references_add_watch_ingest"
     },
     {
       "label": "graphify.watch module",
@@ -1208,10 +917,10 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 2,
+      "community": 0,
       "norm_label": "graphify.watch module",
-      "id": "codex_skills_graphify_references_add_watch_watch_module",
-      "community_name": "Graphify CLI & Query Docs"
+      "community_name": "Graphify CLI & Query Docs",
+      "id": "codex_skills_graphify_references_add_watch_watch_module"
     },
     {
       "label": "exports.md reference",
@@ -1222,10 +931,10 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 5,
+      "community": 2,
       "norm_label": "exports.md reference",
-      "id": "codex_skills_graphify_references_exports_doc",
-      "community_name": "Graphify Exports & Analysis"
+      "community_name": "Graphify Exports & Analysis",
+      "id": "codex_skills_graphify_references_exports_doc"
     },
     {
       "label": "graphify export wiki",
@@ -1236,10 +945,10 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 5,
+      "community": 2,
       "norm_label": "graphify export wiki",
-      "id": "codex_skills_graphify_references_exports_wiki_export",
-      "community_name": "Graphify Exports & Analysis"
+      "community_name": "Graphify Exports & Analysis",
+      "id": "codex_skills_graphify_references_exports_wiki_export"
     },
     {
       "label": "graphify export neo4j",
@@ -1250,10 +959,10 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 5,
+      "community": 2,
       "norm_label": "graphify export neo4j",
-      "id": "codex_skills_graphify_references_exports_neo4j_export",
-      "community_name": "Graphify Exports & Analysis"
+      "community_name": "Graphify Exports & Analysis",
+      "id": "codex_skills_graphify_references_exports_neo4j_export"
     },
     {
       "label": "graphify export falkordb",
@@ -1264,10 +973,10 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 5,
+      "community": 2,
       "norm_label": "graphify export falkordb",
-      "id": "codex_skills_graphify_references_exports_falkordb_export",
-      "community_name": "Graphify Exports & Analysis"
+      "community_name": "Graphify Exports & Analysis",
+      "id": "codex_skills_graphify_references_exports_falkordb_export"
     },
     {
       "label": "graphify export svg",
@@ -1278,10 +987,10 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 5,
+      "community": 2,
       "norm_label": "graphify export svg",
-      "id": "codex_skills_graphify_references_exports_svg_export",
-      "community_name": "Graphify Exports & Analysis"
+      "community_name": "Graphify Exports & Analysis",
+      "id": "codex_skills_graphify_references_exports_svg_export"
     },
     {
       "label": "graphify export graphml",
@@ -1292,10 +1001,10 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 5,
+      "community": 2,
       "norm_label": "graphify export graphml",
-      "id": "codex_skills_graphify_references_exports_graphml_export",
-      "community_name": "Graphify Exports & Analysis"
+      "community_name": "Graphify Exports & Analysis",
+      "id": "codex_skills_graphify_references_exports_graphml_export"
     },
     {
       "label": "graphify.serve MCP stdio server",
@@ -1306,10 +1015,10 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 5,
+      "community": 2,
       "norm_label": "graphify.serve mcp stdio server",
-      "id": "codex_skills_graphify_references_exports_mcp_server",
-      "community_name": "Graphify Exports & Analysis"
+      "community_name": "Graphify Exports & Analysis",
+      "id": "codex_skills_graphify_references_exports_mcp_server"
     },
     {
       "label": "graphify benchmark (token reduction)",
@@ -1320,10 +1029,10 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 5,
+      "community": 2,
       "norm_label": "graphify benchmark (token reduction)",
-      "id": "codex_skills_graphify_references_exports_benchmark",
-      "community_name": "Graphify Exports & Analysis"
+      "community_name": "Graphify Exports & Analysis",
+      "id": "codex_skills_graphify_references_exports_benchmark"
     },
     {
       "label": "extraction-spec.md reference (subagent prompt)",
@@ -1334,10 +1043,10 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 4,
+      "community": 2,
       "norm_label": "extraction-spec.md reference (subagent prompt)",
-      "id": "codex_skills_graphify_references_extraction_spec_doc",
-      "community_name": "Graphify Extraction Spec"
+      "community_name": "Graphify Extraction Spec",
+      "id": "codex_skills_graphify_references_extraction_spec_doc"
     },
     {
       "label": "Node ID format rule",
@@ -1348,10 +1057,10 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 4,
+      "community": 2,
       "norm_label": "node id format rule",
-      "id": "codex_skills_graphify_references_extraction_spec_node_id_format",
-      "community_name": "Graphify Extraction Spec"
+      "community_name": "Graphify Extraction Spec",
+      "id": "codex_skills_graphify_references_extraction_spec_node_id_format"
     },
     {
       "label": "Confidence score rubric",
@@ -1362,10 +1071,10 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 4,
+      "community": 2,
       "norm_label": "confidence score rubric",
-      "id": "codex_skills_graphify_references_extraction_spec_confidence_rubric",
-      "community_name": "Graphify Extraction Spec"
+      "community_name": "Graphify Extraction Spec",
+      "id": "codex_skills_graphify_references_extraction_spec_confidence_rubric"
     },
     {
       "label": "github-and-merge.md reference",
@@ -1376,10 +1085,10 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 10,
+      "community": 7,
       "norm_label": "github-and-merge.md reference",
-      "id": "codex_skills_graphify_references_github_and_merge_doc",
-      "community_name": "Graphify Repo Ingestion"
+      "community_name": "Graphify Repo Ingestion",
+      "id": "codex_skills_graphify_references_github_and_merge_doc"
     },
     {
       "label": "graphify clone command",
@@ -1390,10 +1099,10 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 10,
+      "community": 7,
       "norm_label": "graphify clone command",
-      "id": "codex_skills_graphify_references_github_and_merge_clone",
-      "community_name": "Graphify Repo Ingestion"
+      "community_name": "Graphify Repo Ingestion",
+      "id": "codex_skills_graphify_references_github_and_merge_clone"
     },
     {
       "label": "graphify merge-graphs command",
@@ -1404,10 +1113,10 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 10,
+      "community": 7,
       "norm_label": "graphify merge-graphs command",
-      "id": "codex_skills_graphify_references_github_and_merge_merge_graphs",
-      "community_name": "Graphify Repo Ingestion"
+      "community_name": "Graphify Repo Ingestion",
+      "id": "codex_skills_graphify_references_github_and_merge_merge_graphs"
     },
     {
       "label": "graphify extract CLI",
@@ -1418,10 +1127,10 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 10,
+      "community": 7,
       "norm_label": "graphify extract cli",
-      "id": "codex_skills_graphify_references_github_and_merge_extract_cli",
-      "community_name": "Graphify Repo Ingestion"
+      "community_name": "Graphify Repo Ingestion",
+      "id": "codex_skills_graphify_references_github_and_merge_extract_cli"
     },
     {
       "label": "hooks.md reference (commit hook + CLAUDE.md integration)",
@@ -1432,10 +1141,10 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 2,
+      "community": 0,
       "norm_label": "hooks.md reference (commit hook + claude.md integration)",
-      "id": "codex_skills_graphify_references_hooks_doc",
-      "community_name": "Graphify CLI & Query Docs"
+      "community_name": "Graphify CLI & Query Docs",
+      "id": "codex_skills_graphify_references_hooks_doc"
     },
     {
       "label": "graphify hook install/uninstall/status",
@@ -1446,10 +1155,10 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 2,
+      "community": 0,
       "norm_label": "graphify hook install/uninstall/status",
-      "id": "codex_skills_graphify_references_hooks_hook_install",
-      "community_name": "Graphify CLI & Query Docs"
+      "community_name": "Graphify CLI & Query Docs",
+      "id": "codex_skills_graphify_references_hooks_hook_install"
     },
     {
       "label": "graphify claude install/uninstall",
@@ -1460,10 +1169,10 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 2,
+      "community": 0,
       "norm_label": "graphify claude install/uninstall",
-      "id": "codex_skills_graphify_references_hooks_claude_install",
-      "community_name": "Graphify CLI & Query Docs"
+      "community_name": "Graphify CLI & Query Docs",
+      "id": "codex_skills_graphify_references_hooks_claude_install"
     },
     {
       "label": "query.md reference (query, path, explain)",
@@ -1474,10 +1183,10 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 2,
+      "community": 0,
       "norm_label": "query.md reference (query, path, explain)",
-      "id": "codex_skills_graphify_references_query_doc",
-      "community_name": "Graphify CLI & Query Docs"
+      "community_name": "Graphify CLI & Query Docs",
+      "id": "codex_skills_graphify_references_query_doc"
     },
     {
       "label": "Step 0 - Constrained query expansion",
@@ -1488,10 +1197,10 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 2,
+      "community": 0,
       "norm_label": "step 0 - constrained query expansion",
-      "id": "codex_skills_graphify_references_query_vocab_expansion",
-      "community_name": "Graphify CLI & Query Docs"
+      "community_name": "Graphify CLI & Query Docs",
+      "id": "codex_skills_graphify_references_query_vocab_expansion"
     },
     {
       "label": "BFS traversal mode",
@@ -1502,10 +1211,10 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 2,
+      "community": 0,
       "norm_label": "bfs traversal mode",
-      "id": "codex_skills_graphify_references_query_bfs_mode",
-      "community_name": "Graphify CLI & Query Docs"
+      "community_name": "Graphify CLI & Query Docs",
+      "id": "codex_skills_graphify_references_query_bfs_mode"
     },
     {
       "label": "DFS traversal mode (--dfs)",
@@ -1516,10 +1225,10 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 2,
+      "community": 0,
       "norm_label": "dfs traversal mode (--dfs)",
-      "id": "codex_skills_graphify_references_query_dfs_mode",
-      "community_name": "Graphify CLI & Query Docs"
+      "community_name": "Graphify CLI & Query Docs",
+      "id": "codex_skills_graphify_references_query_dfs_mode"
     },
     {
       "label": "graphify save-result command",
@@ -1530,10 +1239,10 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 2,
+      "community": 0,
       "norm_label": "graphify save-result command",
-      "id": "codex_skills_graphify_references_query_save_result",
-      "community_name": "Graphify CLI & Query Docs"
+      "community_name": "Graphify CLI & Query Docs",
+      "id": "codex_skills_graphify_references_query_save_result"
     },
     {
       "label": "graphify reflect / LESSONS.md work memory",
@@ -1544,10 +1253,10 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 2,
+      "community": 0,
       "norm_label": "graphify reflect / lessons.md work memory",
-      "id": "codex_skills_graphify_references_query_reflect",
-      "community_name": "Graphify CLI & Query Docs"
+      "community_name": "Graphify CLI & Query Docs",
+      "id": "codex_skills_graphify_references_query_reflect"
     },
     {
       "label": "/graphify path flow",
@@ -1558,10 +1267,10 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 2,
+      "community": 0,
       "norm_label": "/graphify path flow",
-      "id": "codex_skills_graphify_references_query_path_flow",
-      "community_name": "Graphify CLI & Query Docs"
+      "community_name": "Graphify CLI & Query Docs",
+      "id": "codex_skills_graphify_references_query_path_flow"
     },
     {
       "label": "/graphify explain flow",
@@ -1572,10 +1281,10 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 2,
+      "community": 0,
       "norm_label": "/graphify explain flow",
-      "id": "codex_skills_graphify_references_query_explain_flow",
-      "community_name": "Graphify CLI & Query Docs"
+      "community_name": "Graphify CLI & Query Docs",
+      "id": "codex_skills_graphify_references_query_explain_flow"
     },
     {
       "label": "transcribe.md reference (video/audio)",
@@ -1586,10 +1295,10 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 10,
+      "community": 7,
       "norm_label": "transcribe.md reference (video/audio)",
-      "id": "codex_skills_graphify_references_transcribe_doc",
-      "community_name": "Graphify Repo Ingestion"
+      "community_name": "Graphify Repo Ingestion",
+      "id": "codex_skills_graphify_references_transcribe_doc"
     },
     {
       "label": "GRAPHIFY_WHISPER_PROMPT domain hint",
@@ -1600,10 +1309,10 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 10,
+      "community": 7,
       "norm_label": "graphify_whisper_prompt domain hint",
-      "id": "codex_skills_graphify_references_transcribe_whisper_prompt",
-      "community_name": "Graphify Repo Ingestion"
+      "community_name": "Graphify Repo Ingestion",
+      "id": "codex_skills_graphify_references_transcribe_whisper_prompt"
     },
     {
       "label": "graphify.transcribe.transcribe_all function",
@@ -1614,10 +1323,10 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 10,
+      "community": 7,
       "norm_label": "graphify.transcribe.transcribe_all function",
-      "id": "codex_skills_graphify_references_transcribe_transcribe_all",
-      "community_name": "Graphify Repo Ingestion"
+      "community_name": "Graphify Repo Ingestion",
+      "id": "codex_skills_graphify_references_transcribe_transcribe_all"
     },
     {
       "label": "update.md reference (--update, --cluster-only)",
@@ -1628,10 +1337,10 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 8,
+      "community": 0,
       "norm_label": "update.md reference (--update, --cluster-only)",
-      "id": "codex_skills_graphify_references_update_doc",
-      "community_name": "Graphify Incremental Update"
+      "community_name": "Graphify Incremental Update",
+      "id": "codex_skills_graphify_references_update_doc"
     },
     {
       "label": "graphify.detect.detect_incremental function",
@@ -1642,10 +1351,10 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 8,
+      "community": 0,
       "norm_label": "graphify.detect.detect_incremental function",
-      "id": "codex_skills_graphify_references_update_detect_incremental",
-      "community_name": "Graphify Incremental Update"
+      "community_name": "Graphify Incremental Update",
+      "id": "codex_skills_graphify_references_update_detect_incremental"
     },
     {
       "label": "graphify.build.build_merge function",
@@ -1656,10 +1365,10 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 8,
+      "community": 0,
       "norm_label": "graphify.build.build_merge function",
-      "id": "codex_skills_graphify_references_update_build_merge",
-      "community_name": "Graphify Incremental Update"
+      "community_name": "Graphify Incremental Update",
+      "id": "codex_skills_graphify_references_update_build_merge"
     },
     {
       "label": "graphify.detect.save_manifest function",
@@ -1670,10 +1379,10 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 8,
+      "community": 0,
       "norm_label": "graphify.detect.save_manifest function",
-      "id": "codex_skills_graphify_references_update_save_manifest",
-      "community_name": "Graphify Incremental Update"
+      "community_name": "Graphify Incremental Update",
+      "id": "codex_skills_graphify_references_update_save_manifest"
     },
     {
       "label": "graphify.analyze.graph_diff function",
@@ -1684,10 +1393,10 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 8,
+      "community": 0,
       "norm_label": "graphify.analyze.graph_diff function",
-      "id": "codex_skills_graphify_references_update_graph_diff",
-      "community_name": "Graphify Incremental Update"
+      "community_name": "Graphify Incremental Update",
+      "id": "codex_skills_graphify_references_update_graph_diff"
     },
     {
       "label": "graphify cluster-only command",
@@ -1698,10 +1407,10 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 8,
+      "community": 0,
       "norm_label": "graphify cluster-only command",
-      "id": "codex_skills_graphify_references_update_cluster_only_cmd",
-      "community_name": "Graphify Incremental Update"
+      "community_name": "Graphify Incremental Update",
+      "id": "codex_skills_graphify_references_update_cluster_only_cmd"
     },
     {
       "label": "This is NOT the Next.js you know (AGENTS.md rules)",
@@ -1712,10 +1421,10 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 2,
+      "community": 0,
       "norm_label": "this is not the next.js you know (agents.md rules)",
-      "id": "agents_md_nextjs_agent_rules",
-      "community_name": "Graphify CLI & Query Docs"
+      "community_name": "Graphify CLI & Query Docs",
+      "id": "agents_md_nextjs_agent_rules"
     },
     {
       "label": "AGENTS.md graphify integration section",
@@ -1726,10 +1435,10 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 2,
+      "community": 0,
       "norm_label": "agents.md graphify integration section",
-      "id": "agents_md_graphify_section",
-      "community_name": "Graphify CLI & Query Docs"
+      "community_name": "Graphify CLI & Query Docs",
+      "id": "agents_md_graphify_section"
     },
     {
       "label": "CLAUDE.md (project root)",
@@ -1740,10 +1449,10 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 2,
+      "community": 0,
       "norm_label": "claude.md (project root)",
-      "id": "claude_md_root",
-      "community_name": "Graphify CLI & Query Docs"
+      "community_name": "Graphify CLI & Query Docs",
+      "id": "claude_md_root"
     },
     {
       "label": "Chat Bot UI project (README.md)",
@@ -1754,10 +1463,10 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 7,
+      "community": 9,
       "norm_label": "chat bot ui project (readme.md)",
-      "id": "readme_md_chat_bot_ui",
-      "community_name": "Chat-Bot Request Architecture"
+      "community_name": "Chat-Bot Request Architecture",
+      "id": "readme_md_chat_bot_ui"
     },
     {
       "label": "Browser -> Next.js -> API Gateway -> Lambda -> AgentCore flow",
@@ -1768,10 +1477,10 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 7,
+      "community": 9,
       "norm_label": "browser -> next.js -> api gateway -> lambda -> agentcore flow",
-      "id": "readme_md_architecture_flow",
-      "community_name": "Chat-Bot Request Architecture"
+      "community_name": "Chat-Bot Request Architecture",
+      "id": "readme_md_architecture_flow"
     },
     {
       "label": "app/api/chat/route.ts (BFF proxy)",
@@ -1782,10 +1491,10 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 7,
+      "community": 9,
       "norm_label": "app/api/chat/route.ts (bff proxy)",
-      "id": "readme_md_app_api_chat_route",
-      "community_name": "Chat-Bot Request Architecture"
+      "community_name": "Chat-Bot Request Architecture",
+      "id": "readme_md_app_api_chat_route"
     },
     {
       "label": "lib/chat-api.ts (browser client)",
@@ -1796,10 +1505,10 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 7,
+      "community": 9,
       "norm_label": "lib/chat-api.ts (browser client)",
-      "id": "readme_md_lib_chat_api",
-      "community_name": "Chat-Bot Request Architecture"
+      "community_name": "Chat-Bot Request Architecture",
+      "id": "readme_md_lib_chat_api"
     },
     {
       "label": "components/ (chatbot UI)",
@@ -1810,10 +1519,10 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 7,
+      "community": 9,
       "norm_label": "components/ (chatbot ui)",
-      "id": "readme_md_components_ui",
-      "community_name": "Chat-Bot Request Architecture"
+      "community_name": "Chat-Bot Request Architecture",
+      "id": "readme_md_components_ui"
     },
     {
       "label": "types/ (shared UI and API contract types)",
@@ -1824,10 +1533,10 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 7,
+      "community": 9,
       "norm_label": "types/ (shared ui and api contract types)",
-      "id": "readme_md_types_dir",
-      "community_name": "Chat-Bot Request Architecture"
+      "community_name": "Chat-Bot Request Architecture",
+      "id": "readme_md_types_dir"
     },
     {
       "label": "API Gateway (NEXT_PUBLIC_API_BASE_URL)",
@@ -1838,10 +1547,10 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 7,
+      "community": 9,
       "norm_label": "api gateway (next_public_api_base_url)",
-      "id": "readme_md_api_gateway",
-      "community_name": "Chat-Bot Request Architecture"
+      "community_name": "Chat-Bot Request Architecture",
+      "id": "readme_md_api_gateway"
     },
     {
       "label": "Lambda (proxy handler)",
@@ -1852,10 +1561,10 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 7,
+      "community": 9,
       "norm_label": "lambda (proxy handler)",
-      "id": "readme_md_lambda",
-      "community_name": "Chat-Bot Request Architecture"
+      "community_name": "Chat-Bot Request Architecture",
+      "id": "readme_md_lambda"
     },
     {
       "label": "AgentCore simple_langchain_agent",
@@ -1866,10 +1575,10 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 7,
+      "community": 9,
       "norm_label": "agentcore simple_langchain_agent",
-      "id": "readme_md_agentcore_simple_langchain_agent",
-      "community_name": "Chat-Bot Request Architecture"
+      "community_name": "Chat-Bot Request Architecture",
+      "id": "readme_md_agentcore_simple_langchain_agent"
     },
     {
       "label": "Backend-for-frontend (BFF) proxy rationale",
@@ -1880,10 +1589,10 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 7,
+      "community": 9,
       "norm_label": "backend-for-frontend (bff) proxy rationale",
-      "id": "readme_md_bff_proxy_rationale",
-      "community_name": "Chat-Bot Request Architecture"
+      "community_name": "Chat-Bot Request Architecture",
+      "id": "readme_md_bff_proxy_rationale"
     },
     {
       "label": "CORS problem (browser to API Gateway)",
@@ -1894,10 +1603,10 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 7,
+      "community": 9,
       "norm_label": "cors problem (browser to api gateway)",
-      "id": "readme_md_cors_problem",
-      "community_name": "Chat-Bot Request Architecture"
+      "community_name": "Chat-Bot Request Architecture",
+      "id": "readme_md_cors_problem"
     },
     {
       "label": "Request/response JSON contract (message, session_id, actor_id)",
@@ -1908,10 +1617,10 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 7,
+      "community": 9,
       "norm_label": "request/response json contract (message, session_id, actor_id)",
-      "id": "readme_md_request_response_contract",
-      "community_name": "Chat-Bot Request Architecture"
+      "community_name": "Chat-Bot Request Architecture",
+      "id": "readme_md_request_response_contract"
     },
     {
       "label": "pnpm-workspace.yaml",
@@ -1922,10 +1631,10 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 7,
+      "community": 9,
       "norm_label": "pnpm-workspace.yaml",
-      "id": "pnpm_workspace_yaml",
-      "community_name": "Chat-Bot Request Architecture"
+      "community_name": "Chat-Bot Request Architecture",
+      "id": "pnpm_workspace_yaml"
     },
     {
       "label": "File Icon (file.svg)",
@@ -1936,10 +1645,10 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 16,
+      "community": 20,
       "norm_label": "file icon (file.svg)",
-      "id": "public_file_fileicon",
-      "community_name": "File Icon Asset"
+      "community_name": "File Icon Asset",
+      "id": "public_file_fileicon"
     },
     {
       "label": "Globe Icon",
@@ -1950,10 +1659,10 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 17,
+      "community": 21,
       "norm_label": "globe icon",
-      "id": "public_globe_globeicon",
-      "community_name": "Globe Icon Asset"
+      "community_name": "Globe Icon Asset",
+      "id": "public_globe_globeicon"
     },
     {
       "label": "Next.js Logo Icon",
@@ -1964,10 +1673,10 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 18,
+      "community": 22,
       "norm_label": "next.js logo icon",
-      "id": "public_next_nextlogo",
-      "community_name": "Next.js Logo Asset"
+      "community_name": "Next.js Logo Asset",
+      "id": "public_next_nextlogo"
     },
     {
       "label": "Vercel Logo Icon",
@@ -1978,10 +1687,10 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 19,
+      "community": 23,
       "norm_label": "vercel logo icon",
-      "id": "public_vercel_vercellogo",
-      "community_name": "Vercel Logo Asset"
+      "community_name": "Vercel Logo Asset",
+      "id": "public_vercel_vercellogo"
     },
     {
       "label": "Window Icon (window.svg)",
@@ -1992,10 +1701,50 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 20,
+      "community": 24,
       "norm_label": "window icon (window.svg)",
-      "id": "public_window_windowicon",
-      "community_name": "Window Icon Asset"
+      "community_name": "Window Icon Asset",
+      "id": "public_window_windowicon"
+    },
+    {
+      "label": "route.ts",
+      "file_type": "code",
+      "source_file": "app/api/auth/login/route.ts",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "app_api_auth_login_route",
+      "community": 8,
+      "norm_label": "route.ts"
+    },
+    {
+      "label": "POST()",
+      "file_type": "code",
+      "source_file": "app/api/auth/login/route.ts",
+      "source_location": "L5",
+      "_origin": "ast",
+      "id": "app_api_auth_login_route_post",
+      "community": 8,
+      "norm_label": "post()"
+    },
+    {
+      "label": "route.ts",
+      "file_type": "code",
+      "source_file": "app/api/auth/logout/route.ts",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "app_api_auth_logout_route",
+      "community": 16,
+      "norm_label": "route.ts"
+    },
+    {
+      "label": "POST()",
+      "file_type": "code",
+      "source_file": "app/api/auth/logout/route.ts",
+      "source_location": "L4",
+      "_origin": "ast",
+      "id": "app_api_auth_logout_route_post",
+      "community": 16,
+      "norm_label": "post()"
     },
     {
       "label": "route.ts",
@@ -2004,53 +1753,378 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "app_api_chat_route",
-      "community": 23,
-      "community_name": "Community 23",
+      "community": 5,
       "norm_label": "route.ts"
     },
     {
       "label": "client",
       "file_type": "code",
       "source_file": "app/api/chat/route.ts",
-      "source_location": "L17",
+      "source_location": "L30",
       "_origin": "ast",
       "id": "app_api_chat_route_client",
-      "community": 23,
-      "community_name": "Community 23",
+      "community": 5,
       "norm_label": "client"
     },
     {
       "label": "isRecord()",
       "file_type": "code",
       "source_file": "app/api/chat/route.ts",
-      "source_location": "L19",
+      "source_location": "L32",
       "_origin": "ast",
       "id": "app_api_chat_route_isrecord",
-      "community": 23,
-      "community_name": "Community 23",
+      "community": 5,
       "norm_label": "isrecord()"
     },
     {
       "label": "parseChatRequest()",
       "file_type": "code",
       "source_file": "app/api/chat/route.ts",
-      "source_location": "L23",
+      "source_location": "L36",
       "_origin": "ast",
       "id": "app_api_chat_route_parsechatrequest",
-      "community": 23,
-      "community_name": "Community 23",
+      "community": 5,
       "norm_label": "parsechatrequest()"
+    },
+    {
+      "label": "decodeSseFrame()",
+      "file_type": "code",
+      "source_file": "app/api/chat/route.ts",
+      "source_location": "L63",
+      "_origin": "ast",
+      "id": "app_api_chat_route_decodesseframe",
+      "community": 5,
+      "norm_label": "decodesseframe()"
+    },
+    {
+      "label": "pipeEventStream()",
+      "file_type": "code",
+      "source_file": "app/api/chat/route.ts",
+      "source_location": "L93",
+      "_origin": "ast",
+      "id": "app_api_chat_route_pipeeventstream",
+      "community": 5,
+      "norm_label": "pipeeventstream()"
+    },
+    {
+      "label": "readWebStreamToString()",
+      "file_type": "code",
+      "source_file": "app/api/chat/route.ts",
+      "source_location": "L136",
+      "_origin": "ast",
+      "id": "app_api_chat_route_readwebstreamtostring",
+      "community": 5,
+      "norm_label": "readwebstreamtostring()"
+    },
+    {
+      "label": "AgentInvocation",
+      "file_type": "code",
+      "source_file": "app/api/chat/route.ts",
+      "source_location": "L154",
+      "_origin": "ast",
+      "id": "app_api_chat_route_agentinvocation",
+      "community": 5,
+      "norm_label": "agentinvocation"
+    },
+    {
+      "label": "invokeAgentCore()",
+      "file_type": "code",
+      "source_file": "app/api/chat/route.ts",
+      "source_location": "L159",
+      "_origin": "ast",
+      "id": "app_api_chat_route_invokeagentcore",
+      "community": 5,
+      "norm_label": "invokeagentcore()"
+    },
+    {
+      "label": "invokeLocalAgent()",
+      "file_type": "code",
+      "source_file": "app/api/chat/route.ts",
+      "source_location": "L187",
+      "_origin": "ast",
+      "id": "app_api_chat_route_invokelocalagent",
+      "community": 5,
+      "norm_label": "invokelocalagent()"
     },
     {
       "label": "POST()",
       "file_type": "code",
       "source_file": "app/api/chat/route.ts",
-      "source_location": "L41",
+      "source_location": "L208",
       "_origin": "ast",
       "id": "app_api_chat_route_post",
-      "community": 23,
-      "community_name": "Community 23",
+      "community": 5,
       "norm_label": "post()"
+    },
+    {
+      "label": "route.ts",
+      "file_type": "code",
+      "source_file": "app/api/cognito/initiate/route.ts",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "app_api_cognito_initiate_route",
+      "community": 8,
+      "norm_label": "route.ts"
+    },
+    {
+      "label": "POST()",
+      "file_type": "code",
+      "source_file": "app/api/cognito/initiate/route.ts",
+      "source_location": "L4",
+      "_origin": "ast",
+      "id": "app_api_cognito_initiate_route_post",
+      "community": 8,
+      "norm_label": "post()"
+    },
+    {
+      "label": "route.ts",
+      "file_type": "code",
+      "source_file": "app/api/cognito/respond/route.ts",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "app_api_cognito_respond_route",
+      "community": 8,
+      "norm_label": "route.ts"
+    },
+    {
+      "label": "POST()",
+      "file_type": "code",
+      "source_file": "app/api/cognito/respond/route.ts",
+      "source_location": "L4",
+      "_origin": "ast",
+      "id": "app_api_cognito_respond_route_post",
+      "community": 8,
+      "norm_label": "post()"
+    },
+    {
+      "label": "layout.tsx",
+      "file_type": "code",
+      "source_file": "app/layout.tsx",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "app_layout",
+      "community": 12,
+      "norm_label": "layout.tsx"
+    },
+    {
+      "label": "geistSans",
+      "file_type": "code",
+      "source_file": "app/layout.tsx",
+      "source_location": "L5",
+      "_origin": "ast",
+      "id": "app_layout_geistsans",
+      "community": 12,
+      "norm_label": "geistsans"
+    },
+    {
+      "label": "geistMono",
+      "file_type": "code",
+      "source_file": "app/layout.tsx",
+      "source_location": "L10",
+      "_origin": "ast",
+      "id": "app_layout_geistmono",
+      "community": 12,
+      "norm_label": "geistmono"
+    },
+    {
+      "label": "metadata",
+      "file_type": "code",
+      "source_file": "app/layout.tsx",
+      "source_location": "L15",
+      "_origin": "ast",
+      "id": "app_layout_metadata",
+      "community": 12,
+      "norm_label": "metadata"
+    },
+    {
+      "label": "RootLayout()",
+      "file_type": "code",
+      "source_file": "app/layout.tsx",
+      "source_location": "L20",
+      "_origin": "ast",
+      "id": "app_layout_rootlayout",
+      "community": 12,
+      "norm_label": "rootlayout()"
+    },
+    {
+      "label": "page.tsx",
+      "file_type": "code",
+      "source_file": "app/login/page.tsx",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "app_login_page",
+      "community": 5,
+      "norm_label": "page.tsx"
+    },
+    {
+      "label": "LoginPage()",
+      "file_type": "code",
+      "source_file": "app/login/page.tsx",
+      "source_location": "L5",
+      "_origin": "ast",
+      "id": "app_login_page_loginpage",
+      "community": 5,
+      "norm_label": "loginpage()"
+    },
+    {
+      "label": "page.tsx",
+      "file_type": "code",
+      "source_file": "app/page.tsx",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "app_page",
+      "community": 6,
+      "norm_label": "page.tsx"
+    },
+    {
+      "label": "buildCognitoLogoutUrl()",
+      "file_type": "code",
+      "source_file": "app/page.tsx",
+      "source_location": "L3",
+      "_origin": "ast",
+      "id": "app_page_buildcognitologouturl",
+      "community": 6,
+      "norm_label": "buildcognitologouturl()"
+    },
+    {
+      "label": "Home()",
+      "file_type": "code",
+      "source_file": "app/page.tsx",
+      "source_location": "L11",
+      "_origin": "ast",
+      "id": "app_page_home",
+      "community": 6,
+      "norm_label": "home()"
+    },
+    {
+      "label": "chat-shell.tsx",
+      "file_type": "code",
+      "source_file": "components/chat-shell.tsx",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "components_chat_shell",
+      "community": 6,
+      "norm_label": "chat-shell.tsx"
+    },
+    {
+      "label": "ChatShellProps",
+      "file_type": "code",
+      "source_file": "components/chat-shell.tsx",
+      "source_location": "L12",
+      "_origin": "ast",
+      "id": "components_chat_shell_chatshellprops",
+      "community": 6,
+      "norm_label": "chatshellprops"
+    },
+    {
+      "label": "ChatShell()",
+      "file_type": "code",
+      "source_file": "components/chat-shell.tsx",
+      "source_location": "L16",
+      "_origin": "ast",
+      "id": "components_chat_shell_chatshell",
+      "community": 6,
+      "norm_label": "chatshell()"
+    },
+    {
+      "label": "chat-sidebar.tsx",
+      "file_type": "code",
+      "source_file": "components/chat-sidebar.tsx",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "components_chat_sidebar",
+      "community": 6,
+      "norm_label": "chat-sidebar.tsx"
+    },
+    {
+      "label": "SIDEBAR_ITEMS",
+      "file_type": "code",
+      "source_file": "components/chat-sidebar.tsx",
+      "source_location": "L7",
+      "_origin": "ast",
+      "id": "components_chat_sidebar_sidebar_items",
+      "community": 6,
+      "norm_label": "sidebar_items"
+    },
+    {
+      "label": "SparkIcon()",
+      "file_type": "code",
+      "source_file": "components/chat-sidebar.tsx",
+      "source_location": "L9",
+      "_origin": "ast",
+      "id": "components_chat_sidebar_sparkicon",
+      "community": 6,
+      "norm_label": "sparkicon()"
+    },
+    {
+      "label": "SidebarInfoCardProps",
+      "file_type": "code",
+      "source_file": "components/chat-sidebar.tsx",
+      "source_location": "L27",
+      "_origin": "ast",
+      "id": "components_chat_sidebar_sidebarinfocardprops",
+      "community": 6,
+      "norm_label": "sidebarinfocardprops"
+    },
+    {
+      "label": "SidebarInfoCard()",
+      "file_type": "code",
+      "source_file": "components/chat-sidebar.tsx",
+      "source_location": "L32",
+      "_origin": "ast",
+      "id": "components_chat_sidebar_sidebarinfocard",
+      "community": 6,
+      "norm_label": "sidebarinfocard()"
+    },
+    {
+      "label": "ChatSidebarProps",
+      "file_type": "code",
+      "source_file": "components/chat-sidebar.tsx",
+      "source_location": "L41",
+      "_origin": "ast",
+      "id": "components_chat_sidebar_chatsidebarprops",
+      "community": 6,
+      "norm_label": "chatsidebarprops"
+    },
+    {
+      "label": "ChatSidebar()",
+      "file_type": "code",
+      "source_file": "components/chat-sidebar.tsx",
+      "source_location": "L49",
+      "_origin": "ast",
+      "id": "components_chat_sidebar_chatsidebar",
+      "community": 6,
+      "norm_label": "chatsidebar()"
+    },
+    {
+      "label": "login-form.tsx",
+      "file_type": "code",
+      "source_file": "components/login-form.tsx",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "components_login_form",
+      "community": 5,
+      "norm_label": "login-form.tsx"
+    },
+    {
+      "label": "Step",
+      "file_type": "code",
+      "source_file": "components/login-form.tsx",
+      "source_location": "L7",
+      "_origin": "ast",
+      "id": "components_login_form_step",
+      "community": 5,
+      "norm_label": "step"
+    },
+    {
+      "label": "LoginForm()",
+      "file_type": "code",
+      "source_file": "components/login-form.tsx",
+      "source_location": "L17",
+      "_origin": "ast",
+      "id": "components_login_form_loginform",
+      "community": 5,
+      "norm_label": "loginform()"
     },
     {
       "label": "main-chat.tsx",
@@ -2059,8 +2133,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "components_main_chat",
-      "community": 9,
-      "community_name": "Chat Shell & Page Layout",
+      "community": 3,
       "norm_label": "main-chat.tsx"
     },
     {
@@ -2070,8 +2143,7 @@
       "source_location": "L11",
       "_origin": "ast",
       "id": "components_main_chat_initial_messages",
-      "community": 9,
-      "community_name": "Chat Shell & Page Layout",
+      "community": 3,
       "norm_label": "initial_messages"
     },
     {
@@ -2081,8 +2153,7 @@
       "source_location": "L24",
       "_origin": "ast",
       "id": "components_main_chat_formattimestamp",
-      "community": 9,
-      "community_name": "Chat Shell & Page Layout",
+      "community": 3,
       "norm_label": "formattimestamp()"
     },
     {
@@ -2092,8 +2163,7 @@
       "source_location": "L31",
       "_origin": "ast",
       "id": "components_main_chat_getmessagebubbleclass",
-      "community": 9,
-      "community_name": "Chat Shell & Page Layout",
+      "community": 3,
       "norm_label": "getmessagebubbleclass()"
     },
     {
@@ -2103,8 +2173,7 @@
       "source_location": "L37",
       "_origin": "ast",
       "id": "components_main_chat_mainchatprops",
-      "community": 9,
-      "community_name": "Chat Shell & Page Layout",
+      "community": 3,
       "norm_label": "mainchatprops"
     },
     {
@@ -2114,8 +2183,7 @@
       "source_location": "L44",
       "_origin": "ast",
       "id": "components_main_chat_handlecomposerkeydown",
-      "community": 9,
-      "community_name": "Chat Shell & Page Layout",
+      "community": 3,
       "norm_label": "handlecomposerkeydown()"
     },
     {
@@ -2125,8 +2193,7 @@
       "source_location": "L62",
       "_origin": "ast",
       "id": "components_main_chat_chatformsubmitevent",
-      "community": 9,
-      "community_name": "Chat Shell & Page Layout",
+      "community": 3,
       "norm_label": "chatformsubmitevent"
     },
     {
@@ -2136,8 +2203,7 @@
       "source_location": "L64",
       "_origin": "ast",
       "id": "components_main_chat_getsessiontitle",
-      "community": 9,
-      "community_name": "Chat Shell & Page Layout",
+      "community": 3,
       "norm_label": "getsessiontitle()"
     },
     {
@@ -2147,9 +2213,228 @@
       "source_location": "L68",
       "_origin": "ast",
       "id": "components_main_chat_mainchat",
-      "community": 9,
-      "community_name": "Chat Shell & Page Layout",
+      "community": 6,
       "norm_label": "mainchat()"
+    },
+    {
+      "label": "sign-out-button.tsx",
+      "file_type": "code",
+      "source_file": "components/sign-out-button.tsx",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "components_sign_out_button",
+      "community": 6,
+      "norm_label": "sign-out-button.tsx"
+    },
+    {
+      "label": "SignOutButtonProps",
+      "file_type": "code",
+      "source_file": "components/sign-out-button.tsx",
+      "source_location": "L3",
+      "_origin": "ast",
+      "id": "components_sign_out_button_signoutbuttonprops",
+      "community": 6,
+      "norm_label": "signoutbuttonprops"
+    },
+    {
+      "label": "SignOutButton()",
+      "file_type": "code",
+      "source_file": "components/sign-out-button.tsx",
+      "source_location": "L7",
+      "_origin": "ast",
+      "id": "components_sign_out_button_signoutbutton",
+      "community": 6,
+      "norm_label": "signoutbutton()"
+    },
+    {
+      "label": "chat-api.ts",
+      "file_type": "code",
+      "source_file": "lib/chat-api.ts",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "lib_chat_api",
+      "community": 3,
+      "norm_label": "chat-api.ts"
+    },
+    {
+      "label": "SendMessageOptions",
+      "file_type": "code",
+      "source_file": "lib/chat-api.ts",
+      "source_location": "L6",
+      "_origin": "ast",
+      "id": "lib_chat_api_sendmessageoptions",
+      "community": 3,
+      "norm_label": "sendmessageoptions"
+    },
+    {
+      "label": "SendMessageResult",
+      "file_type": "code",
+      "source_file": "lib/chat-api.ts",
+      "source_location": "L13",
+      "_origin": "ast",
+      "id": "lib_chat_api_sendmessageresult",
+      "community": 3,
+      "norm_label": "sendmessageresult"
+    },
+    {
+      "label": "ChatApiClient",
+      "file_type": "code",
+      "source_file": "lib/chat-api.ts",
+      "source_location": "L17",
+      "_origin": "ast",
+      "id": "lib_chat_api_chatapiclient",
+      "community": 3,
+      "norm_label": "chatapiclient"
+    },
+    {
+      "label": "readErrorMessage()",
+      "file_type": "code",
+      "source_file": "lib/chat-api.ts",
+      "source_location": "L24",
+      "_origin": "ast",
+      "id": "lib_chat_api_readerrormessage",
+      "community": 3,
+      "norm_label": "readerrormessage()"
+    },
+    {
+      "label": "RestChatApiClient",
+      "file_type": "code",
+      "source_file": "lib/chat-api.ts",
+      "source_location": "L41",
+      "_origin": "ast",
+      "id": "lib_chat_api_restchatapiclient",
+      "community": 3,
+      "norm_label": "restchatapiclient"
+    },
+    {
+      "label": ".sendMessage()",
+      "file_type": "code",
+      "source_file": "lib/chat-api.ts",
+      "source_location": "L42",
+      "_origin": "ast",
+      "id": "lib_chat_api_restchatapiclient_sendmessage",
+      "community": 3,
+      "norm_label": ".sendmessage()"
+    },
+    {
+      "label": "cognito-auth.ts",
+      "file_type": "code",
+      "source_file": "lib/cognito-auth.ts",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "lib_cognito_auth",
+      "community": 8,
+      "norm_label": "cognito-auth.ts"
+    },
+    {
+      "label": "cognitoClient",
+      "file_type": "code",
+      "source_file": "lib/cognito-auth.ts",
+      "source_location": "L9",
+      "_origin": "ast",
+      "id": "lib_cognito_auth_cognitoclient",
+      "community": 8,
+      "norm_label": "cognitoclient"
+    },
+    {
+      "label": "computeSecretHash()",
+      "file_type": "code",
+      "source_file": "lib/cognito-auth.ts",
+      "source_location": "L13",
+      "_origin": "ast",
+      "id": "lib_cognito_auth_computesecrethash",
+      "community": 8,
+      "norm_label": "computesecrethash()"
+    },
+    {
+      "label": "initiateAuth()",
+      "file_type": "code",
+      "source_file": "lib/cognito-auth.ts",
+      "source_location": "L19",
+      "_origin": "ast",
+      "id": "lib_cognito_auth_initiateauth",
+      "community": 8,
+      "norm_label": "initiateauth()"
+    },
+    {
+      "label": "respondToNewPasswordChallenge()",
+      "file_type": "code",
+      "source_file": "lib/cognito-auth.ts",
+      "source_location": "L33",
+      "_origin": "ast",
+      "id": "lib_cognito_auth_respondtonewpasswordchallenge",
+      "community": 8,
+      "norm_label": "respondtonewpasswordchallenge()"
+    },
+    {
+      "label": "signAuthToken()",
+      "file_type": "code",
+      "source_file": "lib/cognito-auth.ts",
+      "source_location": "L52",
+      "_origin": "ast",
+      "id": "lib_cognito_auth_signauthtoken",
+      "community": 8,
+      "norm_label": "signauthtoken()"
+    },
+    {
+      "label": "verifyAuthToken()",
+      "file_type": "code",
+      "source_file": "lib/cognito-auth.ts",
+      "source_location": "L61",
+      "_origin": "ast",
+      "id": "lib_cognito_auth_verifyauthtoken",
+      "community": 8,
+      "norm_label": "verifyauthtoken()"
+    },
+    {
+      "label": "extractUserFromIdToken()",
+      "file_type": "code",
+      "source_file": "lib/cognito-auth.ts",
+      "source_location": "L84",
+      "_origin": "ast",
+      "id": "lib_cognito_auth_extractuserfromidtoken",
+      "community": 8,
+      "norm_label": "extractuserfromidtoken()"
+    },
+    {
+      "label": "session.ts",
+      "file_type": "code",
+      "source_file": "lib/session.ts",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "lib_session",
+      "community": 5,
+      "norm_label": "session.ts"
+    },
+    {
+      "label": "getSession()",
+      "file_type": "code",
+      "source_file": "lib/session.ts",
+      "source_location": "L7",
+      "_origin": "ast",
+      "id": "lib_session_getsession",
+      "community": 5,
+      "norm_label": "getsession()"
+    },
+    {
+      "label": "next.config.ts",
+      "file_type": "code",
+      "source_file": "next.config.ts",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "next_config",
+      "community": 18,
+      "norm_label": "next.config.ts"
+    },
+    {
+      "label": "nextConfig",
+      "file_type": "code",
+      "source_file": "next.config.ts",
+      "source_location": "L3",
+      "_origin": "ast",
+      "id": "next_config_nextconfig",
+      "community": 18,
+      "norm_label": "nextconfig"
     },
     {
       "label": "package.json",
@@ -2158,8 +2443,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "package",
-      "community": 0,
-      "community_name": "Project Dependencies",
+      "community": 1,
       "norm_label": "package.json"
     },
     {
@@ -2169,8 +2453,7 @@
       "source_location": "L2",
       "_origin": "ast",
       "id": "package_name",
-      "community": 0,
-      "community_name": "Project Dependencies",
+      "community": 1,
       "norm_label": "name"
     },
     {
@@ -2180,8 +2463,7 @@
       "source_location": "L3",
       "_origin": "ast",
       "id": "package_version",
-      "community": 0,
-      "community_name": "Project Dependencies",
+      "community": 1,
       "norm_label": "version"
     },
     {
@@ -2191,8 +2473,7 @@
       "source_location": "L4",
       "_origin": "ast",
       "id": "package_private",
-      "community": 0,
-      "community_name": "Project Dependencies",
+      "community": 1,
       "norm_label": "private"
     },
     {
@@ -2202,8 +2483,7 @@
       "source_location": "L5",
       "_origin": "ast",
       "id": "package_pnpm",
-      "community": 0,
-      "community_name": "Project Dependencies",
+      "community": 1,
       "norm_label": "pnpm"
     },
     {
@@ -2213,8 +2493,7 @@
       "source_location": "L6",
       "_origin": "ast",
       "id": "package_pnpm_allowbuilds",
-      "community": 0,
-      "community_name": "Project Dependencies",
+      "community": 1,
       "norm_label": "allowbuilds"
     },
     {
@@ -2224,8 +2503,7 @@
       "source_location": "L7",
       "_origin": "ast",
       "id": "package_allowbuilds_sharp",
-      "community": 0,
-      "community_name": "Project Dependencies",
+      "community": 1,
       "norm_label": "sharp"
     },
     {
@@ -2235,8 +2513,7 @@
       "source_location": "L8",
       "_origin": "ast",
       "id": "package_allowbuilds_unrs_resolver",
-      "community": 0,
-      "community_name": "Project Dependencies",
+      "community": 1,
       "norm_label": "unrs-resolver"
     },
     {
@@ -2246,8 +2523,7 @@
       "source_location": "L11",
       "_origin": "ast",
       "id": "package_scripts",
-      "community": 0,
-      "community_name": "Project Dependencies",
+      "community": 1,
       "norm_label": "scripts"
     },
     {
@@ -2257,8 +2533,7 @@
       "source_location": "L12",
       "_origin": "ast",
       "id": "package_scripts_dev",
-      "community": 0,
-      "community_name": "Project Dependencies",
+      "community": 1,
       "norm_label": "dev"
     },
     {
@@ -2268,8 +2543,7 @@
       "source_location": "L13",
       "_origin": "ast",
       "id": "package_scripts_build",
-      "community": 0,
-      "community_name": "Project Dependencies",
+      "community": 1,
       "norm_label": "build"
     },
     {
@@ -2279,8 +2553,7 @@
       "source_location": "L14",
       "_origin": "ast",
       "id": "package_scripts_start",
-      "community": 0,
-      "community_name": "Project Dependencies",
+      "community": 1,
       "norm_label": "start"
     },
     {
@@ -2290,8 +2563,7 @@
       "source_location": "L15",
       "_origin": "ast",
       "id": "package_scripts_lint",
-      "community": 0,
-      "community_name": "Project Dependencies",
+      "community": 1,
       "norm_label": "lint"
     },
     {
@@ -2301,8 +2573,7 @@
       "source_location": "L17",
       "_origin": "ast",
       "id": "package_dependencies",
-      "community": 21,
-      "community_name": "Community 21",
+      "community": 1,
       "norm_label": "dependencies"
     },
     {
@@ -2312,322 +2583,359 @@
       "source_location": "L18",
       "_origin": "ast",
       "id": "package_dependencies_aws_sdk_client_bedrock_agentcore",
-      "community": 21,
-      "community_name": "Community 21",
+      "community": 1,
       "norm_label": "@aws-sdk/client-bedrock-agentcore"
+    },
+    {
+      "label": "@aws-sdk/client-cognito-identity-provider",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L19",
+      "_origin": "ast",
+      "id": "package_dependencies_aws_sdk_client_cognito_identity_provider",
+      "community": 1,
+      "norm_label": "@aws-sdk/client-cognito-identity-provider"
     },
     {
       "label": "@tailwindcss/typography",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L19",
+      "source_location": "L20",
       "_origin": "ast",
       "id": "package_dependencies_tailwindcss_typography",
-      "community": 21,
-      "community_name": "Community 21",
+      "community": 1,
       "norm_label": "@tailwindcss/typography"
     },
     {
       "label": "next",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L20",
+      "source_location": "L21",
       "_origin": "ast",
       "id": "package_dependencies_next",
-      "community": 21,
-      "community_name": "Community 21",
+      "community": 1,
       "norm_label": "next"
     },
     {
       "label": "react",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L21",
+      "source_location": "L22",
       "_origin": "ast",
       "id": "package_dependencies_react",
-      "community": 21,
-      "community_name": "Community 21",
+      "community": 1,
       "norm_label": "react"
     },
     {
       "label": "react-dom",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L22",
+      "source_location": "L23",
       "_origin": "ast",
       "id": "package_dependencies_react_dom",
-      "community": 21,
-      "community_name": "Community 21",
+      "community": 1,
       "norm_label": "react-dom"
     },
     {
       "label": "react-markdown",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L23",
+      "source_location": "L24",
       "_origin": "ast",
       "id": "package_dependencies_react_markdown",
-      "community": 21,
-      "community_name": "Community 21",
+      "community": 1,
       "norm_label": "react-markdown"
+    },
+    {
+      "label": "server-only",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L25",
+      "_origin": "ast",
+      "id": "package_dependencies_server_only",
+      "community": 1,
+      "norm_label": "server-only"
     },
     {
       "label": "devDependencies",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L25",
+      "source_location": "L27",
       "_origin": "ast",
       "id": "package_devdependencies",
-      "community": 0,
-      "community_name": "Project Dependencies",
+      "community": 1,
       "norm_label": "devdependencies"
     },
     {
       "label": "@tailwindcss/postcss",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L26",
+      "source_location": "L28",
       "_origin": "ast",
       "id": "package_devdependencies_tailwindcss_postcss",
-      "community": 0,
-      "community_name": "Project Dependencies",
+      "community": 1,
       "norm_label": "@tailwindcss/postcss"
     },
     {
       "label": "@types/node",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L27",
+      "source_location": "L29",
       "_origin": "ast",
       "id": "package_devdependencies_types_node",
-      "community": 0,
-      "community_name": "Project Dependencies",
+      "community": 1,
       "norm_label": "@types/node"
     },
     {
       "label": "@types/react",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L28",
+      "source_location": "L30",
       "_origin": "ast",
       "id": "package_devdependencies_types_react",
-      "community": 0,
-      "community_name": "Project Dependencies",
+      "community": 1,
       "norm_label": "@types/react"
     },
     {
       "label": "@types/react-dom",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L29",
+      "source_location": "L31",
       "_origin": "ast",
       "id": "package_devdependencies_types_react_dom",
-      "community": 0,
-      "community_name": "Project Dependencies",
+      "community": 1,
       "norm_label": "@types/react-dom"
     },
     {
       "label": "eslint",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L30",
+      "source_location": "L32",
       "_origin": "ast",
       "id": "package_devdependencies_eslint",
-      "community": 0,
-      "community_name": "Project Dependencies",
+      "community": 1,
       "norm_label": "eslint"
     },
     {
       "label": "eslint-config-next",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L31",
+      "source_location": "L33",
       "_origin": "ast",
       "id": "package_devdependencies_eslint_config_next",
-      "community": 0,
-      "community_name": "Project Dependencies",
+      "community": 1,
       "norm_label": "eslint-config-next"
     },
     {
       "label": "tailwindcss",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L32",
+      "source_location": "L34",
       "_origin": "ast",
       "id": "package_devdependencies_tailwindcss",
-      "community": 0,
-      "community_name": "Project Dependencies",
+      "community": 1,
       "norm_label": "tailwindcss"
     },
     {
       "label": "typescript",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L33",
+      "source_location": "L35",
       "_origin": "ast",
       "id": "package_devdependencies_typescript",
-      "community": 0,
-      "community_name": "Project Dependencies",
+      "community": 1,
       "norm_label": "typescript"
     },
     {
-      "label": "Amplify Frontend Build Configuration",
-      "file_type": "document",
+      "label": "proxy.ts",
+      "file_type": "code",
+      "source_file": "proxy.ts",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "proxy",
+      "community": 15,
+      "norm_label": "proxy.ts"
+    },
+    {
+      "label": "proxy()",
+      "file_type": "code",
+      "source_file": "proxy.ts",
+      "source_location": "L5",
+      "_origin": "ast",
+      "id": "proxy_proxy",
+      "community": 15,
+      "norm_label": "proxy()"
+    },
+    {
+      "label": "config",
+      "file_type": "code",
+      "source_file": "proxy.ts",
+      "source_location": "L13",
+      "_origin": "ast",
+      "id": "proxy_config",
+      "community": 15,
+      "norm_label": "config"
+    },
+    {
+      "label": "chat.ts",
+      "file_type": "code",
+      "source_file": "types/chat.ts",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "types_chat",
+      "community": 3,
+      "norm_label": "chat.ts"
+    },
+    {
+      "label": "ChatRole",
+      "file_type": "code",
+      "source_file": "types/chat.ts",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "types_chat_chatrole",
+      "community": 3,
+      "norm_label": "chatrole"
+    },
+    {
+      "label": "ChatMessage",
+      "file_type": "code",
+      "source_file": "types/chat.ts",
+      "source_location": "L3",
+      "_origin": "ast",
+      "id": "types_chat_chatmessage",
+      "community": 3,
+      "norm_label": "chatmessage"
+    },
+    {
+      "label": "SendMessageRequest",
+      "file_type": "code",
+      "source_file": "types/chat.ts",
+      "source_location": "L11",
+      "_origin": "ast",
+      "id": "types_chat_sendmessagerequest",
+      "community": 3,
+      "norm_label": "sendmessagerequest"
+    },
+    {
+      "label": "Amplify Build Configuration (amplify.yml)",
+      "file_type": "code",
       "source_file": "amplify.yml",
-      "source_location": "frontend",
+      "source_location": "L1-21",
       "source_url": null,
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "id": "amplify_frontend_build",
-      "community": 22,
-      "community_name": "Community 22",
-      "norm_label": "amplify frontend build configuration"
+      "id": "amplify_config",
+      "community": 10,
+      "norm_label": "amplify build configuration (amplify.yml)"
     },
     {
-      "label": "Amplify preBuild Phase",
-      "file_type": "document",
+      "label": "preBuild Phase",
+      "file_type": "code",
       "source_file": "amplify.yml",
-      "source_location": "frontend.phases.preBuild",
+      "source_location": "L4-8",
       "source_url": null,
       "captured_at": null,
       "author": null,
       "contributor": null,
       "id": "amplify_prebuild_phase",
-      "community": 22,
-      "community_name": "Community 22",
-      "norm_label": "amplify prebuild phase"
+      "community": 10,
+      "norm_label": "prebuild phase"
     },
     {
-      "label": "Amplify Build Phase",
-      "file_type": "document",
+      "label": "build Phase",
+      "file_type": "code",
       "source_file": "amplify.yml",
-      "source_location": "frontend.phases.build",
+      "source_location": "L9-12",
       "source_url": null,
       "captured_at": null,
       "author": null,
       "contributor": null,
       "id": "amplify_build_phase",
-      "community": 22,
-      "community_name": "Community 22",
-      "norm_label": "amplify build phase"
+      "community": 10,
+      "norm_label": "build phase"
     },
     {
-      "label": "Amplify Artifacts Configuration",
-      "file_type": "document",
+      "label": "Build Artifacts Configuration (.next baseDirectory)",
+      "file_type": "code",
       "source_file": "amplify.yml",
-      "source_location": "frontend.artifacts",
+      "source_location": "L13-16",
       "source_url": null,
       "captured_at": null,
       "author": null,
       "contributor": null,
       "id": "amplify_artifacts_config",
-      "community": 22,
-      "community_name": "Community 22",
-      "norm_label": "amplify artifacts configuration"
+      "community": 10,
+      "norm_label": "build artifacts configuration (.next basedirectory)"
     },
     {
-      "label": "Amplify Cache Configuration",
-      "file_type": "document",
+      "label": "Build Cache Configuration (node_modules, .next/cache)",
+      "file_type": "code",
       "source_file": "amplify.yml",
-      "source_location": "frontend.cache",
+      "source_location": "L17-20",
       "source_url": null,
       "captured_at": null,
       "author": null,
       "contributor": null,
       "id": "amplify_cache_config",
-      "community": 22,
-      "community_name": "Community 22",
-      "norm_label": "amplify cache configuration"
+      "community": 10,
+      "norm_label": "build cache configuration (node_modules, .next/cache)"
     },
     {
-      "label": "pnpm via Corepack Setup Strategy",
-      "file_type": "rationale",
+      "label": "corepack enable / prepare pnpm@latest",
+      "file_type": "code",
       "source_file": "amplify.yml",
-      "source_location": "frontend.phases.preBuild.commands",
+      "source_location": "L6-7",
       "source_url": null,
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "id": "amplify_pnpm_corepack_setup",
-      "community": 22,
-      "community_name": "Community 22",
-      "norm_label": "pnpm via corepack setup strategy"
+      "id": "amplify_corepack_setup",
+      "community": 10,
+      "norm_label": "corepack enable / prepare pnpm@latest"
+    },
+    {
+      "label": "pnpm install --frozen-lockfile",
+      "file_type": "code",
+      "source_file": "amplify.yml",
+      "source_location": "L8",
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "id": "amplify_pnpm_install_frozen_lockfile",
+      "community": 10,
+      "norm_label": "pnpm install --frozen-lockfile"
+    },
+    {
+      "label": "Bake COGNITO_/NEXTAUTH_/AGENT_RUNTIME_ARN/CHAT_ACTOR_ID env vars into .env.production",
+      "file_type": "rationale",
+      "source_file": "amplify.yml",
+      "source_location": "L11",
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "rationale": "Amplify Hosting's Lambda-based SSR runtime does not reliably expose these process env vars at server request time, so the build filters the environment for the COGNITO_, NEXTAUTH_, AGENT_RUNTIME_ARN, and CHAT_ACTOR_ID prefixes and appends them to .env.production before `pnpm build`, letting Next.js bake them into the build output/required-server-files.json (see repo commits 'Bake server env vars into required-server-files.json for Amplify Lambda' and 'Fix chat route env var fallbacks broken by env config baking').",
+      "id": "amplify_env_var_baking",
+      "community": 10,
+      "norm_label": "bake cognito_/nextauth_/agent_runtime_arn/chat_actor_id env vars into .env.production"
+    },
+    {
+      "label": "pnpm build",
+      "file_type": "code",
+      "source_file": "amplify.yml",
+      "source_location": "L12",
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "id": "amplify_pnpm_build",
+      "community": 10,
+      "norm_label": "pnpm build"
     }
   ],
   "links": [
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "app/layout.tsx",
-      "source_location": "L10",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "app_layout",
-      "target": "app_layout_geistmono"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "app/layout.tsx",
-      "source_location": "L5",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "app_layout",
-      "target": "app_layout_geistsans"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "app/layout.tsx",
-      "source_location": "L15",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "app_layout",
-      "target": "app_layout_metadata"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "app/layout.tsx",
-      "source_location": "L20",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "app_layout",
-      "target": "app_layout_rootlayout"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "app/page.tsx",
-      "source_location": "L3",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "app_page",
-      "target": "app_page_home"
-    },
-    {
-      "relation": "imports_from",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "app/page.tsx",
-      "source_location": "L1",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "app_page",
-      "target": "components_chat_shell"
-    },
-    {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "app/page.tsx",
-      "source_location": "L1",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "app_page",
-      "target": "components_chat_shell_chatshell"
-    },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
@@ -2652,17 +2960,6 @@
       "relation": "imports_from",
       "context": "import",
       "confidence": "EXTRACTED",
-      "source_file": "components/chat-sidebar.tsx",
-      "source_location": "L4",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "components_chat_header_controls",
-      "target": "components_chat_sidebar"
-    },
-    {
-      "relation": "imports_from",
-      "context": "import",
-      "confidence": "EXTRACTED",
       "source_file": "components/chat-header-controls.tsx",
       "source_location": "L3",
       "weight": 1.0,
@@ -2680,208 +2977,6 @@
       "confidence_score": 1.0,
       "source": "components_chat_header_controls",
       "target": "components_sidebar_control_icon_sidebarcontrolicon"
-    },
-    {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "components/chat-sidebar.tsx",
-      "source_location": "L4",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "components_chat_header_controls_chatheadercontrols",
-      "target": "components_chat_sidebar"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "components/chat-shell.tsx",
-      "source_location": "L12",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "components_chat_shell",
-      "target": "components_chat_shell_chatshell"
-    },
-    {
-      "relation": "imports_from",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "components/chat-shell.tsx",
-      "source_location": "L4",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "components_chat_shell",
-      "target": "components_chat_sidebar"
-    },
-    {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "components/chat-shell.tsx",
-      "source_location": "L4",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "components_chat_shell",
-      "target": "components_chat_sidebar_chatsidebar"
-    },
-    {
-      "relation": "imports_from",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "components/chat-shell.tsx",
-      "source_location": "L5",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "components_chat_shell",
-      "target": "components_main_chat"
-    },
-    {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "components/chat-shell.tsx",
-      "source_location": "L5",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "components_chat_shell",
-      "target": "components_main_chat_mainchat"
-    },
-    {
-      "relation": "imports_from",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "components/chat-shell.tsx",
-      "source_location": "L6",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "components_chat_shell",
-      "target": "lib_chat_layout"
-    },
-    {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "components/chat-shell.tsx",
-      "source_location": "L6",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "components_chat_shell",
-      "target": "lib_chat_layout_getchatpanevisibilityclass"
-    },
-    {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "components/chat-shell.tsx",
-      "source_location": "L6",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "components_chat_shell",
-      "target": "lib_chat_layout_getshelllayoutclass"
-    },
-    {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "components/chat-shell.tsx",
-      "source_location": "L6",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "components_chat_shell",
-      "target": "lib_chat_layout_getsidebarvisible"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "components/chat-shell.tsx",
-      "source_location": "L46",
-      "weight": 1.0,
-      "source": "components_chat_shell_chatshell",
-      "target": "lib_chat_layout_getchatpanevisibilityclass"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "components/chat-shell.tsx",
-      "source_location": "L45",
-      "weight": 1.0,
-      "source": "components_chat_shell_chatshell",
-      "target": "lib_chat_layout_getshelllayoutclass"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "components/chat-shell.tsx",
-      "source_location": "L43",
-      "weight": 1.0,
-      "source": "components_chat_shell_chatshell",
-      "target": "lib_chat_layout_getsidebarvisible"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "components/chat-sidebar.tsx",
-      "source_location": "L47",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "components_chat_sidebar",
-      "target": "components_chat_sidebar_chatsidebar"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "components/chat-sidebar.tsx",
-      "source_location": "L40",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "components_chat_sidebar",
-      "target": "components_chat_sidebar_chatsidebarprops"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "components/chat-sidebar.tsx",
-      "source_location": "L6",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "components_chat_sidebar",
-      "target": "components_chat_sidebar_sidebar_items"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "components/chat-sidebar.tsx",
-      "source_location": "L31",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "components_chat_sidebar",
-      "target": "components_chat_sidebar_sidebarinfocard"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "components/chat-sidebar.tsx",
-      "source_location": "L26",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "components_chat_sidebar",
-      "target": "components_chat_sidebar_sidebarinfocardprops"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "components/chat-sidebar.tsx",
-      "source_location": "L8",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "components_chat_sidebar",
-      "target": "components_chat_sidebar_sparkicon"
     },
     {
       "relation": "contains",
@@ -2957,123 +3052,6 @@
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
-      "source_file": "lib/chat-api.ts",
-      "source_location": "L62",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "lib_chat_api",
-      "target": "lib_chat_api_chatapiclient"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "lib/chat-api.ts",
-      "source_location": "L7",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "lib_chat_api",
-      "target": "lib_chat_api_issendmessageresponse"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "lib/chat-api.ts",
-      "source_location": "L22",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "lib_chat_api",
-      "target": "lib_chat_api_restchatapiclient"
-    },
-    {
-      "relation": "imports_from",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "lib/chat-api.ts",
-      "source_location": "L1",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "lib_chat_api",
-      "target": "types_chat"
-    },
-    {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "lib/chat-api.ts",
-      "source_location": "L1",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "lib_chat_api",
-      "target": "types_chat_sendmessagerequest"
-    },
-    {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "lib/chat-api.ts",
-      "source_location": "L1",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "lib_chat_api",
-      "target": "types_chat_sendmessageresponse"
-    },
-    {
-      "relation": "implements",
-      "context": "type",
-      "confidence": "EXTRACTED",
-      "source_file": "lib/chat-api.ts",
-      "source_location": "L22",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "lib_chat_api_chatapiclient",
-      "target": "lib_chat_api_restchatapiclient"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "lib/chat-api.ts",
-      "source_location": "L54",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "lib_chat_api_issendmessageresponse",
-      "target": "lib_chat_api_restchatapiclient_sendmessage"
-    },
-    {
-      "relation": "method",
-      "confidence": "EXTRACTED",
-      "source_file": "lib/chat-api.ts",
-      "source_location": "L23",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "lib_chat_api_restchatapiclient",
-      "target": "lib_chat_api_restchatapiclient_sendmessage"
-    },
-    {
-      "relation": "references",
-      "context": "generic_arg",
-      "confidence": "EXTRACTED",
-      "source_file": "lib/chat-api.ts",
-      "source_location": "L23",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "lib_chat_api_restchatapiclient_sendmessage",
-      "target": "types_chat_sendmessagerequest"
-    },
-    {
-      "relation": "references",
-      "context": "generic_arg",
-      "confidence": "EXTRACTED",
-      "source_file": "lib/chat-api.ts",
-      "source_location": "L23",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "lib_chat_api_restchatapiclient_sendmessage",
-      "target": "types_chat_sendmessageresponse"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
       "source_file": "lib/chat-layout.ts",
       "source_location": "L13",
       "weight": 1.0,
@@ -3143,16 +3121,6 @@
       "confidence_score": 1.0,
       "source": "lib_chat_message",
       "target": "types_chat_chatrole"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "next.config.ts",
-      "source_location": "L3",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "next_config",
-      "target": "next_config_nextconfig"
     },
     {
       "relation": "contains",
@@ -3353,46 +3321,6 @@
       "confidence_score": 1.0,
       "source": "tsconfig_compileroptions_paths",
       "target": "tsconfig_paths"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "types/chat.ts",
-      "source_location": "L3",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "types_chat",
-      "target": "types_chat_chatmessage"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "types/chat.ts",
-      "source_location": "L1",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "types_chat",
-      "target": "types_chat_chatrole"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "types/chat.ts",
-      "source_location": "L11",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "types_chat",
-      "target": "types_chat_sendmessagerequest"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "types/chat.ts",
-      "source_location": "L16",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "types_chat",
-      "target": "types_chat_sendmessageresponse"
     },
     {
       "relation": "references",
@@ -4457,8 +4385,71 @@
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
+      "source_file": "app/api/auth/login/route.ts",
+      "source_location": "L5",
+      "weight": 1.0,
+      "source": "app_api_auth_login_route",
+      "target": "app_api_auth_login_route_post",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/api/auth/login/route.ts",
+      "source_location": "L2",
+      "weight": 1.0,
+      "source": "app_api_auth_login_route",
+      "target": "lib_cognito_auth",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/api/auth/login/route.ts",
+      "source_location": "L2",
+      "weight": 1.0,
+      "source": "app_api_auth_login_route",
+      "target": "lib_cognito_auth_verifyauthtoken",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/api/auth/login/route.ts",
+      "source_location": "L7",
+      "weight": 1.0,
+      "source": "app_api_auth_login_route_post",
+      "target": "lib_cognito_auth_verifyauthtoken"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/api/auth/logout/route.ts",
+      "source_location": "L4",
+      "weight": 1.0,
+      "source": "app_api_auth_logout_route",
+      "target": "app_api_auth_logout_route_post",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
       "source_file": "app/api/chat/route.ts",
-      "source_location": "L17",
+      "source_location": "L154",
+      "weight": 1.0,
+      "source": "app_api_chat_route",
+      "target": "app_api_chat_route_agentinvocation",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/api/chat/route.ts",
+      "source_location": "L30",
       "weight": 1.0,
       "source": "app_api_chat_route",
       "target": "app_api_chat_route_client",
@@ -4468,7 +4459,37 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "app/api/chat/route.ts",
-      "source_location": "L19",
+      "source_location": "L63",
+      "weight": 1.0,
+      "source": "app_api_chat_route",
+      "target": "app_api_chat_route_decodesseframe",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/api/chat/route.ts",
+      "source_location": "L159",
+      "weight": 1.0,
+      "source": "app_api_chat_route",
+      "target": "app_api_chat_route_invokeagentcore",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/api/chat/route.ts",
+      "source_location": "L187",
+      "weight": 1.0,
+      "source": "app_api_chat_route",
+      "target": "app_api_chat_route_invokelocalagent",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/api/chat/route.ts",
+      "source_location": "L32",
       "weight": 1.0,
       "source": "app_api_chat_route",
       "target": "app_api_chat_route_isrecord",
@@ -4478,7 +4499,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "app/api/chat/route.ts",
-      "source_location": "L23",
+      "source_location": "L36",
       "weight": 1.0,
       "source": "app_api_chat_route",
       "target": "app_api_chat_route_parsechatrequest",
@@ -4488,10 +4509,52 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "app/api/chat/route.ts",
-      "source_location": "L41",
+      "source_location": "L93",
+      "weight": 1.0,
+      "source": "app_api_chat_route",
+      "target": "app_api_chat_route_pipeeventstream",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/api/chat/route.ts",
+      "source_location": "L208",
       "weight": 1.0,
       "source": "app_api_chat_route",
       "target": "app_api_chat_route_post",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/api/chat/route.ts",
+      "source_location": "L136",
+      "weight": 1.0,
+      "source": "app_api_chat_route",
+      "target": "app_api_chat_route_readwebstreamtostring",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/api/chat/route.ts",
+      "source_location": "L6",
+      "weight": 1.0,
+      "source": "app_api_chat_route",
+      "target": "lib_session",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/api/chat/route.ts",
+      "source_location": "L6",
+      "weight": 1.0,
+      "source": "app_api_chat_route",
+      "target": "lib_session_getsession",
       "confidence_score": 1.0
     },
     {
@@ -4499,9 +4562,20 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "app/api/chat/route.ts",
-      "source_location": "L24",
+      "source_location": "L37",
       "weight": 1.0,
-      "source": "app_api_chat_route_isrecord",
+      "source": "app_api_chat_route_parsechatrequest",
+      "target": "app_api_chat_route_isrecord",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "app/api/chat/route.ts",
+      "source_location": "L217",
+      "weight": 1.0,
+      "source": "app_api_chat_route_post",
       "target": "app_api_chat_route_parsechatrequest",
       "confidence_score": 1.0
     },
@@ -4510,10 +4584,541 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "app/api/chat/route.ts",
-      "source_location": "L43",
+      "source_location": "L111",
       "weight": 1.0,
-      "source": "app_api_chat_route_parsechatrequest",
-      "target": "app_api_chat_route_post",
+      "source": "app_api_chat_route_pipeeventstream",
+      "target": "app_api_chat_route_decodesseframe",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "app/api/chat/route.ts",
+      "source_location": "L239",
+      "weight": 1.0,
+      "source": "app_api_chat_route_post",
+      "target": "app_api_chat_route_invokeagentcore",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "app/api/chat/route.ts",
+      "source_location": "L238",
+      "weight": 1.0,
+      "source": "app_api_chat_route_post",
+      "target": "app_api_chat_route_invokelocalagent",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/api/chat/route.ts",
+      "source_location": "L209",
+      "weight": 1.0,
+      "source": "app_api_chat_route_post",
+      "target": "lib_session_getsession"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/api/cognito/initiate/route.ts",
+      "source_location": "L4",
+      "weight": 1.0,
+      "source": "app_api_cognito_initiate_route",
+      "target": "app_api_cognito_initiate_route_post",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/api/cognito/initiate/route.ts",
+      "source_location": "L2",
+      "weight": 1.0,
+      "source": "app_api_cognito_initiate_route",
+      "target": "lib_cognito_auth",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/api/cognito/initiate/route.ts",
+      "source_location": "L2",
+      "weight": 1.0,
+      "source": "app_api_cognito_initiate_route",
+      "target": "lib_cognito_auth_extractuserfromidtoken",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/api/cognito/initiate/route.ts",
+      "source_location": "L2",
+      "weight": 1.0,
+      "source": "app_api_cognito_initiate_route",
+      "target": "lib_cognito_auth_initiateauth",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/api/cognito/initiate/route.ts",
+      "source_location": "L2",
+      "weight": 1.0,
+      "source": "app_api_cognito_initiate_route",
+      "target": "lib_cognito_auth_signauthtoken",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/api/cognito/initiate/route.ts",
+      "source_location": "L20",
+      "weight": 1.0,
+      "source": "app_api_cognito_initiate_route_post",
+      "target": "lib_cognito_auth_extractuserfromidtoken"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/api/cognito/initiate/route.ts",
+      "source_location": "L13",
+      "weight": 1.0,
+      "source": "app_api_cognito_initiate_route_post",
+      "target": "lib_cognito_auth_initiateauth"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/api/cognito/initiate/route.ts",
+      "source_location": "L21",
+      "weight": 1.0,
+      "source": "app_api_cognito_initiate_route_post",
+      "target": "lib_cognito_auth_signauthtoken"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/api/cognito/respond/route.ts",
+      "source_location": "L4",
+      "weight": 1.0,
+      "source": "app_api_cognito_respond_route",
+      "target": "app_api_cognito_respond_route_post",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/api/cognito/respond/route.ts",
+      "source_location": "L2",
+      "weight": 1.0,
+      "source": "app_api_cognito_respond_route",
+      "target": "lib_cognito_auth",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/api/cognito/respond/route.ts",
+      "source_location": "L2",
+      "weight": 1.0,
+      "source": "app_api_cognito_respond_route",
+      "target": "lib_cognito_auth_extractuserfromidtoken",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/api/cognito/respond/route.ts",
+      "source_location": "L2",
+      "weight": 1.0,
+      "source": "app_api_cognito_respond_route",
+      "target": "lib_cognito_auth_respondtonewpasswordchallenge",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/api/cognito/respond/route.ts",
+      "source_location": "L2",
+      "weight": 1.0,
+      "source": "app_api_cognito_respond_route",
+      "target": "lib_cognito_auth_signauthtoken",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/api/cognito/respond/route.ts",
+      "source_location": "L20",
+      "weight": 1.0,
+      "source": "app_api_cognito_respond_route_post",
+      "target": "lib_cognito_auth_extractuserfromidtoken"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/api/cognito/respond/route.ts",
+      "source_location": "L13",
+      "weight": 1.0,
+      "source": "app_api_cognito_respond_route_post",
+      "target": "lib_cognito_auth_respondtonewpasswordchallenge"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/api/cognito/respond/route.ts",
+      "source_location": "L21",
+      "weight": 1.0,
+      "source": "app_api_cognito_respond_route_post",
+      "target": "lib_cognito_auth_signauthtoken"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/layout.tsx",
+      "source_location": "L10",
+      "weight": 1.0,
+      "source": "app_layout",
+      "target": "app_layout_geistmono",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/layout.tsx",
+      "source_location": "L5",
+      "weight": 1.0,
+      "source": "app_layout",
+      "target": "app_layout_geistsans",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/layout.tsx",
+      "source_location": "L15",
+      "weight": 1.0,
+      "source": "app_layout",
+      "target": "app_layout_metadata",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/layout.tsx",
+      "source_location": "L20",
+      "weight": 1.0,
+      "source": "app_layout",
+      "target": "app_layout_rootlayout",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/login/page.tsx",
+      "source_location": "L5",
+      "weight": 1.0,
+      "source": "app_login_page",
+      "target": "app_login_page_loginpage",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/login/page.tsx",
+      "source_location": "L3",
+      "weight": 1.0,
+      "source": "app_login_page",
+      "target": "components_login_form",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/login/page.tsx",
+      "source_location": "L3",
+      "weight": 1.0,
+      "source": "app_login_page",
+      "target": "components_login_form_loginform",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/login/page.tsx",
+      "source_location": "L2",
+      "weight": 1.0,
+      "source": "app_login_page",
+      "target": "lib_session",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/login/page.tsx",
+      "source_location": "L2",
+      "weight": 1.0,
+      "source": "app_login_page",
+      "target": "lib_session_getsession",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/login/page.tsx",
+      "source_location": "L6",
+      "weight": 1.0,
+      "source": "app_login_page_loginpage",
+      "target": "lib_session_getsession"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/page.tsx",
+      "source_location": "L3",
+      "weight": 1.0,
+      "source": "app_page",
+      "target": "app_page_buildcognitologouturl",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/page.tsx",
+      "source_location": "L11",
+      "weight": 1.0,
+      "source": "app_page",
+      "target": "app_page_home",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/page.tsx",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "app_page",
+      "target": "components_chat_shell",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/page.tsx",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "app_page",
+      "target": "components_chat_shell_chatshell",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "app/page.tsx",
+      "source_location": "L12",
+      "weight": 1.0,
+      "source": "app_page_home",
+      "target": "app_page_buildcognitologouturl",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "components/chat-shell.tsx",
+      "source_location": "L16",
+      "weight": 1.0,
+      "source": "components_chat_shell",
+      "target": "components_chat_shell_chatshell",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "components/chat-shell.tsx",
+      "source_location": "L12",
+      "weight": 1.0,
+      "source": "components_chat_shell",
+      "target": "components_chat_shell_chatshellprops",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "components/chat-shell.tsx",
+      "source_location": "L4",
+      "weight": 1.0,
+      "source": "components_chat_shell",
+      "target": "components_chat_sidebar",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "components/chat-shell.tsx",
+      "source_location": "L4",
+      "weight": 1.0,
+      "source": "components_chat_shell",
+      "target": "components_chat_sidebar_chatsidebar",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "components/chat-shell.tsx",
+      "source_location": "L5",
+      "weight": 1.0,
+      "source": "components_chat_shell",
+      "target": "components_main_chat",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "components/chat-shell.tsx",
+      "source_location": "L5",
+      "weight": 1.0,
+      "source": "components_chat_shell",
+      "target": "components_main_chat_mainchat",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "components/chat-sidebar.tsx",
+      "source_location": "L49",
+      "weight": 1.0,
+      "source": "components_chat_sidebar",
+      "target": "components_chat_sidebar_chatsidebar",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "components/chat-sidebar.tsx",
+      "source_location": "L41",
+      "weight": 1.0,
+      "source": "components_chat_sidebar",
+      "target": "components_chat_sidebar_chatsidebarprops",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "components/chat-sidebar.tsx",
+      "source_location": "L7",
+      "weight": 1.0,
+      "source": "components_chat_sidebar",
+      "target": "components_chat_sidebar_sidebar_items",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "components/chat-sidebar.tsx",
+      "source_location": "L32",
+      "weight": 1.0,
+      "source": "components_chat_sidebar",
+      "target": "components_chat_sidebar_sidebarinfocard",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "components/chat-sidebar.tsx",
+      "source_location": "L27",
+      "weight": 1.0,
+      "source": "components_chat_sidebar",
+      "target": "components_chat_sidebar_sidebarinfocardprops",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "components/chat-sidebar.tsx",
+      "source_location": "L9",
+      "weight": 1.0,
+      "source": "components_chat_sidebar",
+      "target": "components_chat_sidebar_sparkicon",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "components/chat-sidebar.tsx",
+      "source_location": "L5",
+      "weight": 1.0,
+      "source": "components_chat_sidebar",
+      "target": "components_sign_out_button",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "components/chat-sidebar.tsx",
+      "source_location": "L5",
+      "weight": 1.0,
+      "source": "components_chat_sidebar",
+      "target": "components_sign_out_button_signoutbutton",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "components/login-form.tsx",
+      "source_location": "L17",
+      "weight": 1.0,
+      "source": "components_login_form",
+      "target": "components_login_form_loginform",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "components/login-form.tsx",
+      "source_location": "L7",
+      "weight": 1.0,
+      "source": "components_login_form",
+      "target": "components_login_form_step",
       "confidence_score": 1.0
     },
     {
@@ -4597,6 +5202,297 @@
       "confidence_score": 1.0
     },
     {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "components/main-chat.tsx",
+      "source_location": "L7",
+      "weight": 1.0,
+      "source": "components_main_chat",
+      "target": "lib_chat_api",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "components/main-chat.tsx",
+      "source_location": "L7",
+      "weight": 1.0,
+      "source": "components_main_chat",
+      "target": "lib_chat_api_chatapiclient",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "components/main-chat.tsx",
+      "source_location": "L9",
+      "weight": 1.0,
+      "source": "components_main_chat",
+      "target": "types_chat",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "components/main-chat.tsx",
+      "source_location": "L9",
+      "weight": 1.0,
+      "source": "components_main_chat",
+      "target": "types_chat_chatmessage",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "components/sign-out-button.tsx",
+      "source_location": "L7",
+      "weight": 1.0,
+      "source": "components_sign_out_button",
+      "target": "components_sign_out_button_signoutbutton",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "components/sign-out-button.tsx",
+      "source_location": "L3",
+      "weight": 1.0,
+      "source": "components_sign_out_button",
+      "target": "components_sign_out_button_signoutbuttonprops",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "lib/chat-api.ts",
+      "source_location": "L100",
+      "weight": 1.0,
+      "source": "lib_chat_api",
+      "target": "lib_chat_api_chatapiclient",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "lib/chat-api.ts",
+      "source_location": "L24",
+      "weight": 1.0,
+      "source": "lib_chat_api",
+      "target": "lib_chat_api_readerrormessage",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "lib/chat-api.ts",
+      "source_location": "L41",
+      "weight": 1.0,
+      "source": "lib_chat_api",
+      "target": "lib_chat_api_restchatapiclient",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "lib/chat-api.ts",
+      "source_location": "L6",
+      "weight": 1.0,
+      "source": "lib_chat_api",
+      "target": "lib_chat_api_sendmessageoptions",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "lib/chat-api.ts",
+      "source_location": "L13",
+      "weight": 1.0,
+      "source": "lib_chat_api",
+      "target": "lib_chat_api_sendmessageresult",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "lib/chat-api.ts",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "lib_chat_api",
+      "target": "types_chat",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "lib/chat-api.ts",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "lib_chat_api",
+      "target": "types_chat_sendmessagerequest",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "implements",
+      "context": "type",
+      "confidence": "EXTRACTED",
+      "source_file": "lib/chat-api.ts",
+      "source_location": "L41",
+      "weight": 1.0,
+      "source": "lib_chat_api_restchatapiclient",
+      "target": "lib_chat_api_chatapiclient",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "lib/chat-api.ts",
+      "source_location": "L58",
+      "weight": 1.0,
+      "source": "lib_chat_api_restchatapiclient_sendmessage",
+      "target": "lib_chat_api_readerrormessage",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "lib/chat-api.ts",
+      "source_location": "L42",
+      "weight": 1.0,
+      "source": "lib_chat_api_restchatapiclient",
+      "target": "lib_chat_api_restchatapiclient_sendmessage",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "references",
+      "context": "generic_arg",
+      "confidence": "EXTRACTED",
+      "source_file": "lib/chat-api.ts",
+      "source_location": "L42",
+      "weight": 1.0,
+      "source": "lib_chat_api_restchatapiclient_sendmessage",
+      "target": "types_chat_sendmessagerequest",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "lib/cognito-auth.ts",
+      "source_location": "L9",
+      "weight": 1.0,
+      "source": "lib_cognito_auth",
+      "target": "lib_cognito_auth_cognitoclient",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "lib/cognito-auth.ts",
+      "source_location": "L13",
+      "weight": 1.0,
+      "source": "lib_cognito_auth",
+      "target": "lib_cognito_auth_computesecrethash",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "lib/cognito-auth.ts",
+      "source_location": "L84",
+      "weight": 1.0,
+      "source": "lib_cognito_auth",
+      "target": "lib_cognito_auth_extractuserfromidtoken",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "lib/cognito-auth.ts",
+      "source_location": "L19",
+      "weight": 1.0,
+      "source": "lib_cognito_auth",
+      "target": "lib_cognito_auth_initiateauth",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "lib/cognito-auth.ts",
+      "source_location": "L33",
+      "weight": 1.0,
+      "source": "lib_cognito_auth",
+      "target": "lib_cognito_auth_respondtonewpasswordchallenge",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "lib/cognito-auth.ts",
+      "source_location": "L52",
+      "weight": 1.0,
+      "source": "lib_cognito_auth",
+      "target": "lib_cognito_auth_signauthtoken",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "lib/cognito-auth.ts",
+      "source_location": "L61",
+      "weight": 1.0,
+      "source": "lib_cognito_auth",
+      "target": "lib_cognito_auth_verifyauthtoken",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "lib/cognito-auth.ts",
+      "source_location": "L27",
+      "weight": 1.0,
+      "source": "lib_cognito_auth_initiateauth",
+      "target": "lib_cognito_auth_computesecrethash",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "lib/cognito-auth.ts",
+      "source_location": "L45",
+      "weight": 1.0,
+      "source": "lib_cognito_auth_respondtonewpasswordchallenge",
+      "target": "lib_cognito_auth_computesecrethash",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "lib/session.ts",
+      "source_location": "L7",
+      "weight": 1.0,
+      "source": "lib_session",
+      "target": "lib_session_getsession",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "next.config.ts",
+      "source_location": "L3",
+      "weight": 1.0,
+      "source": "next_config",
+      "target": "next_config_nextconfig",
+      "confidence_score": 1.0
+    },
+    {
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "package.json",
@@ -4610,7 +5506,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "package.json",
-      "source_location": "L25",
+      "source_location": "L27",
       "weight": 1.0,
       "source": "package",
       "target": "package_devdependencies",
@@ -4750,10 +5646,10 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "package.json",
-      "source_location": "L20",
+      "source_location": "L19",
       "weight": 1.0,
       "source": "package_dependencies",
-      "target": "package_dependencies_next",
+      "target": "package_dependencies_aws_sdk_client_cognito_identity_provider",
       "confidence_score": 1.0
     },
     {
@@ -4763,7 +5659,7 @@
       "source_location": "L21",
       "weight": 1.0,
       "source": "package_dependencies",
-      "target": "package_dependencies_react",
+      "target": "package_dependencies_next",
       "confidence_score": 1.0
     },
     {
@@ -4773,7 +5669,7 @@
       "source_location": "L22",
       "weight": 1.0,
       "source": "package_dependencies",
-      "target": "package_dependencies_react_dom",
+      "target": "package_dependencies_react",
       "confidence_score": 1.0
     },
     {
@@ -4783,6 +5679,16 @@
       "source_location": "L23",
       "weight": 1.0,
       "source": "package_dependencies",
+      "target": "package_dependencies_react_dom",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L24",
+      "weight": 1.0,
+      "source": "package_dependencies",
       "target": "package_dependencies_react_markdown",
       "confidence_score": 1.0
     },
@@ -4790,7 +5696,17 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "package.json",
-      "source_location": "L19",
+      "source_location": "L25",
+      "weight": 1.0,
+      "source": "package_dependencies",
+      "target": "package_dependencies_server_only",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L20",
       "weight": 1.0,
       "source": "package_dependencies",
       "target": "package_dependencies_tailwindcss_typography",
@@ -4800,7 +5716,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "package.json",
-      "source_location": "L30",
+      "source_location": "L32",
       "weight": 1.0,
       "source": "package_devdependencies",
       "target": "package_devdependencies_eslint",
@@ -4810,7 +5726,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "package.json",
-      "source_location": "L31",
+      "source_location": "L33",
       "weight": 1.0,
       "source": "package_devdependencies",
       "target": "package_devdependencies_eslint_config_next",
@@ -4820,7 +5736,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "package.json",
-      "source_location": "L32",
+      "source_location": "L34",
       "weight": 1.0,
       "source": "package_devdependencies",
       "target": "package_devdependencies_tailwindcss",
@@ -4830,7 +5746,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "package.json",
-      "source_location": "L26",
+      "source_location": "L28",
       "weight": 1.0,
       "source": "package_devdependencies",
       "target": "package_devdependencies_tailwindcss_postcss",
@@ -4840,7 +5756,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "package.json",
-      "source_location": "L27",
+      "source_location": "L29",
       "weight": 1.0,
       "source": "package_devdependencies",
       "target": "package_devdependencies_types_node",
@@ -4850,7 +5766,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "package.json",
-      "source_location": "L28",
+      "source_location": "L30",
       "weight": 1.0,
       "source": "package_devdependencies",
       "target": "package_devdependencies_types_react",
@@ -4860,7 +5776,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "package.json",
-      "source_location": "L29",
+      "source_location": "L31",
       "weight": 1.0,
       "source": "package_devdependencies",
       "target": "package_devdependencies_types_react_dom",
@@ -4870,10 +5786,60 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "package.json",
-      "source_location": "L33",
+      "source_location": "L35",
       "weight": 1.0,
       "source": "package_devdependencies",
       "target": "package_devdependencies_typescript",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "proxy.ts",
+      "source_location": "L13",
+      "weight": 1.0,
+      "source": "proxy",
+      "target": "proxy_config",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "proxy.ts",
+      "source_location": "L5",
+      "weight": 1.0,
+      "source": "proxy",
+      "target": "proxy_proxy",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "types/chat.ts",
+      "source_location": "L3",
+      "weight": 1.0,
+      "source": "types_chat",
+      "target": "types_chat_chatmessage",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "types/chat.ts",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "types_chat",
+      "target": "types_chat_chatrole",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "types/chat.ts",
+      "source_location": "L11",
+      "weight": 1.0,
+      "source": "types_chat",
+      "target": "types_chat_sendmessagerequest",
       "confidence_score": 1.0
     },
     {
@@ -4881,9 +5847,9 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "amplify.yml",
-      "source_location": "frontend",
+      "source_location": "L13-16",
       "weight": 1.0,
-      "source": "amplify_frontend_build",
+      "source": "amplify_config",
       "target": "amplify_artifacts_config"
     },
     {
@@ -4891,9 +5857,9 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "amplify.yml",
-      "source_location": "frontend.phases",
+      "source_location": "L9-12",
       "weight": 1.0,
-      "source": "amplify_frontend_build",
+      "source": "amplify_config",
       "target": "amplify_build_phase"
     },
     {
@@ -4901,9 +5867,9 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "amplify.yml",
-      "source_location": "frontend",
+      "source_location": "L17-20",
       "weight": 1.0,
-      "source": "amplify_frontend_build",
+      "source": "amplify_config",
       "target": "amplify_cache_config"
     },
     {
@@ -4911,9 +5877,9 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "amplify.yml",
-      "source_location": "frontend.phases",
+      "source_location": "L3-8",
       "weight": 1.0,
-      "source": "amplify_frontend_build",
+      "source": "amplify_config",
       "target": "amplify_prebuild_phase"
     },
     {
@@ -4921,32 +5887,107 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "amplify.yml",
-      "source_location": "frontend.phases",
+      "source_location": "L6-7",
       "weight": 1.0,
       "source": "amplify_prebuild_phase",
-      "target": "amplify_build_phase"
+      "target": "amplify_corepack_setup"
     },
     {
       "relation": "references",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "amplify.yml",
-      "source_location": "frontend.phases.preBuild.commands",
+      "source_location": "L8",
       "weight": 1.0,
       "source": "amplify_prebuild_phase",
-      "target": "amplify_pnpm_corepack_setup"
+      "target": "amplify_pnpm_install_frozen_lockfile"
     },
     {
-      "relation": "conceptually_related_to",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "amplify.yml",
+      "source_location": "L11",
+      "weight": 1.0,
+      "source": "amplify_build_phase",
+      "target": "amplify_env_var_baking"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "amplify.yml",
+      "source_location": "L12",
+      "weight": 1.0,
+      "source": "amplify_build_phase",
+      "target": "amplify_pnpm_build"
+    },
+    {
+      "relation": "shares_data_with",
       "confidence": "INFERRED",
       "confidence_score": 0.95,
       "source_file": "amplify.yml",
-      "source_location": "frontend.artifacts.baseDirectory",
-      "weight": 0.95,
-      "source": "amplify_build_phase",
-      "target": "amplify_artifacts_config"
+      "source_location": "L12-16",
+      "weight": 1.0,
+      "source": "amplify_artifacts_config",
+      "target": "amplify_pnpm_build"
+    },
+    {
+      "relation": "shares_data_with",
+      "confidence": "INFERRED",
+      "confidence_score": 0.85,
+      "source_file": "amplify.yml",
+      "source_location": "L12,17-20",
+      "weight": 1.0,
+      "source": "amplify_cache_config",
+      "target": "amplify_pnpm_build"
+    },
+    {
+      "relation": "shares_data_with",
+      "confidence": "INFERRED",
+      "confidence_score": 0.85,
+      "source_file": "amplify.yml",
+      "source_location": "L8,18-20",
+      "weight": 1.0,
+      "source": "amplify_cache_config",
+      "target": "amplify_pnpm_install_frozen_lockfile"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "amplify.yml",
+      "source_location": "L6-8",
+      "weight": 1.0,
+      "source": "amplify_corepack_setup",
+      "target": "amplify_pnpm_install_frozen_lockfile"
+    },
+    {
+      "relation": "shares_data_with",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "amplify.yml",
+      "source_location": "L11-12",
+      "weight": 1.0,
+      "source": "amplify_env_var_baking",
+      "target": "amplify_pnpm_build"
     }
   ],
-  "hyperedges": [],
-  "built_at_commit": "86fd5629b84c7a712e1f17b7cf0ff3743b1c660e"
+  "hyperedges": [
+    {
+      "id": "amplify_ci_cd_pipeline",
+      "label": "Amplify Frontend CI/CD Pipeline (preBuild -> build -> artifacts, cached)",
+      "nodes": [
+        "amplify_prebuild_phase",
+        "amplify_build_phase",
+        "amplify_artifacts_config",
+        "amplify_cache_config"
+      ],
+      "relation": "form",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "amplify.yml"
+    }
+  ],
+  "built_at_commit": "62cee17375e6c07edcfc794ea50702d522a98788"
 }
