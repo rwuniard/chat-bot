@@ -13,7 +13,7 @@ const nextConfig: NextConfig = {
     COGNITO_CLIENT_ID: process.env.COGNITO_CLIENT_ID ?? "",
     COGNITO_CLIENT_SECRET: process.env.COGNITO_CLIENT_SECRET ?? "",
     NEXTAUTH_SECRET: process.env.NEXTAUTH_SECRET ?? "",
-    NEXTAUTH_URL: process.env.NEXTAUTH_URL ?? "",
+    NEXTAUTH_URL: (process.env.NEXTAUTH_URL ?? "").replace(/\/$/, ""),
     AGENT_RUNTIME_ARN: process.env.AGENT_RUNTIME_ARN ?? "",
     CHAT_ACTOR_ID: process.env.CHAT_ACTOR_ID ?? "",
   },
