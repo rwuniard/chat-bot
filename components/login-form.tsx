@@ -1,10 +1,12 @@
 "use client";
 
+import type { ComponentProps, KeyboardEvent } from "react";
 import { useRef, useState } from "react";
 import { useRouter } from "next/navigation";
-import type { FormEvent, KeyboardEvent } from "react";
 
 type Step = "login" | "new-password";
+
+type FormSubmitEvent = Parameters<NonNullable<ComponentProps<"form">["onSubmit"]>>[0];
 
 const INPUT_CLASS =
   "w-full rounded-xl bg-[#1f1f1f] px-4 py-3 text-sm text-stone-100 placeholder-stone-500 ring-1 ring-white/10 focus:outline-none focus:ring-2 focus:ring-sky-500";
@@ -48,8 +50,8 @@ export function LoginForm() {
     router.refresh();
   }
 
-  async function handleLogin(e: FormEvent) {
-    e.preventDefault();
+  async function handleLogin(event: FormSubmitEvent) {
+    event.preventDefault();
     setError("");
     setLoading(true);
     try {
@@ -69,15 +71,16 @@ export function LoginForm() {
         return;
       }
       await completeSignIn(data.token);
-    } catch {
+    } catch (error) {
+      console.error("Login failed", error);
       setError("An unexpected error occurred. Please try again.");
     } finally {
       setLoading(false);
     }
   }
 
-  async function handleNewPassword(e: FormEvent) {
-    e.preventDefault();
+  async function handleNewPassword(event: FormSubmitEvent) {
+    event.preventDefault();
     setError("");
     if (newPassword !== confirmPassword) {
       setError("Passwords do not match");
@@ -96,7 +99,8 @@ export function LoginForm() {
         return;
       }
       await completeSignIn(data.token);
-    } catch {
+    } catch (error) {
+      console.error("New password challenge failed", error);
       setError("An unexpected error occurred. Please try again.");
     } finally {
       setLoading(false);

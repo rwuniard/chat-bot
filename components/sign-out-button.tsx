@@ -4,10 +4,10 @@ interface SignOutButtonProps {
   readonly cognitoLogoutUrl: string;
 }
 
-export function SignOutButton({ cognitoLogoutUrl }: SignOutButtonProps) {
+export function SignOutButton({ cognitoLogoutUrl }: Readonly<SignOutButtonProps>) {
   async function handleSignOut() {
     await fetch("/api/auth/logout", { method: "POST" });
-    window.location.href = cognitoLogoutUrl;
+    globalThis.location.href = cognitoLogoutUrl;
   }
 
   return (
