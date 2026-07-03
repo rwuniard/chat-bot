@@ -1,8 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { useRouter } from "next/navigation";
-import type { FormEvent } from "react";
+import type { FormEvent, KeyboardEvent } from "react";
 
 type Step = "login" | "new-password";
 
@@ -16,6 +16,15 @@ const SUBMIT_CLASS =
 
 export function LoginForm() {
   const router = useRouter();
+
+  // Form refs let us programmatically submit on Enter (same as clicking the button).
+  const loginFormRef = useRef<HTMLFormElement>(null);
+  const newPasswordFormRef = useRef<HTMLFormElement>(null);
+
+  // Input refs let us move focus to the next field when Enter is pressed.
+  const passwordInputRef = useRef<HTMLInputElement>(null);
+  const confirmPasswordInputRef = useRef<HTMLInputElement>(null);
+
   const [step, setStep] = useState<Step>("login");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -94,9 +103,55 @@ export function LoginForm() {
     }
   }
 
+  // --- Keyboard shortcuts (Enter) ---
+  // Multi-field forms don't always submit reliably on Enter across browsers.
+  // We define explicit behavior so users never need to tab to or click the button.
+
+  /** Username + Enter → jump to password (don't submit yet). */
+  function handleUsernameKeyDown(event: KeyboardEvent<HTMLInputElement>) {
+    if (event.key !== "Enter") {
+      return;
+    }
+
+    // Stop the browser from submitting before the password is filled in.
+    event.preventDefault();
+    passwordInputRef.current?.focus();
+  }
+
+  /** Password + Enter → submit the sign-in form (triggers handleLogin via onSubmit). */
+  function handlePasswordKeyDown(event: KeyboardEvent<HTMLInputElement>) {
+    if (event.key !== "Enter" || loading) {
+      return;
+    }
+
+    event.preventDefault();
+    // requestSubmit() runs validation and onSubmit, unlike calling handleLogin directly.
+    loginFormRef.current?.requestSubmit();
+  }
+
+  /** New password + Enter → jump to confirm-password field. */
+  function handleNewPasswordKeyDown(event: KeyboardEvent<HTMLInputElement>) {
+    if (event.key !== "Enter") {
+      return;
+    }
+
+    event.preventDefault();
+    confirmPasswordInputRef.current?.focus();
+  }
+
+  /** Confirm password + Enter → submit the new-password form. */
+  function handleConfirmPasswordKeyDown(event: KeyboardEvent<HTMLInputElement>) {
+    if (event.key !== "Enter" || loading) {
+      return;
+    }
+
+    event.preventDefault();
+    newPasswordFormRef.current?.requestSubmit();
+  }
+
   if (step === "new-password") {
     return (
-      <form onSubmit={handleNewPassword} className="flex w-full flex-col gap-5">
+      <form ref={newPasswordFormRef} onSubmit={handleNewPassword} className="flex w-full flex-col gap-5">
         <div className="flex flex-col gap-1 text-center">
           <h2 className="text-base font-semibold text-stone-100">Set a new password</h2>
           <p className="text-sm text-stone-400">Your account requires a new password before signing in.</p>
@@ -120,12 +175,14 @@ export function LoginForm() {
             required
             autoFocus
             autoComplete="new-password"
+            onKeyDown={handleNewPasswordKeyDown}
           />
         </div>
 
         <div>
           <label className={LABEL_CLASS} htmlFor="confirm-password">Confirm password</label>
           <input
+            ref={confirmPasswordInputRef}
             id="confirm-password"
             type="password"
             value={confirmPassword}
@@ -134,6 +191,7 @@ export function LoginForm() {
             placeholder="Confirm new password"
             required
             autoComplete="new-password"
+            onKeyDown={handleConfirmPasswordKeyDown}
           />
         </div>
 
@@ -152,7 +210,7 @@ export function LoginForm() {
   }
 
   return (
-    <form onSubmit={handleLogin} className="flex w-full flex-col gap-5">
+    <form ref={loginFormRef} onSubmit={handleLogin} className="flex w-full flex-col gap-5">
       {error && (
         <p className="rounded-xl bg-red-500/10 px-4 py-3 text-sm text-red-400 ring-1 ring-red-500/20">
           {error}
@@ -171,12 +229,14 @@ export function LoginForm() {
           required
           autoFocus
           autoComplete="username"
+          onKeyDown={handleUsernameKeyDown}
         />
       </div>
 
       <div>
         <label className={LABEL_CLASS} htmlFor="password">Password</label>
         <input
+          ref={passwordInputRef}
           id="password"
           type="password"
           value={password}
@@ -185,6 +245,7 @@ export function LoginForm() {
           placeholder="Enter your password"
           required
           autoComplete="current-password"
+          onKeyDown={handlePasswordKeyDown}
         />
       </div>
 
