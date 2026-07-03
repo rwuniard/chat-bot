@@ -4,6 +4,7 @@ import type { ComponentProps, KeyboardEvent } from "react";
 import { useEffect, useRef, useState } from "react";
 import ReactMarkdown from "react-markdown";
 import { ChatHeaderControls } from "@/components/chat-header-controls";
+import { parseAssistantContent } from "@/lib/assistant-content";
 import { chatApiClient } from "@/lib/chat-api";
 import { createChatMessage } from "@/lib/chat-message";
 import type { ChatMessage } from "@/types/chat";
@@ -196,6 +197,11 @@ export function MainChat({
             // starts arriving, render it immediately even though the message
             // is still technically pending until the stream finishes.
             const isAwaitingFirstChunk = message.status === "pending" && !message.content;
+            // Only assistant text can contain <thinking> blocks (the agent's
+            // own reasoning before/between tool calls) - user messages never
+            // need this split, so skip the parse for them entirely.
+            const parsed = isAssistant ? parseAssistantContent(message.content) : null;
+            const hasAnswerText = (parsed?.answer.length ?? 0) > 0;
 
             return (
               <article key={message.id} className={getMessageBubbleClass(isAssistant)}>
@@ -206,6 +212,31 @@ export function MainChat({
                 <div className="prose prose-invert prose-sm max-w-none text-sm leading-7 sm:text-[15px]">
                   {isAwaitingFirstChunk ? (
                     <span className="text-stone-400">Waiting for assistant response...</span>
+                  ) : parsed ? (
+                    <>
+                      {parsed.reasoning ? (
+                        // `open` re-forces itself only when this boolean actually
+                        // flips between renders (React leaves a manually-toggled
+                        // <details> alone otherwise) - so it stays open while the
+                        // agent is only "thinking" with no answer yet, then
+                        // auto-collapses the moment real answer text shows up,
+                        // without fighting a reader who's already toggled it.
+                        <details
+                          open={!hasAnswerText}
+                          className="mb-3 rounded-2xl border border-white/8 bg-black/20 px-4 py-2 text-xs not-prose"
+                        >
+                          <summary className="cursor-pointer select-none font-semibold uppercase tracking-[0.14em] text-stone-500">
+                            {parsed.isReasoningInProgress ? "Thinking..." : "Show reasoning"}
+                          </summary>
+                          <div className="mt-2 whitespace-pre-wrap text-stone-400">{parsed.reasoning}</div>
+                        </details>
+                      ) : null}
+                      {hasAnswerText ? (
+                        <ReactMarkdown>{parsed.answer}</ReactMarkdown>
+                      ) : !parsed.reasoning ? (
+                        <span className="text-stone-400">Waiting for assistant response...</span>
+                      ) : null}
+                    </>
                   ) : (
                     <ReactMarkdown>{message.content}</ReactMarkdown>
                   )}
