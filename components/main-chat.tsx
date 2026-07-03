@@ -4,7 +4,7 @@ import type { ComponentProps, KeyboardEvent } from "react";
 import { useEffect, useRef, useState } from "react";
 import ReactMarkdown from "react-markdown";
 import { ChatHeaderControls } from "@/components/chat-header-controls";
-import { parseAssistantContent } from "@/lib/assistant-content";
+import { parseAssistantContent, type ParsedAssistantContent } from "@/lib/assistant-content";
 import { chatApiClient } from "@/lib/chat-api";
 import { createChatMessage } from "@/lib/chat-message";
 import type { ChatMessage } from "@/types/chat";
@@ -64,6 +64,112 @@ type ChatFormSubmitEvent = Parameters<NonNullable<ComponentProps<"form">["onSubm
 
 function getSessionTitle(messages: ChatMessage[], trimmedDraft: string): string | undefined {
   return messages.some((message) => message.role === "user") ? undefined : trimmedDraft;
+}
+
+// These live at module scope, not inside the component, specifically so the
+// array-method callback (`.map`/`.filter`) is only ever lexically nested one
+// level inside a small top-level function - not several levels deep inside
+// handleSubmit's closures. Inlining this logic at each setMessages call site
+// is what previously nested a `.map()` five functions deep.
+function updateMessageById(
+  messages: ChatMessage[],
+  id: string,
+  updater: (message: ChatMessage) => ChatMessage,
+): ChatMessage[] {
+  return messages.map((message) => (message.id === id ? updater(message) : message));
+}
+
+function removeMessageById(messages: ChatMessage[], id: string): ChatMessage[] {
+  return messages.filter((message) => message.id !== id);
+}
+
+// Small factories instead of inlining `(message) => ({ ...message, content })`
+// at each call site - the returned arrow's *definition* site is inside this
+// shallow top-level function, so passing the result into a deeply-nested
+// closure doesn't drag the arrow's own nesting depth down with it.
+function withContent(content: string) {
+  return (message: ChatMessage): ChatMessage => ({ ...message, content });
+}
+
+function withStatus(status: ChatMessage["status"]) {
+  return (message: ChatMessage): ChatMessage => ({ ...message, status });
+}
+
+const WAITING_PLACEHOLDER = (
+  <span className="text-stone-400">Waiting for assistant response...</span>
+);
+
+/**
+ * Renders one message's body. Extracted out of the transcript's `.map()` (and
+ * written as early returns rather than a chained/nested ternary) specifically
+ * to keep this branching in its own small function instead of adding to the
+ * cognitive complexity of the callback that renders the whole list.
+ */
+function MessageBody({ message }: { readonly message: ChatMessage }) {
+  const isAwaitingFirstChunk = message.status === "pending" && !message.content;
+  if (isAwaitingFirstChunk) {
+    return WAITING_PLACEHOLDER;
+  }
+
+  // Only assistant text can contain <thinking> blocks (the agent's own
+  // reasoning before/between tool calls) - user messages never need this
+  // split.
+  if (message.role !== "assistant") {
+    return <ReactMarkdown>{message.content}</ReactMarkdown>;
+  }
+
+  const parsed = parseAssistantContent(message.content);
+  const hasAnswerText = parsed.answer.length > 0;
+
+  return (
+    <>
+      {parsed.reasoning ? <ReasoningPanel parsed={parsed} hasAnswerText={hasAnswerText} /> : null}
+      <AnswerArea parsed={parsed} hasAnswerText={hasAnswerText} />
+    </>
+  );
+}
+
+function ReasoningPanel({
+  parsed,
+  hasAnswerText,
+}: {
+  readonly parsed: ParsedAssistantContent;
+  readonly hasAnswerText: boolean;
+}) {
+  return (
+    // `open` re-forces itself only when this boolean actually flips between
+    // renders (React leaves a manually-toggled <details> alone otherwise) -
+    // so it stays open while the agent is only "thinking" with no answer
+    // yet, then auto-collapses the moment real answer text shows up, without
+    // fighting a reader who's already toggled it.
+    <details
+      open={!hasAnswerText}
+      className="mb-3 rounded-2xl border border-white/8 bg-black/20 px-4 py-2 text-xs not-prose"
+    >
+      <summary className="cursor-pointer select-none font-semibold uppercase tracking-[0.14em] text-stone-500">
+        {parsed.isReasoningInProgress ? "Thinking..." : "Show reasoning"}
+      </summary>
+      <div className="mt-2 whitespace-pre-wrap text-stone-400">{parsed.reasoning}</div>
+    </details>
+  );
+}
+
+function AnswerArea({
+  parsed,
+  hasAnswerText,
+}: {
+  readonly parsed: ParsedAssistantContent;
+  readonly hasAnswerText: boolean;
+}) {
+  if (hasAnswerText) {
+    return <ReactMarkdown>{parsed.answer}</ReactMarkdown>;
+  }
+  // Reasoning is still streaming in (rendered by ReasoningPanel above) and
+  // there's no answer text to show yet - nothing more to render here.
+  if (parsed.reasoning) {
+    return null;
+  }
+  return WAITING_PLACEHOLDER;
 }
 
 export function MainChat({
@@ -133,9 +239,7 @@ export function MainChat({
     function appendChunk(chunk: string) {
       assistantContent += chunk;
       setMessages((currentMessages) =>
-        currentMessages.map((message) =>
-          message.id === assistantMessageId ? { ...message, content: assistantContent } : message,
-        ),
+        updateMessageById(currentMessages, assistantMessageId, withContent(assistantContent)),
       );
     }
 
@@ -150,9 +254,7 @@ export function MainChat({
 
       setConversationId(result.conversationId);
       setMessages((currentMessages) =>
-        currentMessages.map((message) =>
-          message.id === assistantMessageId ? { ...message, status: "complete" } : message,
-        ),
+        updateMessageById(currentMessages, assistantMessageId, withStatus("complete")),
       );
       onSessionChange({
         conversationId: result.conversationId,
@@ -168,9 +270,7 @@ export function MainChat({
       // Drop the placeholder/partial bubble on failure rather than leaving a
       // truncated reply in the transcript - the error banner is the record
       // of what happened, matching how a fully-failed send behaved before.
-      setMessages((currentMessages) =>
-        currentMessages.filter((message) => message.id !== assistantMessageId),
-      );
+      setMessages((currentMessages) => removeMessageById(currentMessages, assistantMessageId));
     } finally {
       setIsSending(false);
     }
@@ -192,16 +292,6 @@ export function MainChat({
         <div className="flex min-h-full flex-col justify-end space-y-4 px-5 py-6 sm:px-8">
           {messages.map((message) => {
             const isAssistant = message.role === "assistant";
-            // "pending" covers the whole reply, but the placeholder text
-            // should only show before the *first* chunk lands - once content
-            // starts arriving, render it immediately even though the message
-            // is still technically pending until the stream finishes.
-            const isAwaitingFirstChunk = message.status === "pending" && !message.content;
-            // Only assistant text can contain <thinking> blocks (the agent's
-            // own reasoning before/between tool calls) - user messages never
-            // need this split, so skip the parse for them entirely.
-            const parsed = isAssistant ? parseAssistantContent(message.content) : null;
-            const hasAnswerText = (parsed?.answer.length ?? 0) > 0;
 
             return (
               <article key={message.id} className={getMessageBubbleClass(isAssistant)}>
@@ -210,36 +300,7 @@ export function MainChat({
                   <span className="text-stone-400">{formatTimestamp(message.createdAt)}</span>
                 </div>
                 <div className="prose prose-invert prose-sm max-w-none text-sm leading-7 sm:text-[15px]">
-                  {isAwaitingFirstChunk ? (
-                    <span className="text-stone-400">Waiting for assistant response...</span>
-                  ) : parsed ? (
-                    <>
-                      {parsed.reasoning ? (
-                        // `open` re-forces itself only when this boolean actually
-                        // flips between renders (React leaves a manually-toggled
-                        // <details> alone otherwise) - so it stays open while the
-                        // agent is only "thinking" with no answer yet, then
-                        // auto-collapses the moment real answer text shows up,
-                        // without fighting a reader who's already toggled it.
-                        <details
-                          open={!hasAnswerText}
-                          className="mb-3 rounded-2xl border border-white/8 bg-black/20 px-4 py-2 text-xs not-prose"
-                        >
-                          <summary className="cursor-pointer select-none font-semibold uppercase tracking-[0.14em] text-stone-500">
-                            {parsed.isReasoningInProgress ? "Thinking..." : "Show reasoning"}
-                          </summary>
-                          <div className="mt-2 whitespace-pre-wrap text-stone-400">{parsed.reasoning}</div>
-                        </details>
-                      ) : null}
-                      {hasAnswerText ? (
-                        <ReactMarkdown>{parsed.answer}</ReactMarkdown>
-                      ) : !parsed.reasoning ? (
-                        <span className="text-stone-400">Waiting for assistant response...</span>
-                      ) : null}
-                    </>
-                  ) : (
-                    <ReactMarkdown>{message.content}</ReactMarkdown>
-                  )}
+                  <MessageBody message={message} />
                 </div>
               </article>
             );
