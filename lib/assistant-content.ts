@@ -21,7 +21,7 @@ export function parseAssistantContent(raw: string): ParsedAssistantContent {
   const reasoningBlocks: string[] = [];
 
   let answer = raw.replace(
-    new RegExp(`${THINKING_OPEN}([\\s\\S]*?)${THINKING_CLOSE}`, "g"),
+    new RegExp(String.raw`${THINKING_OPEN}([\s\S]*?)${THINKING_CLOSE}`, "g"),
     (_match, inner: string) => {
       reasoningBlocks.push(inner.trim());
       return "";
