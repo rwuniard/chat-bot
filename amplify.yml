@@ -8,7 +8,7 @@ frontend:
         - pnpm install --frozen-lockfile
     build:
       commands:
-        - env | grep -e ^COGNITO_ -e ^NEXTAUTH_ -e ^AGENT_RUNTIME_ARN= -e ^CHAT_ACTOR_ID= >> .env.production
+        - env | grep -e ^COGNITO_ -e ^NEXTAUTH_ -e ^AGENT_RUNTIME_ARN= -e ^CHAT_ACTOR_ID= -e ^CHAT_CONVERSATIONS_TABLE= -e ^CHAT_MESSAGES_TABLE= >> .env.production
         - pnpm build
   artifacts:
     baseDirectory: .next
