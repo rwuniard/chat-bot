@@ -68,6 +68,52 @@ NEXT_PUBLIC_API_BASE_URL=https://your-api-id.execute-api.region.amazonaws.com/pr
 
 Restart the dev server after changing environment variables.
 
+## Scripts
+
+- `scripts/dynamodb_table_create.sh`: creates the two DynamoDB tables used for chat persistence (`ChatConversations`, `ChatMessages`). Safe to re-run — skips a table if it already exists. See `docs/superpowers/specs/2026-07-06-chat-persistence-design.md` for the schema and rationale.
+
+  ```bash
+  ./scripts/dynamodb_table_create.sh
+  ```
+
+  Requires AWS credentials configured for the CLI; defaults to the `us-east-1` region (override with `AWS_REGION`).
+
+## IAM permissions (Amplify compute role)
+
+Creating the tables isn't enough on its own — the app's Amplify compute role needs a policy granting it access to these two tables, or every DynamoDB call from `/api/chat` will fail with an access-denied error at runtime. That same role also needs `bedrock-agentcore:InvokeAgentRuntime` for the AgentCore calls the chat route already makes.
+
+Full policy for that role (both statements together — replace `<ACCOUNT_ID>` and `<RUNTIME_ID>` with your own values, matching `AGENT_RUNTIME_ARN` in your environment):
+
+```json
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "InvokeAgentCoreRuntime",
+      "Effect": "Allow",
+      "Action": "bedrock-agentcore:InvokeAgentRuntime",
+      "Resource": "arn:aws:bedrock-agentcore:us-east-1:<ACCOUNT_ID>:runtime/<RUNTIME_ID>*"
+    },
+    {
+      "Sid": "AllowChatHistoryTableOperations",
+      "Effect": "Allow",
+      "Action": [
+        "dynamodb:GetItem",
+        "dynamodb:PutItem",
+        "dynamodb:Query",
+        "dynamodb:UpdateItem"
+      ],
+      "Resource": [
+        "arn:aws:dynamodb:us-east-1:<ACCOUNT_ID>:table/ChatConversations",
+        "arn:aws:dynamodb:us-east-1:<ACCOUNT_ID>:table/ChatMessages"
+      ]
+    }
+  ]
+}
+```
+
+Note there's no separate `dynamodb:TransactWriteItems` action to grant — AWS authorizes each operation inside a transaction (`Put`, `Update`) against these same item-level permissions, so this list already covers it.
+
 ## Current structure
 
 - `app/`: App Router entrypoints, global styles, and API routes
