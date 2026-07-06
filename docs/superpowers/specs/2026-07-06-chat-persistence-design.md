@@ -69,6 +69,18 @@ On any ownership mismatch, the request is rejected with an error (404 /
 silent fallback (e.g. silently minting a new conversation) — an unexpected
 mismatch should be visible, not papered over.
 
+**Scaling note:** both of these are exact-key operations (full partition key
++ sort key specified), not scans or index lookups — DynamoDB routes them
+directly to the one partition holding that item via hashing. Their cost and
+latency are independent of total table size; a table with a billion
+conversations across every user checks ownership exactly as fast as one with
+a hundred. With on-demand billing, cost scales with request volume (how many
+chat turns/conversation-opens happen), not with how much history has
+accumulated. The one read that *does* scale with data rather than a fixed
+key lookup is the sidebar's `Query(PK=userId)` — its cost is bounded by one
+user's own conversation count (not the whole table), and is further capped
+by only displaying the most recent 30.
+
 ## Avoiding empty/ghost conversations
 
 A conversation record must never exist without at least one message backing
