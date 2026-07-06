@@ -188,8 +188,12 @@ has no conversations yet.
 ## Infra prerequisites (outside this repo's code)
 
 - Provision both DynamoDB tables.
-- Grant the Amplify compute role `dynamodb:GetItem`, `PutItem`, `Query`,
-  `UpdateItem`, and `TransactWriteItems` on both tables.
+- Grant the Amplify compute role `dynamodb:GetItem`, `PutItem`, `Query`, and
+  `UpdateItem` on both tables. There is no separate IAM action for
+  `TransactWriteItems` itself — DynamoDB authorizes each operation inside a
+  transaction (`Put`, `Update`) against the same item-level permissions used
+  outside one, so granting `PutItem`/`UpdateItem` already covers the
+  transactional writes this app makes.
 - New env vars, following the existing `AGENT_RUNTIME_ARN`-style pattern:
   `CHAT_CONVERSATIONS_TABLE`, `CHAT_MESSAGES_TABLE`.
 - New dependencies: `@aws-sdk/client-dynamodb`, `@aws-sdk/lib-dynamodb`
