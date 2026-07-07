@@ -1,9 +1,16 @@
-import { NextResponse } from "next/server";
+import { NextResponse, after } from "next/server";
 import {
   BedrockAgentCoreClient,
   InvokeAgentRuntimeCommand,
 } from "@aws-sdk/client-bedrock-agentcore";
 import { getSession } from "@/lib/session";
+import { createChatMessage } from "@/lib/chat-message";
+import {
+  ConversationNotFoundError,
+  appendAssistantMessage,
+  appendUserMessageToConversation,
+  createConversationWithFirstMessage,
+} from "@/lib/chat-history";
 
 // This route is a pass-through pipe, not a request/response transform: it never
 // buffers the agent's full reply before responding. Whatever bytes the agent
@@ -93,11 +100,12 @@ function decodeSseFrame(frame: string): string | null {
 async function pipeEventStream(
   webStream: ReadableStream<Uint8Array>,
   controller: ReadableStreamDefaultController<Uint8Array>,
-) {
+): Promise<string> {
   const reader = webStream.getReader();
   const decoder = new TextDecoder();
   const encoder = new TextEncoder();
   let buffer = "";
+  let accumulated = "";
 
   for (;;) {
     const { done, value } = await reader.read();
@@ -111,18 +119,20 @@ async function pipeEventStream(
       const text = decodeSseFrame(frame);
       if (text) {
         controller.enqueue(encoder.encode(text));
+        accumulated += text;
       }
     }
   }
 
-  // The stream can end without a trailing blank line after the final frame -
-  // flush whatever's still sitting in the buffer so the last chunk isn't lost.
   if (buffer.trim()) {
     const text = decodeSseFrame(buffer);
     if (text) {
       controller.enqueue(encoder.encode(text));
+      accumulated += text;
     }
   }
+
+  return accumulated;
 }
 
 /**
@@ -226,6 +236,24 @@ export async function POST(request: Request) {
   // conversationId doubles as the AgentCore session id, so a fresh chat and a
   // continued one share the same identifier end to end.
   const sessionId = conversationId ?? crypto.randomUUID();
+  const userMessage = createChatMessage("user", message);
+
+  // Persisted before the agent is ever invoked, so the message survives even
+  // if the agent call below fails. An ownership mismatch is the one failure
+  // that's surfaced to the client - anything else is logged and swallowed,
+  // matching the "best-effort" persistence policy in the design doc.
+  try {
+    if (conversationId) {
+      await appendUserMessageToConversation(session.userId, sessionId, userMessage);
+    } else {
+      await createConversationWithFirstMessage(session.userId, sessionId, userMessage);
+    }
+  } catch (error) {
+    if (error instanceof ConversationNotFoundError) {
+      return NextResponse.json({ error: "Conversation not found" }, { status: 404 });
+    }
+    console.error("Failed to persist user message", { sessionId, error });
+  }
 
   // This call only reserves the connection to the agent - for a streaming
   // agent, invokeAgentCore/invokeLocalAgent resolve as soon as the *first*
@@ -255,9 +283,10 @@ export async function POST(request: Request) {
   // user sees a word appear," rather than waiting for `POST` to return.
   const body = new ReadableStream<Uint8Array>({
     async start(controller) {
+      let assistantContent = "";
       try {
         if (isEventStream) {
-          await pipeEventStream(invocation.bodyStream, controller);
+          assistantContent = await pipeEventStream(invocation.bodyStream, controller);
         } else {
           // Agent isn't streaming yet (still returns one JSON/text payload) -
           // buffer it and deliver as a single chunk so the client code path
@@ -275,6 +304,7 @@ export async function POST(request: Request) {
             // response is plain text, use as-is
           }
           controller.enqueue(new TextEncoder().encode(content));
+          assistantContent = content;
         }
       } catch (error) {
         // The 200 status and headers below are already sent by this point,
@@ -284,6 +314,15 @@ export async function POST(request: Request) {
         return;
       }
       controller.close();
+
+      // Deferred until after the response is fully sent - `after()` keeps
+      // this write alive even on platforms that would otherwise freeze/tear
+      // down execution the instant the HTTP response finishes, which a bare
+      // fire-and-forget promise here would be vulnerable to.
+      after(async () => {
+        const assistantMessage = createChatMessage("assistant", assistantContent);
+        await appendAssistantMessage(session.userId, sessionId, assistantMessage);
+      });
     },
   });
 
