@@ -39,6 +39,7 @@ interface MainChatProps {
   readonly conversationId?: string;
   readonly initialMessages?: ChatMessage[];
   readonly isSidebarVisible: boolean;
+  readonly onNewChat: () => void;
   readonly onSessionChange: (session: { conversationId?: string; sessionTitle?: string }) => void;
   readonly onTogglePanel: () => void;
   readonly shouldShowHeader: boolean;
@@ -178,6 +179,7 @@ export function MainChat({
   conversationId: initialConversationId,
   initialMessages,
   isSidebarVisible,
+  onNewChat,
   onSessionChange,
   onTogglePanel,
   shouldShowHeader,
@@ -281,7 +283,11 @@ export function MainChat({
     <div className="flex h-full min-h-0 flex-1 flex-col overflow-hidden bg-[#1f1f1f]">
       {shouldShowHeader ? (
         <div className="shrink-0 flex items-center gap-3 px-6 pb-5 pt-5 text-stone-300">
-          <ChatHeaderControls isSidebarVisible={isSidebarVisible} onTogglePanel={onTogglePanel} />
+          <ChatHeaderControls
+            isSidebarVisible={isSidebarVisible}
+            onTogglePanel={onTogglePanel}
+            onNewChat={onNewChat}
+          />
 
           <div className="rounded-full border border-white/8 bg-white/4 px-5 py-3 text-[1.05rem] font-semibold text-white">
             Chat Bot UI <span className="text-stone-500">›</span>

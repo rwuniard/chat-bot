@@ -99,7 +99,11 @@ export function ChatSidebar({
     >
       <div className="flex h-12 items-center gap-3 px-2 text-stone-500">
         <div className="flex items-center gap-4">
-          <ChatHeaderControls isSidebarVisible={isVisible} onTogglePanel={onTogglePanel} />
+          <ChatHeaderControls
+            isSidebarVisible={isVisible}
+            onTogglePanel={onTogglePanel}
+            onNewChat={onNewChat}
+          />
         </div>
       </div>
 

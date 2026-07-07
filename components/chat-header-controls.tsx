@@ -8,9 +8,14 @@ const HEADER_ICON_BUTTON_CLASS =
 interface ChatHeaderControlsProps {
   readonly isSidebarVisible: boolean;
   readonly onTogglePanel: () => void;
+  readonly onNewChat: () => void;
 }
 
-export function ChatHeaderControls({ isSidebarVisible, onTogglePanel }: ChatHeaderControlsProps) {
+export function ChatHeaderControls({
+  isSidebarVisible,
+  onTogglePanel,
+  onNewChat,
+}: ChatHeaderControlsProps) {
   return (
     <>
       <button
@@ -25,11 +30,10 @@ export function ChatHeaderControls({ isSidebarVisible, onTogglePanel }: ChatHead
       </button>
 
       <button
-        aria-label="Compose new chat (coming soon)"
-        className={`${HEADER_ICON_BUTTON_CLASS} cursor-not-allowed opacity-60`}
-        disabled
-        title="Coming soon"
+        aria-label="Start new chat"
+        className={HEADER_ICON_BUTTON_CLASS}
         type="button"
+        onClick={onNewChat}
       >
         <SidebarControlIcon kind="compose" />
       </button>

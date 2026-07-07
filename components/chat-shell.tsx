@@ -147,6 +147,7 @@ export function ChatShell({ cognitoLogoutUrl }: ChatShellProps) {
               conversationId={conversationId}
               initialMessages={conversationMessages}
               isSidebarVisible={isSidebarVisible}
+              onNewChat={handleNewChat}
               onSessionChange={handleSessionChange}
               onTogglePanel={handlePanelToggle}
               shouldShowHeader={shouldShowMainHeader}

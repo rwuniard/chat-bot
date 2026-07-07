@@ -24,6 +24,7 @@ describe("MainChat", () => {
     render(
       <MainChat
         isSidebarVisible
+        onNewChat={() => {}}
         onSessionChange={handleSessionChange}
         onTogglePanel={() => {}}
         shouldShowHeader
