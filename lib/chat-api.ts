@@ -5,6 +5,7 @@ import type { SendMessageRequest } from "@/types/chat";
 // has to be pushed out via callback as it arrives, rather than returned.
 export interface SendMessageOptions {
   readonly onChunk?: (chunk: string) => void;
+  readonly onConversationId?: (conversationId: string) => void;
 }
 
 // No `reply` field here (unlike the old JSON response shape) - by the time
@@ -65,6 +66,11 @@ class RestChatApiClient implements ChatApiClient {
     if (!conversationId) {
       throw new Error("Chat API response is missing the conversation id");
     }
+
+    // Fired as soon as headers arrive - well before the body finishes
+    // streaming - so the sidebar can show a brand-new conversation while the
+    // reply is still coming in, instead of waiting for the full turn to end.
+    options?.onConversationId?.(conversationId);
 
     if (!response.body) {
       throw new Error("Chat API response has no body");
