@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useRef, useState } from "react";
 import { ChatHeaderControls } from "@/components/chat-header-controls";
 import { SignOutButton } from "@/components/sign-out-button";
 import type { ConversationSummary } from "@/types/chat";
@@ -29,16 +30,143 @@ function formatConversationTimestamp(value: string): string {
   }).format(new Date(value));
 }
 
+function MoreOptionsIcon() {
+  return (
+    <svg className="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
+      <circle cx="5" cy="12" r="1.8" />
+      <circle cx="12" cy="12" r="1.8" />
+      <circle cx="19" cy="12" r="1.8" />
+    </svg>
+  );
+}
+
+interface ConversationRowProps {
+  readonly conversation: ConversationSummary;
+  readonly isSelected: boolean;
+  readonly onSelect: () => void;
+  readonly onDelete: () => void;
+}
+
+function ConversationRow({
+  conversation,
+  isSelected,
+  onSelect,
+  onDelete,
+}: Readonly<ConversationRowProps>) {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isConfirmingDelete, setIsConfirmingDelete] = useState(false);
+  const menuRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!isMenuOpen) return;
+
+    function handlePointerDown(event: MouseEvent) {
+      if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
+        setIsMenuOpen(false);
+        setIsConfirmingDelete(false);
+      }
+    }
+    function handleKeyDown(event: KeyboardEvent) {
+      if (event.key === "Escape") {
+        setIsMenuOpen(false);
+        setIsConfirmingDelete(false);
+      }
+    }
+
+    document.addEventListener("mousedown", handlePointerDown);
+    document.addEventListener("keydown", handleKeyDown);
+    return () => {
+      document.removeEventListener("mousedown", handlePointerDown);
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [isMenuOpen]);
+
+  return (
+    <li className="group relative">
+      <div className="flex w-full items-center gap-1 rounded-2xl">
+        <button
+          className={`flex min-w-0 flex-1 flex-col gap-1 rounded-2xl px-4 py-3 text-left transition ${
+            isSelected ? "bg-white/12 text-white" : "text-stone-300 hover:bg-white/6"
+          }`}
+          type="button"
+          onClick={onSelect}
+        >
+          <span className="truncate text-sm font-medium">{conversation.title}</span>
+          <span className="text-xs uppercase tracking-[0.14em] text-stone-500">
+            {formatConversationTimestamp(conversation.updatedAt)}
+          </span>
+        </button>
+
+        <button
+          className="shrink-0 rounded-full p-2 text-stone-400 opacity-0 transition hover:bg-white/10 hover:text-white focus-visible:opacity-100 group-hover:opacity-100 group-focus-within:opacity-100"
+          type="button"
+          aria-haspopup="menu"
+          aria-expanded={isMenuOpen}
+          aria-label={`More options for ${conversation.title}`}
+          onClick={() => setIsMenuOpen((open) => !open)}
+        >
+          <MoreOptionsIcon />
+        </button>
+      </div>
+
+      {isMenuOpen && (
+        <div
+          ref={menuRef}
+          role="menu"
+          className="absolute right-2 top-full z-10 mt-1 w-40 rounded-xl border border-white/10 bg-[#2c2c2c] py-1 shadow-lg"
+        >
+          {!isConfirmingDelete ? (
+            <button
+              role="menuitem"
+              type="button"
+              className="w-full px-3 py-2 text-left text-sm text-red-400 hover:bg-white/6"
+              onClick={() => setIsConfirmingDelete(true)}
+            >
+              Delete
+            </button>
+          ) : (
+            <div className="px-3 py-2">
+              <p className="mb-2 text-xs text-stone-300">Delete this conversation?</p>
+              <div className="flex gap-2">
+                <button
+                  type="button"
+                  className="flex-1 rounded-lg bg-red-500/90 px-2 py-1 text-xs font-medium text-white hover:bg-red-500"
+                  onClick={() => {
+                    setIsMenuOpen(false);
+                    setIsConfirmingDelete(false);
+                    onDelete();
+                  }}
+                >
+                  Delete
+                </button>
+                <button
+                  type="button"
+                  className="flex-1 rounded-lg bg-white/10 px-2 py-1 text-xs text-stone-200 hover:bg-white/15"
+                  onClick={() => setIsConfirmingDelete(false)}
+                >
+                  Cancel
+                </button>
+              </div>
+            </div>
+          )}
+        </div>
+      )}
+    </li>
+  );
+}
+
 interface ConversationListProps {
   readonly conversations: ConversationSummary[];
   readonly selectedConversationId?: string;
   readonly onSelectConversation: (sessionId: string) => void;
+  readonly onDeleteConversation: (sessionId: string) => void;
 }
 
 function ConversationList({
   conversations,
   selectedConversationId,
   onSelectConversation,
+  onDeleteConversation,
 }: Readonly<ConversationListProps>) {
   if (conversations.length === 0) {
     return (
@@ -50,25 +178,15 @@ function ConversationList({
 
   return (
     <ul className="space-y-1">
-      {conversations.map((conversation) => {
-        const isSelected = conversation.sessionId === selectedConversationId;
-        return (
-          <li key={conversation.sessionId}>
-            <button
-              className={`flex w-full flex-col gap-1 rounded-2xl px-4 py-3 text-left transition ${
-                isSelected ? "bg-white/12 text-white" : "text-stone-300 hover:bg-white/6"
-              }`}
-              type="button"
-              onClick={() => onSelectConversation(conversation.sessionId)}
-            >
-              <span className="truncate text-sm font-medium">{conversation.title}</span>
-              <span className="text-xs uppercase tracking-[0.14em] text-stone-500">
-                {formatConversationTimestamp(conversation.updatedAt)}
-              </span>
-            </button>
-          </li>
-        );
-      })}
+      {conversations.map((conversation) => (
+        <ConversationRow
+          key={conversation.sessionId}
+          conversation={conversation}
+          isSelected={conversation.sessionId === selectedConversationId}
+          onSelect={() => onSelectConversation(conversation.sessionId)}
+          onDelete={() => onDeleteConversation(conversation.sessionId)}
+        />
+      ))}
     </ul>
   );
 }
@@ -77,6 +195,7 @@ interface ChatSidebarProps {
   readonly conversationId?: string;
   readonly conversations: ConversationSummary[];
   readonly onSelectConversation: (sessionId: string) => void;
+  readonly onDeleteConversation: (sessionId: string) => void;
   readonly onNewChat: () => void;
   readonly isVisible: boolean;
   readonly cognitoLogoutUrl: string;
@@ -87,6 +206,7 @@ export function ChatSidebar({
   conversationId,
   conversations,
   onSelectConversation,
+  onDeleteConversation,
   onNewChat,
   isVisible,
   cognitoLogoutUrl,
@@ -123,6 +243,7 @@ export function ChatSidebar({
           conversations={conversations}
           selectedConversationId={conversationId}
           onSelectConversation={onSelectConversation}
+          onDeleteConversation={onDeleteConversation}
         />
       </nav>
 

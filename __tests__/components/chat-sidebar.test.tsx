@@ -23,6 +23,7 @@ describe("ChatSidebar", () => {
       <ChatSidebar
         conversations={[]}
         onSelectConversation={() => {}}
+        onDeleteConversation={() => {}}
         onNewChat={() => {}}
         isVisible
         cognitoLogoutUrl="https://example.com/logout"
@@ -40,6 +41,7 @@ describe("ChatSidebar", () => {
         conversations={conversations}
         conversationId="s1"
         onSelectConversation={handleSelect}
+        onDeleteConversation={() => {}}
         onNewChat={() => {}}
         isVisible
         cognitoLogoutUrl="https://example.com/logout"
@@ -60,6 +62,7 @@ describe("ChatSidebar", () => {
       <ChatSidebar
         conversations={conversations}
         onSelectConversation={() => {}}
+        onDeleteConversation={() => {}}
         onNewChat={handleNewChat}
         isVisible
         cognitoLogoutUrl="https://example.com/logout"
@@ -69,5 +72,69 @@ describe("ChatSidebar", () => {
 
     fireEvent.click(screen.getByRole("button", { name: "New chat" }));
     expect(handleNewChat).toHaveBeenCalledTimes(1);
+  });
+
+  describe("deleting a conversation", () => {
+    function renderSidebar(onDeleteConversation = vi.fn()) {
+      render(
+        <ChatSidebar
+          conversations={conversations}
+          onSelectConversation={() => {}}
+          onDeleteConversation={onDeleteConversation}
+          onNewChat={() => {}}
+          isVisible
+          cognitoLogoutUrl="https://example.com/logout"
+          onTogglePanel={() => {}}
+        />,
+      );
+      return onDeleteConversation;
+    }
+
+    it("opens the menu, shows an inline confirm, and calls onDeleteConversation when confirmed", () => {
+      const handleDelete = renderSidebar();
+
+      fireEvent.click(screen.getByRole("button", { name: "More options for First chat" }));
+      fireEvent.click(screen.getByRole("menuitem", { name: "Delete" }));
+
+      expect(screen.getByText("Delete this conversation?")).toBeInTheDocument();
+      expect(handleDelete).not.toHaveBeenCalled();
+
+      fireEvent.click(screen.getByRole("button", { name: "Delete" }));
+
+      expect(handleDelete).toHaveBeenCalledWith("s1");
+    });
+
+    it("closes the menu without deleting when Cancel is clicked", () => {
+      const handleDelete = renderSidebar();
+
+      fireEvent.click(screen.getByRole("button", { name: "More options for First chat" }));
+      fireEvent.click(screen.getByRole("menuitem", { name: "Delete" }));
+      fireEvent.click(screen.getByRole("button", { name: "Cancel" }));
+
+      expect(handleDelete).not.toHaveBeenCalled();
+      expect(screen.queryByText("Delete this conversation?")).not.toBeInTheDocument();
+    });
+
+    it("closes the menu when clicking outside", () => {
+      renderSidebar();
+
+      fireEvent.click(screen.getByRole("button", { name: "More options for First chat" }));
+      expect(screen.getByRole("menu")).toBeInTheDocument();
+
+      fireEvent.mouseDown(document.body);
+
+      expect(screen.queryByRole("menu")).not.toBeInTheDocument();
+    });
+
+    it("closes the menu on Escape", () => {
+      renderSidebar();
+
+      fireEvent.click(screen.getByRole("button", { name: "More options for First chat" }));
+      expect(screen.getByRole("menu")).toBeInTheDocument();
+
+      fireEvent.keyDown(document, { key: "Escape" });
+
+      expect(screen.queryByRole("menu")).not.toBeInTheDocument();
+    });
   });
 });
