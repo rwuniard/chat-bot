@@ -36,6 +36,8 @@ function getMessageBubbleClass(isAssistant: boolean): string {
 }
 
 interface MainChatProps {
+  readonly conversationId?: string;
+  readonly initialMessages?: ChatMessage[];
   readonly isSidebarVisible: boolean;
   readonly onSessionChange: (session: { conversationId?: string; sessionTitle?: string }) => void;
   readonly onTogglePanel: () => void;
@@ -173,14 +175,16 @@ function AnswerArea({
 }
 
 export function MainChat({
+  conversationId: initialConversationId,
+  initialMessages,
   isSidebarVisible,
   onSessionChange,
   onTogglePanel,
   shouldShowHeader,
 }: Readonly<MainChatProps>) {
   const transcriptRef = useRef<HTMLElement | null>(null);
-  const [conversationId, setConversationId] = useState<string>();
-  const [messages, setMessages] = useState<ChatMessage[]>(INITIAL_MESSAGES);
+  const [conversationId, setConversationId] = useState<string | undefined>(initialConversationId);
+  const [messages, setMessages] = useState<ChatMessage[]>(initialMessages ?? INITIAL_MESSAGES);
   const [draft, setDraft] = useState("");
   const [isSending, setIsSending] = useState(false);
   const [error, setError] = useState<string>();
@@ -223,13 +227,6 @@ export function MainChat({
     setIsSending(true);
     setMessages((currentMessages) => [...currentMessages, userMessage, assistantMessage]);
 
-    if (nextSessionTitle) {
-      onSessionChange({
-        conversationId,
-        sessionTitle: nextSessionTitle,
-      });
-    }
-
     // Accumulated outside React state because chunks can arrive faster than
     // re-renders settle; state always gets the up-to-date full string built
     // from this, rather than each update depending on the previous render's
@@ -243,23 +240,27 @@ export function MainChat({
       );
     }
 
+    // Fires as soon as the response headers arrive - not once the whole
+    // reply has streamed in - so a brand-new conversation shows up in the
+    // sidebar right away instead of only once the assistant finishes
+    // replying.
+    function handleConversationId(nextConversationId: string) {
+      setConversationId(nextConversationId);
+      onSessionChange({
+        conversationId: nextConversationId,
+        sessionTitle: nextSessionTitle,
+      });
+    }
+
     try {
-      // sendMessage doesn't resolve until the stream ends - appendChunk is
-      // what drives the visible, incremental typing effect while this is in
-      // flight.
-      const result = await chatApiClient.sendMessage(
+      await chatApiClient.sendMessage(
         { conversationId, message: trimmedDraft },
-        { onChunk: appendChunk },
+        { onChunk: appendChunk, onConversationId: handleConversationId },
       );
 
-      setConversationId(result.conversationId);
       setMessages((currentMessages) =>
         updateMessageById(currentMessages, assistantMessageId, withStatus("complete")),
       );
-      onSessionChange({
-        conversationId: result.conversationId,
-        sessionTitle: nextSessionTitle,
-      });
     } catch (submitError) {
       console.error("Failed to send chat message", submitError);
       const message =
