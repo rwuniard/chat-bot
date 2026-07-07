@@ -33,6 +33,9 @@ function upsertConversation(
 
 export function ChatShell({ cognitoLogoutUrl }: ChatShellProps) {
   const [conversationId, setConversationId] = useState<string>();
+  const [conversationViewKey, setConversationViewKey] = useState<string>(() =>
+    crypto.randomUUID(),
+  );
   const [conversations, setConversations] = useState<ConversationSummary[]>([]);
   const [conversationMessages, setConversationMessages] = useState<ChatMessage[]>();
   const [isDesktopViewport, setIsDesktopViewport] = useState(false);
@@ -109,11 +112,13 @@ export function ChatShell({ cognitoLogoutUrl }: ChatShellProps) {
     const { messages } = (await response.json()) as { messages: ChatMessage[] };
 
     setConversationId(sessionId);
+    setConversationViewKey(sessionId);
     setConversationMessages(messages);
   }
 
   function handleNewChat() {
     setConversationId(undefined);
+    setConversationViewKey(crypto.randomUUID());
     setConversationMessages(undefined);
   }
 
@@ -138,7 +143,7 @@ export function ChatShell({ cognitoLogoutUrl }: ChatShellProps) {
 
           <div className={`${chatPaneVisibilityClass} min-h-0 flex-1`}>
             <MainChat
-              key={conversationId ?? "new"}
+              key={conversationViewKey}
               conversationId={conversationId}
               initialMessages={conversationMessages}
               isSidebarVisible={isSidebarVisible}

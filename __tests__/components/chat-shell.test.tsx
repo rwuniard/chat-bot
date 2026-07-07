@@ -1,5 +1,6 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { fireEvent, render, screen } from "@testing-library/react";
+import { useRef } from "react";
 
 vi.mock("@/components/chat-sidebar", () => ({
   ChatSidebar: (props: {
@@ -24,12 +25,28 @@ vi.mock("@/components/chat-sidebar", () => ({
 }));
 
 vi.mock("@/components/main-chat", () => ({
-  MainChat: (props: { conversationId?: string; initialMessages?: { content: string }[] }) => (
-    <div>
-      <span>conversationId:{props.conversationId ?? "none"}</span>
-      <span>messageCount:{props.initialMessages?.length ?? 0}</span>
-    </div>
-  ),
+  MainChat: (props: {
+    conversationId?: string;
+    initialMessages?: { content: string }[];
+    onSessionChange: (session: { conversationId?: string; sessionTitle?: string }) => void;
+  }) => {
+    const instanceId = useRef(Math.random()).current;
+    return (
+      <div>
+        <span>conversationId:{props.conversationId ?? "none"}</span>
+        <span>messageCount:{props.initialMessages?.length ?? 0}</span>
+        <span>instanceId:{instanceId}</span>
+        <button
+          type="button"
+          onClick={() =>
+            props.onSessionChange({ conversationId: "brand-new-session", sessionTitle: "Hello" })
+          }
+        >
+          trigger-session-change
+        </button>
+      </div>
+    );
+  },
 }));
 
 import { ChatShell } from "@/components/chat-shell";
@@ -118,5 +135,17 @@ describe("ChatShell", () => {
 
     expect(await screen.findByText("conversationId:none")).toBeInTheDocument();
     expect(await screen.findByText("messageCount:0")).toBeInTheDocument();
+  });
+
+  it("does not remount MainChat when a live send establishes a new conversation's id", async () => {
+    render(<ChatShell cognitoLogoutUrl="https://example.com/logout" />);
+    await screen.findByText("First chat");
+
+    const instanceIdBefore = screen.getByText(/^instanceId:/).textContent;
+
+    fireEvent.click(screen.getByText("trigger-session-change"));
+
+    await screen.findByText("conversationId:brand-new-session");
+    expect(screen.getByText(/^instanceId:/).textContent).toBe(instanceIdBefore);
   });
 });
