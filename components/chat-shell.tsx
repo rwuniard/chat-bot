@@ -8,14 +8,33 @@ import {
   getShellLayoutClass,
   getSidebarVisible,
 } from "@/lib/chat-layout";
+import type { ChatMessage, ConversationSummary } from "@/types/chat";
 
 interface ChatShellProps {
   readonly cognitoLogoutUrl: string;
 }
 
+function upsertConversation(
+  conversations: ConversationSummary[],
+  sessionId: string,
+  title: string,
+): ConversationSummary[] {
+  const now = new Date().toISOString();
+  const existing = conversations.find((conversation) => conversation.sessionId === sessionId);
+  const updated: ConversationSummary = existing
+    ? { ...existing, updatedAt: now }
+    : { sessionId, title, createdAt: now, updatedAt: now };
+  const withoutExisting = conversations.filter(
+    (conversation) => conversation.sessionId !== sessionId,
+  );
+
+  return [updated, ...withoutExisting];
+}
+
 export function ChatShell({ cognitoLogoutUrl }: ChatShellProps) {
   const [conversationId, setConversationId] = useState<string>();
-  const [sessionTitle, setSessionTitle] = useState<string>();
+  const [conversations, setConversations] = useState<ConversationSummary[]>([]);
+  const [conversationMessages, setConversationMessages] = useState<ChatMessage[]>();
   const [isDesktopViewport, setIsDesktopViewport] = useState(false);
   const [isDesktopPanelVisible, setIsDesktopPanelVisible] = useState(true);
   const [mobilePane, setMobilePane] = useState<"chat" | "panel">("chat");
@@ -35,6 +54,29 @@ export function ChatShell({ cognitoLogoutUrl }: ChatShellProps) {
     };
   }, []);
 
+  useEffect(() => {
+    let cancelled = false;
+
+    async function loadConversations() {
+      const response = await fetch("/api/conversations");
+      if (!response.ok || cancelled) {
+        return;
+      }
+      const { conversations: loaded } = (await response.json()) as {
+        conversations: ConversationSummary[];
+      };
+      if (!cancelled) {
+        setConversations(loaded);
+      }
+    }
+
+    void loadConversations();
+
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
   function handlePanelToggle() {
     if (isDesktopViewport) {
       setIsDesktopPanelVisible((currentValue) => !currentValue);
@@ -42,6 +84,37 @@ export function ChatShell({ cognitoLogoutUrl }: ChatShellProps) {
     }
 
     setMobilePane((currentValue) => (currentValue === "chat" ? "panel" : "chat"));
+  }
+
+  function handleSessionChange({
+    conversationId: nextConversationId,
+    sessionTitle: nextSessionTitle,
+  }: {
+    conversationId?: string;
+    sessionTitle?: string;
+  }) {
+    setConversationId(nextConversationId);
+    if (nextConversationId) {
+      setConversations((currentConversations) =>
+        upsertConversation(currentConversations, nextConversationId, nextSessionTitle ?? ""),
+      );
+    }
+  }
+
+  async function handleSelectConversation(sessionId: string) {
+    const response = await fetch(`/api/conversations/${sessionId}/messages`);
+    if (!response.ok) {
+      return;
+    }
+    const { messages } = (await response.json()) as { messages: ChatMessage[] };
+
+    setConversationId(sessionId);
+    setConversationMessages(messages);
+  }
+
+  function handleNewChat() {
+    setConversationId(undefined);
+    setConversationMessages(undefined);
   }
 
   const isSidebarVisible = getSidebarVisible(isDesktopViewport, isDesktopPanelVisible, mobilePane);
@@ -55,7 +128,9 @@ export function ChatShell({ cognitoLogoutUrl }: ChatShellProps) {
         <section className={`flex min-h-0 flex-1 overflow-hidden ${shellLayoutClass}`}>
           <ChatSidebar
             conversationId={conversationId}
-            sessionTitle={sessionTitle}
+            conversations={conversations}
+            onSelectConversation={handleSelectConversation}
+            onNewChat={handleNewChat}
             isVisible={isSidebarVisible}
             cognitoLogoutUrl={cognitoLogoutUrl}
             onTogglePanel={handlePanelToggle}
@@ -63,13 +138,11 @@ export function ChatShell({ cognitoLogoutUrl }: ChatShellProps) {
 
           <div className={`${chatPaneVisibilityClass} min-h-0 flex-1`}>
             <MainChat
+              key={conversationId ?? "new"}
+              conversationId={conversationId}
+              initialMessages={conversationMessages}
               isSidebarVisible={isSidebarVisible}
-              onSessionChange={({ conversationId: nextConversationId, sessionTitle: nextSessionTitle }) => {
-                setConversationId(nextConversationId);
-                if (nextSessionTitle) {
-                  setSessionTitle(nextSessionTitle);
-                }
-              }}
+              onSessionChange={handleSessionChange}
               onTogglePanel={handlePanelToggle}
               shouldShowHeader={shouldShowMainHeader}
             />
