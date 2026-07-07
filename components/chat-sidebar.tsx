@@ -1,6 +1,5 @@
 "use client";
 
-import type { ReactNode } from "react";
 import { ChatHeaderControls } from "@/components/chat-header-controls";
 import { SignOutButton } from "@/components/sign-out-button";
 import type { ConversationSummary } from "@/types/chat";
@@ -20,20 +19,6 @@ function SparkIcon() {
       <path d="M6.5 13.5c.8 1.8 1.7 2.7 3.5 3.5-1.8.8-2.7 1.7-3.5 3.5-.8-1.8-1.7-2.7-3.5-3.5 1.8-.8 2.7-1.7 3.5-3.5Z" />
       <path d="M17.5 13.5c.6 1.4 1.6 2.4 3 3-.9.4-1.6.9-2.1 1.5-.5.6-.8 1.2-.9 1.9-.2-.8-.5-1.4-.9-1.9-.5-.6-1.2-1.1-2.1-1.5 1.4-.6 2.4-1.6 3-3Z" />
     </svg>
-  );
-}
-
-interface SidebarInfoCardProps {
-  readonly title: string;
-  readonly children: ReactNode;
-}
-
-function SidebarInfoCard({ title, children }: SidebarInfoCardProps) {
-  return (
-    <div className="rounded-2xl border border-white/5 bg-white/4 px-4 py-4">
-      <p className="text-sm font-semibold uppercase tracking-[0.18em] text-stone-500">{title}</p>
-      {children}
-    </div>
   );
 }
 

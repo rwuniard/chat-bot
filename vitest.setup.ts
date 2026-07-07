@@ -1,5 +1,14 @@
 import "@testing-library/jest-dom/vitest";
-import { vi } from "vitest";
+import { cleanup } from "@testing-library/react";
+import { afterEach, vi } from "vitest";
+
+// React Testing Library's cleanup-between-tests only auto-registers when it
+// detects a global `afterEach` (e.g. via `test.globals: true`); this project
+// doesn't use globals, so it's wired up explicitly here instead, once, for
+// every test file.
+afterEach(() => {
+  cleanup();
+});
 
 // The real "server-only" package unconditionally throws on import unless a
 // bundler resolves its "react-server" condition (which Vitest/Node don't).
