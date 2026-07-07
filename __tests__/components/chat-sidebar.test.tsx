@@ -1,14 +1,6 @@
-import { afterEach, describe, expect, it, vi } from "vitest";
-import { cleanup, fireEvent, render, screen } from "@testing-library/react";
+import { describe, expect, it, vi } from "vitest";
+import { fireEvent, render, screen } from "@testing-library/react";
 import { ChatSidebar } from "@/components/chat-sidebar";
-
-// This project's vitest.config.ts does not set `test.globals: true`, so
-// @testing-library/react's auto-cleanup (which relies on a global `afterEach`)
-// never registers. Without this, renders from earlier tests in this file
-// accumulate in the DOM and make later queries ambiguous.
-afterEach(() => {
-  cleanup();
-});
 
 const conversations = [
   {
