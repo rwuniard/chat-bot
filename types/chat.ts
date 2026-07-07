@@ -12,3 +12,10 @@ export interface SendMessageRequest {
   readonly conversationId?: string;
   readonly message: string;
 }
+
+export interface ConversationSummary {
+  readonly sessionId: string;
+  readonly title: string;
+  readonly createdAt: string;
+  readonly updatedAt: string;
+}

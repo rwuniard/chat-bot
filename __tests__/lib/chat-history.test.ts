@@ -12,6 +12,8 @@ import {
   appendAssistantMessage,
   appendUserMessageToConversation,
   createConversationWithFirstMessage,
+  listConversationsForUser,
+  loadConversationMessages,
 } from "@/lib/chat-history";
 
 const send = docClient.send as unknown as ReturnType<typeof vi.fn>;
@@ -126,5 +128,75 @@ describe("appendAssistantMessage", () => {
     expect(consoleErrorSpy).toHaveBeenCalled();
 
     consoleErrorSpy.mockRestore();
+  });
+});
+
+describe("listConversationsForUser", () => {
+  it("returns conversations sorted by updatedAt descending, capped at 30", async () => {
+    const items = Array.from({ length: 35 }, (_, index) => ({
+      sessionId: `session-${index}`,
+      title: `Conversation ${index}`,
+      createdAt: "2026-07-01T00:00:00.000Z",
+      updatedAt: `2026-07-${String((index % 28) + 1).padStart(2, "0")}T00:00:00.000Z`,
+    }));
+    send.mockResolvedValueOnce({ Items: items });
+
+    const result = await listConversationsForUser("user-1");
+
+    expect(result).toHaveLength(30);
+    for (let i = 1; i < result.length; i += 1) {
+      expect(result[i - 1].updatedAt >= result[i].updatedAt).toBe(true);
+    }
+  });
+});
+
+describe("loadConversationMessages", () => {
+  it("returns null when the conversation isn't owned by this user", async () => {
+    send.mockResolvedValueOnce({ Item: undefined });
+
+    const result = await loadConversationMessages("user-1", "not-mine");
+
+    expect(result).toBeNull();
+    expect(send).toHaveBeenCalledTimes(1);
+  });
+
+  it("returns the last messages in chronological order when owned", async () => {
+    send
+      .mockResolvedValueOnce({ Item: { userId: "user-1", sessionId: "session-1" } })
+      .mockResolvedValueOnce({
+        Items: [
+          {
+            sortKey: "2026-07-06T18:00:05.000Z#msg-2",
+            role: "assistant",
+            content: "Hi! How can I help?",
+            status: "complete",
+          },
+          {
+            sortKey: "2026-07-06T18:00:00.000Z#msg-1",
+            role: "user",
+            content: "Hello there",
+            status: "complete",
+          },
+        ],
+      });
+
+    const result = await loadConversationMessages("user-1", "session-1");
+
+    expect(result).toEqual([
+      {
+        id: "msg-1",
+        role: "user",
+        content: "Hello there",
+        createdAt: "2026-07-06T18:00:00.000Z",
+        status: "complete",
+      },
+      {
+        id: "msg-2",
+        role: "assistant",
+        content: "Hi! How can I help?",
+        createdAt: "2026-07-06T18:00:05.000Z",
+        status: "complete",
+      },
+    ]);
   });
 });
