@@ -31,6 +31,13 @@ function upsertConversation(
   return [updated, ...withoutExisting];
 }
 
+function removeConversation(
+  conversations: ConversationSummary[],
+  sessionId: string,
+): ConversationSummary[] {
+  return conversations.filter((conversation) => conversation.sessionId !== sessionId);
+}
+
 export function ChatShell({ cognitoLogoutUrl }: ChatShellProps) {
   const [conversationId, setConversationId] = useState<string>();
   const [conversationViewKey, setConversationViewKey] = useState<string>(() =>
@@ -122,6 +129,21 @@ export function ChatShell({ cognitoLogoutUrl }: ChatShellProps) {
     setConversationMessages(undefined);
   }
 
+  async function handleDeleteConversation(sessionId: string) {
+    const response = await fetch(`/api/conversations/${sessionId}`, { method: "DELETE" });
+    if (!response.ok) {
+      return;
+    }
+
+    setConversations((currentConversations) => removeConversation(currentConversations, sessionId));
+
+    if (sessionId === conversationId) {
+      setConversationId(undefined);
+      setConversationViewKey(crypto.randomUUID());
+      setConversationMessages(undefined);
+    }
+  }
+
   const isSidebarVisible = getSidebarVisible(isDesktopViewport, isDesktopPanelVisible, mobilePane);
   const shouldShowMainHeader = !isSidebarVisible;
   const shellLayoutClass = getShellLayoutClass(isDesktopViewport, isDesktopPanelVisible);
@@ -135,6 +157,7 @@ export function ChatShell({ cognitoLogoutUrl }: ChatShellProps) {
             conversationId={conversationId}
             conversations={conversations}
             onSelectConversation={handleSelectConversation}
+            onDeleteConversation={handleDeleteConversation}
             onNewChat={handleNewChat}
             isVisible={isSidebarVisible}
             cognitoLogoutUrl={cognitoLogoutUrl}
