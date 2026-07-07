@@ -3,8 +3,7 @@
 import type { ReactNode } from "react";
 import { ChatHeaderControls } from "@/components/chat-header-controls";
 import { SignOutButton } from "@/components/sign-out-button";
-
-const SIDEBAR_ITEMS = [{ label: "Chat Bot", icon: "spark" }] as const;
+import type { ConversationSummary } from "@/types/chat";
 
 function SparkIcon() {
   return (
@@ -38,9 +37,62 @@ function SidebarInfoCard({ title, children }: SidebarInfoCardProps) {
   );
 }
 
+function formatConversationTimestamp(value: string): string {
+  return new Intl.DateTimeFormat("en-US", {
+    month: "short",
+    day: "numeric",
+  }).format(new Date(value));
+}
+
+interface ConversationListProps {
+  readonly conversations: ConversationSummary[];
+  readonly selectedConversationId?: string;
+  readonly onSelectConversation: (sessionId: string) => void;
+}
+
+function ConversationList({
+  conversations,
+  selectedConversationId,
+  onSelectConversation,
+}: Readonly<ConversationListProps>) {
+  if (conversations.length === 0) {
+    return (
+      <p className="px-2 text-sm leading-6 text-stone-500">
+        No conversations yet. Send a message to start one.
+      </p>
+    );
+  }
+
+  return (
+    <ul className="space-y-1">
+      {conversations.map((conversation) => {
+        const isSelected = conversation.sessionId === selectedConversationId;
+        return (
+          <li key={conversation.sessionId}>
+            <button
+              className={`flex w-full flex-col gap-1 rounded-2xl px-4 py-3 text-left transition ${
+                isSelected ? "bg-white/12 text-white" : "text-stone-300 hover:bg-white/6"
+              }`}
+              type="button"
+              onClick={() => onSelectConversation(conversation.sessionId)}
+            >
+              <span className="truncate text-sm font-medium">{conversation.title}</span>
+              <span className="text-xs uppercase tracking-[0.14em] text-stone-500">
+                {formatConversationTimestamp(conversation.updatedAt)}
+              </span>
+            </button>
+          </li>
+        );
+      })}
+    </ul>
+  );
+}
+
 interface ChatSidebarProps {
   readonly conversationId?: string;
-  readonly sessionTitle?: string;
+  readonly conversations: ConversationSummary[];
+  readonly onSelectConversation: (sessionId: string) => void;
+  readonly onNewChat: () => void;
   readonly isVisible: boolean;
   readonly cognitoLogoutUrl: string;
   readonly onTogglePanel: () => void;
@@ -48,7 +100,9 @@ interface ChatSidebarProps {
 
 export function ChatSidebar({
   conversationId,
-  sessionTitle,
+  conversations,
+  onSelectConversation,
+  onNewChat,
   isVisible,
   cognitoLogoutUrl,
   onTogglePanel,
@@ -64,63 +118,24 @@ export function ChatSidebar({
         </div>
       </div>
 
-      <div className="mt-5 rounded-2xl border border-white/5 bg-white/4 px-4 py-3 text-stone-400 shadow-[inset_0_1px_0_rgba(255,255,255,0.03)]">
-        <div className="flex items-center gap-3 text-lg">
-          <svg
-            className="h-5 w-5"
-            fill="none"
-            stroke="currentColor"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={1.8}
-            viewBox="0 0 24 24"
-          >
-            <circle cx="11" cy="11" r="6.5" />
-            <path d="m16 16 4 4" />
-          </svg>
-          <span className="text-[1.05rem] font-medium">Search</span>
-        </div>
-      </div>
+      <button
+        className="mt-5 flex w-full items-center gap-4 rounded-2xl bg-white/8 px-4 py-4 text-left text-[1.05rem] font-semibold text-white transition hover:bg-white/12"
+        type="button"
+        onClick={onNewChat}
+      >
+        <span className="text-stone-100">
+          <SparkIcon />
+        </span>
+        <span>New chat</span>
+      </button>
 
-      <nav className="mt-5 space-y-1">
-        {SIDEBAR_ITEMS.map((item) => (
-          <button
-            key={item.label}
-            className="flex w-full items-center gap-4 rounded-2xl bg-white/8 px-4 py-4 text-left text-[1.05rem] font-semibold text-white transition"
-            type="button"
-          >
-            <span className="text-stone-100">
-              <SparkIcon />
-            </span>
-            <span>{item.label}</span>
-          </button>
-        ))}
+      <nav className="mt-5 flex-1 space-y-1 overflow-y-auto">
+        <ConversationList
+          conversations={conversations}
+          selectedConversationId={conversationId}
+          onSelectConversation={onSelectConversation}
+        />
       </nav>
-
-      <div className="mt-4 space-y-3 px-2">
-        <SidebarInfoCard title="Current session">
-          <p className="mt-3 text-sm leading-6 text-stone-200">
-            {sessionTitle ?? "No conversation created yet."}
-          </p>
-          {conversationId ? (
-            <p className="mt-2 text-xs uppercase tracking-[0.16em] text-stone-500">ID: {conversationId}</p>
-          ) : null}
-        </SidebarInfoCard>
-
-        <SidebarInfoCard title="Integration">
-          <p className="mt-3 text-sm leading-6 text-stone-200">
-            Messages are sent to the configured backend REST API.
-          </p>
-        </SidebarInfoCard>
-
-        <SidebarInfoCard title="Next steps">
-          <ul className="mt-3 space-y-2 text-sm leading-6 text-stone-200">
-            <li>Define the final message contract.</li>
-            <li>Wire the backend base URL through environment config.</li>
-            <li>Add streaming or polling if the agent requires it.</li>
-          </ul>
-        </SidebarInfoCard>
-      </div>
 
       <div className="mt-auto pt-4 border-t border-white/6">
         <SignOutButton cognitoLogoutUrl={cognitoLogoutUrl} />
