@@ -8,7 +8,8 @@ Claude desktop app's conversation list.
 
 ## Non-goals (out of scope for v1)
 
-- Renaming or deleting conversations
+- Renaming conversations (deleting is supported — see "Deleting a
+  conversation" below)
 - Pagination past the fixed caps described below (no "load more" for either
   the sidebar list or a conversation's messages)
 - Full-text search across history
@@ -109,6 +110,31 @@ sent, the agent just failed to reply. The assistant's message is only ever
 written after a successful stream completes; a failed turn writes no
 assistant message, matching how the UI already drops a failed reply bubble
 from the transcript entirely.
+
+## Deleting a conversation
+
+`DELETE /api/conversations/:sessionId` reverses the "avoiding ghost
+conversations" invariant from the other direction: it's fine to briefly have
+messages with no owning conversation row (harmless orphans, unreachable by
+any read path), but never fine to have a conversation row that still shows
+in the sidebar with no way to load it.
+
+- The `ChatConversations` row is deleted first, conditioned on
+  `attribute_exists(sessionId)` — the same ownership-check shape used
+  elsewhere, scoped under the caller's own `PK=userId`. A missing/foreign
+  `sessionId` fails this condition and the request is rejected (404), never
+  silently no-op-succeeding on someone else's conversation.
+- Only after that succeeds does cleanup of the conversation's `ChatMessages`
+  items happen — paginated (`ExclusiveStartKey`/`LastEvaluatedKey`, since a
+  long conversation's message count is unbounded) and batch-deleted in
+  chunks of 25 (`BatchWriteItem`'s per-call limit). This cleanup is
+  best-effort: once the conversation row is confirmed gone, a failure here is
+  logged and swallowed rather than surfaced, so the client always sees the
+  delete as successful once the primary (conversation row) delete commits.
+- A conversation actively receiving a streamed reply at the moment it's
+  deleted is a known, accepted edge case: the in-flight turn's assistant
+  message still gets written after the conversation row is gone, producing
+  the same kind of harmless orphaned rows a cleanup failure would.
 
 ## API design
 

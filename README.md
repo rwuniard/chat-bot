@@ -101,7 +101,9 @@ Full policy for that role (both statements together — replace `<ACCOUNT_ID>` a
         "dynamodb:GetItem",
         "dynamodb:PutItem",
         "dynamodb:Query",
-        "dynamodb:UpdateItem"
+        "dynamodb:UpdateItem",
+        "dynamodb:DeleteItem",
+        "dynamodb:BatchWriteItem"
       ],
       "Resource": [
         "arn:aws:dynamodb:us-east-1:<ACCOUNT_ID>:table/ChatConversations",
