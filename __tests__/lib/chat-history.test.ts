@@ -9,6 +9,7 @@ vi.mock("@/lib/dynamodb-client", () => ({
 import { docClient } from "@/lib/dynamodb-client";
 import {
   ConversationNotFoundError,
+  appendAssistantMessage,
   appendUserMessageToConversation,
   createConversationWithFirstMessage,
 } from "@/lib/chat-history";
@@ -91,5 +92,39 @@ describe("appendUserMessageToConversation", () => {
     await expect(
       appendUserMessageToConversation("user-1", "session-1", userMessage),
     ).rejects.toBe(throttlingError);
+  });
+});
+
+describe("appendAssistantMessage", () => {
+  const assistantMessage: ChatMessage = {
+    id: "msg-2",
+    role: "assistant",
+    content: "Hi! How can I help?",
+    createdAt: "2026-07-06T18:00:05.000Z",
+    status: "complete",
+  };
+
+  it("writes the assistant message", async () => {
+    send.mockResolvedValueOnce({});
+
+    await appendAssistantMessage("user-1", "session-1", assistantMessage);
+
+    expect(send).toHaveBeenCalledTimes(1);
+    const command = send.mock.calls[0][0];
+    expect(command.input.TableName).toBe("TestMessages");
+    expect(command.input.Item.sortKey).toBe("2026-07-06T18:00:05.000Z#msg-2");
+    expect(command.input.Item.role).toBe("assistant");
+  });
+
+  it("swallows and logs errors instead of throwing", async () => {
+    const consoleErrorSpy = vi.spyOn(console, "error").mockImplementation(() => {});
+    send.mockRejectedValueOnce(new Error("DynamoDB is unavailable"));
+
+    await expect(
+      appendAssistantMessage("user-1", "session-1", assistantMessage),
+    ).resolves.toBeUndefined();
+    expect(consoleErrorSpy).toHaveBeenCalled();
+
+    consoleErrorSpy.mockRestore();
   });
 });

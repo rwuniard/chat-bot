@@ -1,5 +1,5 @@
 import "server-only";
-import { TransactWriteCommand } from "@aws-sdk/lib-dynamodb";
+import { PutCommand, TransactWriteCommand } from "@aws-sdk/lib-dynamodb";
 import { docClient, getTableNames } from "@/lib/dynamodb-client";
 import { buildConversationTitle } from "@/lib/conversation-title";
 import type { ChatMessage } from "@/types/chat";
@@ -98,5 +98,24 @@ export async function appendUserMessageToConversation(
       throw new ConversationNotFoundError(sessionId);
     }
     throw error;
+  }
+}
+
+export async function appendAssistantMessage(
+  userId: string,
+  sessionId: string,
+  assistantMessage: ChatMessage,
+): Promise<void> {
+  const { messages } = getTableNames();
+
+  try {
+    await docClient.send(
+      new PutCommand({
+        TableName: messages,
+        Item: toMessageItem(sessionId, userId, assistantMessage),
+      }),
+    );
+  } catch (error) {
+    console.error("Failed to persist assistant message", { sessionId, error });
   }
 }
