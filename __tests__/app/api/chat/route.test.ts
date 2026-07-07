@@ -152,6 +152,24 @@ describe("POST /api/chat persistence", () => {
     expect(mockAppendAssistantMessage).not.toHaveBeenCalled();
   });
 
+  it("sends the authenticated user's id as the agent's actor_id, not a fixed value", async () => {
+    mockGetSession.mockReset();
+    mockGetSession.mockResolvedValue({ userId: "cognito-sub-42", email: "a@b.com" });
+    mockCreateConversation.mockResolvedValueOnce(undefined);
+    mockSend.mockResolvedValueOnce({
+      contentType: "text/event-stream",
+      response: { transformToWebStream: () => sseStreamFromChunks(['data: "Hi there"\n\n']) },
+    });
+
+    const response = await POST(jsonRequest({ message: "Hello" }));
+    await readAllText(response.body);
+
+    const commandInput = mockSend.mock.calls[0][0].input as { payload: Uint8Array };
+    const payload = JSON.parse(new TextDecoder().decode(commandInput.payload));
+
+    expect(payload.actor_id).toBe("cognito-sub-42");
+  });
+
   it("logs and continues when persisting the user message fails for a reason other than ownership", async () => {
     const consoleErrorSpy = vi.spyOn(console, "error").mockImplementation(() => {});
     mockCreateConversation.mockRejectedValueOnce(new Error("DynamoDB unavailable"));

@@ -26,8 +26,6 @@ const AGENT_RUNTIME_ARN =
 
 const AWS_REGION = process.env.COGNITO_REGION || "us-east-1";
 
-const ACTOR_ID = process.env.CHAT_ACTOR_ID || "user-one-495";
-
 // Dev-only escape hatch: point at a `docker run`'d agent's /invocations
 // endpoint (e.g. http://localhost:8080/invocations) to test without AWS.
 // Never set this in Amplify Console - amplify.yml doesn't bake it into
@@ -166,12 +164,16 @@ interface AgentInvocation {
   readonly bodyStream: ReadableStream<Uint8Array>;
 }
 
-async function invokeAgentCore(message: string, sessionId: string): Promise<AgentInvocation> {
+async function invokeAgentCore(
+  message: string,
+  sessionId: string,
+  actorId: string,
+): Promise<AgentInvocation> {
   const command = new InvokeAgentRuntimeCommand({
     agentRuntimeArn: AGENT_RUNTIME_ARN,
     runtimeSessionId: sessionId,
     payload: new TextEncoder().encode(
-      JSON.stringify({ message, session_id: sessionId, actor_id: ACTOR_ID }),
+      JSON.stringify({ message, session_id: sessionId, actor_id: actorId }),
     ),
   });
 
@@ -197,12 +199,13 @@ async function invokeAgentCore(message: string, sessionId: string): Promise<Agen
 async function invokeLocalAgent(
   message: string,
   sessionId: string,
+  actorId: string,
   url: string,
 ): Promise<AgentInvocation> {
   const response = await fetch(url, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ message, session_id: sessionId, actor_id: ACTOR_ID }),
+    body: JSON.stringify({ message, session_id: sessionId, actor_id: actorId }),
   });
 
   if (!response.ok || !response.body) {
@@ -263,8 +266,8 @@ export async function POST(request: Request) {
   let invocation: AgentInvocation;
   try {
     invocation = LOCAL_AGENT_URL
-      ? await invokeLocalAgent(message, sessionId, LOCAL_AGENT_URL)
-      : await invokeAgentCore(message, sessionId);
+      ? await invokeLocalAgent(message, sessionId, session.userId, LOCAL_AGENT_URL)
+      : await invokeAgentCore(message, sessionId, session.userId);
   } catch (error) {
     const errorMessage = error instanceof Error ? error.message : "Unknown error";
     return NextResponse.json({ error: errorMessage }, { status: 502 });

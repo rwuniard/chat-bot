@@ -130,10 +130,10 @@ The proxy sends this JSON body to API Gateway:
 {
   "message": "who am I?",
   "session_id": "0a7233bc-bc2c-479a-92a8-6436c984a6fd",
-  "actor_id": "user-one-495"
+  "actor_id": "<cognito-sub-of-the-logged-in-user>"
 }
 ```
 
-`session_id` maps to the frontend conversation id. `actor_id` is hardcoded for now.
+`session_id` maps to the frontend conversation id. `actor_id` is the authenticated user's Cognito `sub` (from the session cookie), so the agent's own memory is scoped per user rather than shared across everyone using the app.
 
 The route expects an API Gateway-style response and reads the assistant text from the parsed `body.result` field.
