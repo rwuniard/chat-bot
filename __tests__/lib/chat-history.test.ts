@@ -68,12 +68,28 @@ describe("appendUserMessageToConversation", () => {
   });
 
   it("throws ConversationNotFoundError when the conversation does not belong to this user", async () => {
-    const conditionError = new Error("Transaction cancelled");
+    const conditionError = new Error("Transaction cancelled") as Error & {
+      CancellationReasons?: Array<{ Code?: string }>;
+    };
     conditionError.name = "TransactionCanceledException";
+    conditionError.CancellationReasons = [{ Code: "ConditionalCheckFailed" }, { Code: "None" }];
     send.mockRejectedValueOnce(conditionError);
 
     await expect(
       appendUserMessageToConversation("user-1", "someone-elses-session", userMessage),
     ).rejects.toThrow(ConversationNotFoundError);
+  });
+
+  it("propagates the original error when the transaction is cancelled for an unrelated reason", async () => {
+    const throttlingError = new Error("Transaction cancelled") as Error & {
+      CancellationReasons?: Array<{ Code?: string }>;
+    };
+    throttlingError.name = "TransactionCanceledException";
+    throttlingError.CancellationReasons = [{ Code: "None" }, { Code: "ThrottlingError" }];
+    send.mockRejectedValueOnce(throttlingError);
+
+    await expect(
+      appendUserMessageToConversation("user-1", "session-1", userMessage),
+    ).rejects.toBe(throttlingError);
   });
 });

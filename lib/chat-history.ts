@@ -88,7 +88,13 @@ export async function appendUserMessageToConversation(
       }),
     );
   } catch (error) {
-    if (error instanceof Error && error.name === "TransactionCanceledException") {
+    const cancellationReasons = (error as { CancellationReasons?: Array<{ Code?: string }> })
+      .CancellationReasons;
+    if (
+      error instanceof Error &&
+      error.name === "TransactionCanceledException" &&
+      cancellationReasons?.[0]?.Code === "ConditionalCheckFailed"
+    ) {
       throw new ConversationNotFoundError(sessionId);
     }
     throw error;
