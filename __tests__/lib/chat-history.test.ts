@@ -12,6 +12,7 @@ import {
   appendAssistantMessage,
   appendUserMessageToConversation,
   createConversationWithFirstMessage,
+  deleteConversation,
   listConversationsForUser,
   loadConversationMessages,
 } from "@/lib/chat-history";
@@ -198,5 +199,102 @@ describe("loadConversationMessages", () => {
         status: "complete",
       },
     ]);
+  });
+});
+
+function messageKeyItems(count: number, offset = 0) {
+  return Array.from({ length: count }, (_, index) => ({
+    sessionId: "session-1",
+    sortKey: `2026-07-06T18:00:${String(index + offset).padStart(2, "0")}.000Z#msg-${index + offset}`,
+  }));
+}
+
+describe("deleteConversation", () => {
+  it("deletes the conversation row conditionally, then queries and batch-deletes its messages", async () => {
+    send.mockResolvedValueOnce({});
+    send.mockResolvedValueOnce({ Items: messageKeyItems(3) });
+    send.mockResolvedValueOnce({});
+
+    await deleteConversation("user-1", "session-1");
+
+    expect(send).toHaveBeenCalledTimes(3);
+
+    const deleteCall = send.mock.calls[0][0];
+    expect(deleteCall.input.TableName).toBe("TestConversations");
+    expect(deleteCall.input.Key).toEqual({ userId: "user-1", sessionId: "session-1" });
+    expect(deleteCall.input.ConditionExpression).toBe("attribute_exists(sessionId)");
+
+    const batchCall = send.mock.calls[2][0];
+    const requests = batchCall.input.RequestItems.TestMessages;
+    expect(requests).toHaveLength(3);
+    expect(requests[0].DeleteRequest.Key).toEqual({
+      sessionId: "session-1",
+      sortKey: "2026-07-06T18:00:00.000Z#msg-0",
+    });
+  });
+
+  it("throws ConversationNotFoundError when the conversation isn't owned by this user", async () => {
+    const conditionError = new Error("The conditional request failed");
+    conditionError.name = "ConditionalCheckFailedException";
+    send.mockRejectedValueOnce(conditionError);
+
+    await expect(deleteConversation("user-1", "someone-elses-session")).rejects.toThrow(
+      ConversationNotFoundError,
+    );
+    expect(send).toHaveBeenCalledTimes(1);
+  });
+
+  it("propagates unexpected errors from the conditional delete", async () => {
+    const throttlingError = new Error("Rate exceeded");
+    throttlingError.name = "ThrottlingException";
+    send.mockRejectedValueOnce(throttlingError);
+
+    await expect(deleteConversation("user-1", "session-1")).rejects.toBe(throttlingError);
+  });
+
+  it("pages through more than 25 messages and issues multiple batched deletes", async () => {
+    send.mockResolvedValueOnce({}); // conditional delete
+    send.mockResolvedValueOnce({
+      Items: messageKeyItems(30),
+      LastEvaluatedKey: { sessionId: "session-1", sortKey: "page-1-end" },
+    }); // page 1 query
+    send.mockResolvedValueOnce({}); // page 1, chunk 1 (25 items)
+    send.mockResolvedValueOnce({}); // page 1, chunk 2 (5 items)
+    send.mockResolvedValueOnce({ Items: messageKeyItems(10, 30) }); // page 2 query
+    send.mockResolvedValueOnce({}); // page 2, chunk 1 (10 items)
+
+    await deleteConversation("user-1", "session-1");
+
+    expect(send).toHaveBeenCalledTimes(6);
+
+    const page1Chunk1 = send.mock.calls[2][0].input.RequestItems.TestMessages;
+    const page1Chunk2 = send.mock.calls[3][0].input.RequestItems.TestMessages;
+    const page2Chunk1 = send.mock.calls[5][0].input.RequestItems.TestMessages;
+    expect(page1Chunk1).toHaveLength(25);
+    expect(page1Chunk2).toHaveLength(5);
+    expect(page2Chunk1).toHaveLength(10);
+
+    const page2Query = send.mock.calls[4][0].input;
+    expect(page2Query.ExclusiveStartKey).toEqual({ sessionId: "session-1", sortKey: "page-1-end" });
+  });
+
+  it("does nothing beyond the conditional delete when the conversation has zero messages", async () => {
+    send.mockResolvedValueOnce({});
+    send.mockResolvedValueOnce({ Items: [] });
+
+    await deleteConversation("user-1", "session-1");
+
+    expect(send).toHaveBeenCalledTimes(2);
+  });
+
+  it("logs and does not throw when message cleanup fails after the conversation is already deleted", async () => {
+    const consoleErrorSpy = vi.spyOn(console, "error").mockImplementation(() => {});
+    send.mockResolvedValueOnce({});
+    send.mockRejectedValueOnce(new Error("DynamoDB is unavailable"));
+
+    await expect(deleteConversation("user-1", "session-1")).resolves.toBeUndefined();
+    expect(consoleErrorSpy).toHaveBeenCalled();
+
+    consoleErrorSpy.mockRestore();
   });
 });

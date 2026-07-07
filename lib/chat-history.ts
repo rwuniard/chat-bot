@@ -1,5 +1,12 @@
 import "server-only";
-import { GetCommand, PutCommand, QueryCommand, TransactWriteCommand } from "@aws-sdk/lib-dynamodb";
+import {
+  BatchWriteCommand,
+  DeleteCommand,
+  GetCommand,
+  PutCommand,
+  QueryCommand,
+  TransactWriteCommand,
+} from "@aws-sdk/lib-dynamodb";
 import { docClient, getTableNames } from "@/lib/dynamodb-client";
 import { buildConversationTitle } from "@/lib/conversation-title";
 import type { ChatMessage, ConversationSummary } from "@/types/chat";
@@ -200,4 +207,60 @@ export async function loadConversationMessages(
         status: item.status,
       };
     });
+}
+
+export async function deleteConversation(userId: string, sessionId: string): Promise<void> {
+  const { conversations, messages } = getTableNames();
+
+  try {
+    await docClient.send(
+      new DeleteCommand({
+        TableName: conversations,
+        Key: { userId, sessionId },
+        ConditionExpression: "attribute_exists(sessionId)",
+      }),
+    );
+  } catch (error) {
+    if (error instanceof Error && error.name === "ConditionalCheckFailedException") {
+      throw new ConversationNotFoundError(sessionId);
+    }
+    throw error;
+  }
+
+  // Best-effort from here on: the conversation row is already gone, so a
+  // cleanup hiccup should never turn an already-successful delete into a
+  // client-visible failure. Any messages left behind are harmless orphans -
+  // unreachable once the owning conversation row no longer exists.
+  try {
+    let exclusiveStartKey: Record<string, unknown> | undefined;
+    do {
+      const page = await docClient.send(
+        new QueryCommand({
+          TableName: messages,
+          KeyConditionExpression: "sessionId = :sessionId",
+          ExpressionAttributeValues: { ":sessionId": sessionId },
+          ProjectionExpression: "sessionId, sortKey",
+          ExclusiveStartKey: exclusiveStartKey,
+        }),
+      );
+
+      const items = (page.Items ?? []) as Array<{ sessionId: string; sortKey: string }>;
+      for (let i = 0; i < items.length; i += 25) {
+        const chunk = items.slice(i, i + 25);
+        await docClient.send(
+          new BatchWriteCommand({
+            RequestItems: {
+              [messages]: chunk.map((item) => ({
+                DeleteRequest: { Key: { sessionId: item.sessionId, sortKey: item.sortKey } },
+              })),
+            },
+          }),
+        );
+      }
+
+      exclusiveStartKey = page.LastEvaluatedKey as Record<string, unknown> | undefined;
+    } while (exclusiveStartKey);
+  } catch (error) {
+    console.error("Failed to delete all messages for conversation", { sessionId, error });
+  }
 }
