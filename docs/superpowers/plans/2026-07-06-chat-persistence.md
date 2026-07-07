@@ -2424,5 +2424,5 @@ These can't be done from this repo's code and must happen before this feature wo
    - `ChatConversations` — partition key `userId` (String), sort key `sessionId` (String).
    - `ChatMessages` — partition key `sessionId` (String), sort key `sortKey` (String).
    - Both on-demand billing mode.
-2. Grant the Amplify compute role `dynamodb:GetItem`, `dynamodb:PutItem`, `dynamodb:Query`, `dynamodb:UpdateItem`, and `dynamodb:TransactWriteItems` on both tables.
+2. Grant the Amplify compute role `dynamodb:GetItem`, `dynamodb:PutItem`, `dynamodb:Query`, and `dynamodb:UpdateItem` on both tables. There is no separate IAM action for `TransactWriteItems` itself — DynamoDB authorizes each operation inside a transaction (`Put`, `Update`) against the same item-level permissions used outside one.
 3. Set `CHAT_CONVERSATIONS_TABLE` and `CHAT_MESSAGES_TABLE` in the Amplify environment to the real table names (Task 2's defaults are dev-only fallbacks).
